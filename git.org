@@ -1,0 +1,61 @@
+* Git sur serveur
+  - Disposer d'un dépôt distant permet de faciliter le travail collaboratif.
+  - Création d'un serveur : 
+    1. Choisir le(s) protocole(s) supporté(s)
+    2. Mise en service du(des) procotoles
+  - Un dépôt distant est généralement un *dépôt nu* (''bare repository'') c'est à dire un dépôt qui n'a pas de copie de travail. C'est donc un dépôt minimal (ne contenant qu'un .git)
+
+** Protocoles supportés
+   - protocole local : le dépôt distant est un autre répertoire sur la même machine (partagé au besoin par CIFS/NFS)
+     - usage :
+       - git clone <REPERTOIRE PROJET>.git : dans le répertoire de travail
+       - git clone file://<REPERTOIRE PROJET>.git
+     - ajouter un dépôt local à un projet existant :
+       - git remote add proj_local <REPERTOIRE PROJET>.git (le projet doit être initialisé auparavant).
+   - protocole ssh : le dépôt est accessible dans un répertoire d'une machine distante qui implémente un daemon ssh.
+     - usage :
+       - git clone ssh://utilisateur@serveur/projet.git
+       - git clone utilisation@serveur:projet.git
+   - protocole git : le dépôt est accessible dans un répertoire d'une machine distante qui implémente un daemon git spécial livré avec git. Ce daemon écoute sur TCP/9418 est focnctionne plus ou moins comme ssh sans sécuration : lecture possible tout le temps ; écriture impossible. Difficile à mettre en place. Nécessite une autorisation par configuration. 
+     - préfixe d'URI : git:// 
+   - protocole http(s) : le dépôt est accessible dans un répertoire d'une machine distante qui implémente un serveur HTTP(S). Le projet doit se trouver dans un dossier accessible sur l'espace web géré par le serveur (répertoire publié). Nécessite une autorisation par configuration. Préférable lecture. Ecriture complexe (repose sur webdav)
+     - préfixe d'URI : http(s):// 
+** Installation de GIT sur un serveur
+   - Procédure : 
+     1. localelent , exporter un dépôt existant dans un nouveau dépôt nu (''bare repository'')
+     2. copier le nouveau dépôt nu sur un serveur
+     3. paramétrage du ou des protocole(s) à utiliser
+     	si on utilise le protocole ssh, rien de particulier n'est à faire, le dépôt est directement accessible.
+   - Exemple :
+     1. git clone --bare REPERTOIRE-PROJET REPERTOIRE-NU-PROJET.git 
+	- (par convention, les répertoires de dépôt nu sont suffixés ''.git'' 
+	- Rappel : git clone = git init + git fetch
+     2. scp -r REPERTOIRE-NU-PROJET.git utilisateur@git.exemple.com:/opt/git
+   - Accès en lecture : il est alors possible de récupérer des copies du projet par
+     git clone utilisateur@git.exemple.com:/opt/git/REPERTOIRE-NU-PROJET.git (l'utilisateur doit avoir un accès en lecture au répertoire)
+   - En ssh, l'accès est automatique en publication. il faut cependant faire un 
+     git init --bare --shared
+     
+** Génération des clefs SSH 
+   - Les cles utilisées par SSH se trouvent dans le dosser .git.
+     - Elles sont nommées *id_rsa* pour la clef privée et *id_rsa.pub* pour la clef publique.
+   - Génération des paires de clefs :
+     - ssh-keygen
+   - Sous windows, le *git bash* permet d'utiliser ssh-keygen
+
+* GitHub : compte et configuration
+  GitHub est un dépôt partagé, accessible pour tout projet collaboratif.  Il existe plusieurs types de comptes (dont certains sont payants).
+** Paramétrage de compte et configuration
+   - Compte :: abonnements@/TP25s!oo
+   - Par défaut il est possible de se connecter en https, en s'authentifiant avec les identifiants du compte.
+** Page Dashboard
+   - Accessible par l'icone Octocat.
+   - Paramétrage accès SSH :: 
+     - Settings
+     - SSH Keys : ajouter 
+       Remarque : l'utilitaire clip permet de faciliter la copie de fichier (passe le contenu du fichier dans le clipboard)
+** Création d'un projet
+   - Le dépôt est accessible à 
+     - HTTPS : https://github.com/<user>/<project_name>
+     - SSH   :  git@github.com:<user>/<project_name>
+

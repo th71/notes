@@ -1,0 +1,595 @@
+* Semaine 2 : RDF
+  - C'est le premier élément de la pile protocolaire du web sémantique.
+  - C'est un modèle qui se décline en plusieurs syntaxes dont une XML.
+  - Le but de ce modèle est de publier des données sur le web (la définition de donnée étant vague (tout et n'importe
+  - quoi)).  Exemple : auteur, date de création, titre, droit de
+  - diffusion ''RDF est au web de données ce que HTML était au web
+  - documentaire dans sa métaphore initiale : le langage dans lequel
+  - on décrit, représente et relie des ressources à échanger sur le
+  - web. Entrons ensemble dans ce "Resource Description Framework"...''
+  - Donc pas question de mise en forme, simplement de contenu.
+
+** Le modèle de donnée RDF (Décrire les ressources sur le web)
+   - Standard du WS pour la description de ressource
+   - Décrire les ressources
+     - 1989 :: Proposition de T. B. Lee pour représenter des connaissances sur le web sous forme de graphe relatives à des documents et ses composants.
+       - Graphe de connaissance; type d'objet nommés (sommet du graphe de connaissance) : documents, concepts abstraits, notions/sujets , personnes, ...
+       - Arc étiquetés (liaisons)
+     - implementation RDF pour identifier et décrire ces ressources, accès par HTTP.
+       Pile protocolaire
+       - RDF-S/Own : permet de représenter les vocabulaires de description et permet de raisonner sur celles-ci //
+       - Sparql sert à l'interrogation les données RDF
+       - RDF permet de décrire les ressources
+       - RDF repose sur les URI/IRI pour l'identification des ressources
+     - Exemple (tablette de chocolat) : 
+       - rdf:about :: identifie la ressource décrite (n° de fabrication de la tablette)
+       - rdf:type :: type de ressource (code barre)
+       - rdf:label :: description en langage naturel du type de ressource (texte sur le paquet)
+       - autre informations enrichissant la description :: XXX:XXX (composition, marque, ...) non standardisé (dc:creator ; ex:ingredient ; ex:weight)
+** Modèle de triplet et de graphe
+   - RDF = "Resource Description Framework"
+     - Ressource : tout ce qui peut être identifié sur le web par un URI/IRI
+     - Description : attributs et caractéristiques d'une ressources et ses relations avec d'autres ressources
+     - Framework : désigne un modèle, langage et syntaxe utilisée pour ces descriptions
+   - Principe : 
+     - modèle de triplet = toute ressource est décrite par une série de triplets (sujet, prédicat, objet). Un triplet est un atome de connaissance.
+     - exemple : document "doc.html" écrit par Fabien, Catherine et Olivier sur le thème du WS :: (sujet, prédicat, objet)
+       - (doc.html, a pour auteur, Fabien)
+       - (doc.html, a pour auteur, Catherine)
+       - (doc.html, a pour auteur, Olivier)
+       - (doc.html, a pour thème, WS)
+     - modèle de graphe : un triplet RDF peut être vu comme arc entre 2 sommets d'un arc. Deux triplets ayant le même sujet ou objet sont connectés par des arcs orientés.
+       - ex : (doc.html, auteur, Catherine)
+       	 Catherine <--- auteur --- doc.html 
+       - ex : (doc.html, auteur, Catherine) et (doc.html, thème, WS)
+       	 Catherine <--- auteur --- doc.html ---- thème ---> WS
+     - C'est un modèle de multi-graphe orienté et étiqueté
+       - multi-graphe : il peut y avoir plusieurs arcs en 2 même objets (sujet, thème)
+       - orienté : sommet de départ / sommet d'arrivé par le lien de prédicat
+       - étiqueté : les sommets et les arc sont nommés par un étiquette (catherine, autheur, thème, WS)
+       - les étiquettes des sommets et les arcs sont des URI/IRI ou des litéraux
+       	 - ex : doc.html = http://inria.fr/rr/doc.html (URI/IRI)
+	 - ex : caterine = http://ns.inria.fr/catherine.faron#me (URI/IRI)
+	 - ex : WS       = Web sémantique (litéral)
+	 - ex : auteur   = http://inria.fr/schema#author (URI/IRI)
+	 - ex : thème    = http://inria.fr/schema#theme (URI/IRI)
+       - par convention les sommets correspondant à des (URI/IRI) sont représentés par des ellipses et les sommets correspondant à des litéraux sont représentés par des rectangles.
+     - l'utilisation des URI/IRI pour les sommets et les arcs permet de lier entre eux les graphes et de constuire un web de donneés liées.
+     - le modèle est ouvert, le vocabulaire est extensible basé sur des URI permettant à quiquonque de faire des déclaration sur toute ressources avec des descripteurs de son choix.
+     - un triplet RDF peut-être stoqué dans une base de données. Les différentes bases sont liées entre elle par l'objet auquel elle réfèrent.
+     - le graphe mondial (GGG) permis par l'ouverture et liaison des données.
+     - une fois un graphe constuit, il est possible d'utiliser celui-ci selon plusieurs points de vue, et donc de le traiter ou de raisonner sur ses connaissances.
+       - considéré comme un graphe et traité comme tel
+       - considéré comme un ensemble de prédicats binaire et d'utiliser des op logiques
+       - considéré comme un BDD et traité par des op d'algèbre relationnelle.
+
+**  Syntaxe concrètes et sérialisation
+    - Recommandation W3C : 7 syntaxes
+      - historique : RDF/XML
+      - N-Triples : simple ligne à ligne
+      - Turle : étend N-Triples et écriture consise
+      - TriG : étend Turtle
+      - N-Quads : étends N-Triples
+      - RDF-A dans un document HTML
+      - JSON-LD représentation sérialisée JSON
+    - Syntaxe RDF/XML
+    #+name: sommet d'un graphe RDF    
+    #+begin_example 
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:inria="http://inria.rf/schema#> (espaces de nom + RACINE de l'arbre XML)
+    <rdf:Description rdf:about="http://inria.fr/rr/doc.html" > attribut = point d'entrée dans le graphe (sujet)>
+        <inria:author rdf:resource="http://ns.inria.fr/catherine.faron#me"/> <prédicat ... URI/IRI ressource>
+	<inria:theme>Web Semantique</inria:theme> <prédicat>litéral</prédicat>
+    #+end_example
+    - il existe des variations syntaxiques mais sont toutes équivalentes et permettent par exemple de répartir les infos sur plusieurs BDD.
+    - par exemple
+    #+begin_example 
+    <inria:author>
+	<rdf:Description rdf:about="...">
+    </inria:author>  
+    #+end_example
+    Cela permet de sérialiser dans un sous arbre d'autres éléments.
+    - RACINE :: rdf:RDF
+    - Graphe RDF :: rdf:Desecription, attibut rdf:about="sujet d'un ou plusieurs entrées)
+    - Propriété :: élément fils 
+    - Syntaxe : N-Triples
+      - minimaliste et en texte brut
+      - ex:
+      #+begin_example 
+      <http://inria.fr/rr/doc.html>
+      <http://inria.fr/schema#author>
+      <http://ns.inria.fr/catherine.faron#me> .
+
+      <http://inria.fr/rr/doc.html>
+      <http://inria.fr/schema#theme> "Web Semantique" .
+      #+end_example
+      Les différents atomes sont séparés par points et les URI entre <...>, litérau entre "..."
+    - Syntaxe Turtle (plus lisible que N-Triple pour être humain).
+      #+begin_example 
+      @prefix rdf: <http://www.w3.org/...> . 
+      @prefix inria: <http://inria.fr/schema#> .
+
+      <http://inria.fr/rr/doc/html>
+       inria:author <http://ns.inria.fr/catherine.faron#me> ;
+       inria:theme  "Web Semantique" .
+      #+end_example 
+      @prefix déclare des abréviations utilisés dans les espaces de nom.
+      La déclaration se termine par des . et la séparation des pptés est faite par ";" , on peut déclarer plusieurs valeurs pour une même ppt en séparant par des ",".
+   - Toute ces syntaxes étant équivalentes, il existe des outils permettant la conversion (eg RDF Translator)
+    
+**  Valeurs, type et langues
+    - le sujet est toujours une ressource et non un litéral
+    - le prédicat (propriété binaire -- assocatiation) est d'un type identifié par un URI
+    - l'objet (la valeur) est une ressource ou un litéral
+    - il existe des ressources anonymes (non identifiées par un URI) (blank nodes)
+      elles correspondent aux quantificateurs existentiels en logique (il existe, qqst,...) : il existe une ressource telle que : 
+      - RDF/XML :: <rdf:Description>...</rdf:Description> (par d'attribut rdf:about)
+      - Turle :: [...]
+    - Valeurs litérales :: typées par un type défini dans XML schema datatype. Par défaut, elle est du type xsd:string, il est possible de spécifier un type par "..."^^xsd:date
+    - les noms de type sont des URI dans l'espace de nom XML Schema (xsd).
+    - en RDF/XML :: le type d'une valeur litérale de ppté est représenté par rdf:datatype="http://www.w3.org/2001/XMLSchema#..."
+      #+begin_example 
+      <inria:date rdf:datatype="http://www.w3.org/2001/XMLSchema#...">1995-09-18</inria:date>
+      #+end_example
+    - en turtle le type est suffixé par ^^"type"
+    - il existe toute une hierarchie de type définis par le schéma http://www.w3c.org/TR/xmlschema-2/
+    - Il est possible de préciser la langue, @<code langue> syntaxe abstraite
+    - RDF/XML :: attribut xml:lang="code langue"
+    - Tutle : comme syntaxe abstraite
+    - Les ressources peuvent être typées rdf:type
+    - Ces types peuvent être utilisés pour des raisonnements
+    - RDF/XMLppté <rdf:type rdf:resource="http://www.inria.fr/schema#Type>
+    - Tutle : a inria:man, inria:Researcher
+** Groupes
+   Spécificité du modèle RDF pour représenter des groupes.  Un groupe est compris comme un ensemble d'objet.
+*** Le type rdf:Bag
+    Défini pour représenter des groupes non ordonnés.
+    - doc ---> inria:author --> _:a ---> rdf:type = rdf:Bag
+			    	    ---> rdf:_1 = "Fabien"
+				    ---> rdf:_2 = "Catherine"
+				    ---> rdf:_3 = "Olivier"
+   - expression en syntaxe RDF/XML :
+     #+begin_example
+    <rdf:RDF (...)> 
+     <rdf:Description rdf:about="http://inria.fr/rr/doc.html">
+      <inria:author> <- Ressource anonyme
+       <rdf:Bag> <- Type de ressource (fils de inria:author)
+        <rdf:li>Fabien</rdf:li>    <- Propriétée fils de rdf:Bag interprété comme rdf:_1
+	<rdf:li>Catherine</rdf:li> <- ...
+      	<rdf:li>Olivier</rdf:li>   <- ...
+       </rdf:Bag>
+      </inria:author>
+     <rdf:Description>
+    </rdf:RDF>
+     #+end_example
+   - expression en syntaxe Turtle :
+   #+begin_example 
+    @prefix (...)
+  
+    <http://inria.fr/rr/doc.html> inria:author [ a rdf:Bag ; rdf:li "Fabien" ; rdf:li "Catherine" ; rdf:li "Olivier" . ] .
+   #+end_example
+   Rappel : les "[" indiquent une ressource anonyme, "a" indique le type.
+   - type rdf:Seq groupe de ressources ordonnées, même syntaxe XML/RDF et Turtle que rdf:Bag
+   - rdf:Alt :: plusieurs version d'une même valeur (par exemple pour traduction)
+   #+begin_example 
+   <inria:theme>
+    <rdf:Alt>
+     <rdf:li xml:lang='en'>Semantic Web</rdf:li>
+     <rdf:li xml:lang='fr'>Web Sémantique</rdf:li>
+    </rdf:Alt>
+   </inria:theme> 
+   #+end_example
+     - Même syntaxe à rdf:Bag et rdf:Seq
+   - une collection représente des listes exhaustives et ordonnées.
+     - cette liste est fermée (exhaustives), différent des séquences -- "on ne peut pas" : comment fermer?
+     - représenté par une liste chaînée
+       doc ---> inria:author ---> _:a ---> rdf:type =rdf---> 
+     - XML/RDF :: <inria:author rdf:parseType="Collection">
+                   <rdf:Description rdf:about="#Fabien"/> <<--- !!! PAS PAREIL !!! (Usage du parseType
+                   ...
+		   <rdf:Descriptioon rdf:about="#Olivier"/>
+		  </inria:author>
+     - Turle : inria:author ( <#Fabien> <#Catherine> <#Olivier> ) . 
+** Nommer les graphes
+   - Comment nommer des graphes et pourquoi?
+   - il est parfois souhaitable de nommer un sous-graphe particulier d'un graphe donné, pour exprimer le contexte d'un triplet donné.
+   - le GGR est découpé en sous-graphes, interconnectés entre eux par leur liens (références multuelles -- IRI)
+   - un graphe nommé permet de grouper des triplets.
+   - La notion de graphe nommé permet de grouper des triplets qui devient réifié c'est à dire identifié par une URI/IRI et qui peut lui-même être décrit.
+   - TRIG et N-Graphe permettent d'exprimer ce nommage
+     - TRIG (extension de Turtle) :
+     #+begin_example 
+     @prefix rdf: <...>
+     @prefix inria: <...>
+
+     GRAPH <http://inria.fr/people>
+     { <http://inria.fr/rr/doc.html>
+       inria:author
+	<http://ns.inria.fr/catherine.faron#me>
+     }
+     GRAPH <http://inria.fr/topics>
+     { <http://inria.fr/rr/doc/html>
+       inria:theme "Web sémantique"
+     }
+     #+end_example
+
+     - N-Quads (extension de N-Triples), les triplets deviennent des quadruplets
+     #+begin_example 
+     <http://inria.fr/rr/doc.html> 
+      <http://inria.fr/schema#author>
+       <http://ns.inria.fr/catherine.faron#me>
+        <http://inria.fr/people> (GRAPHE auquel appartient le triplet)
+
+     <http://inria.fr/rr/doc.html>
+      <http://inria.fr/schema#theme> "Web sémantique"
+       <http://inria.fr/topics> (GRAPHE auquel appartient le triplet)
+     #+end_example
+QUESTION : UTF-8 ou ascii dans les descripteurs XML
+
+** Ressources
+   RDF 1.1 Primer
+RDF 1.1 Concepts and Abstract Syntax
+
+    La proposition de Tim Berners-Lee
+    Semantic Web Stack
+
+RDF 1.1 Turtle
+RDF 1.1 XML Syntax
+RDF 1.1 N-Triples
+W3C RDF Validation Service
+RDF Translator
+
+RDF 1.1 TriG
+RDF 1.1 N-Quads
+Generalized RDF Triples, Graphs, and Datasets
+** Vidéos
+   1. [X] 
+   2. [X] 
+   3. [X] 
+   4. [X] 
+   5. [X] 
+   6. [ ] 
+   7. [ ]
+
+** Documents
+   Relire diapos semaine
+   1. [ ]
+   2. [ ]
+   3. [ ]
+   4. [ ] 
+   5. [ ]
+   6. [ ] 
+   7. [ ] 
+   8. [ ]
+
+** Démos
+   Première exploitation
+   1. [X] 
+   2. [ ]
+      - Le W3C offre un [[http://www.w3.org/RDF/Validator][service de validation d'une ressource RDF]] exprimée en RDF/XML.
+      - [[http://rdf-translator.appspot.com][RDF translator]] est un outil validant une ressource RDF (qqsoit sa syntaxe) et permet de traduire la ressource dans une autre syntaxe.
+      - [[http://graves.cl/visualRDF/?url=http://graves.cl/visualRDF/][Visual RDF]] est un service accessible par un navigateur ou une API javascript permettant de visualiser un graphe de données RDF et de les manipuler
+      - Sur DBpedia (base de ressource RDF de WikiPedia) une ressource est accessible :
+      	- sous forme HTML via l'URI http://fr.dbpedia/page/<Nom Ressource>
+	- sous forme XML via  l'URI http://fr.dbpedia/resource/<Nom Ressource>
+      - L'accès HTML à une ressource offre en bas de page l'accès au ressource en diverses syntaxes RDF
+      - Une bonne ressource RDF utilise au mieux les ressources déjà disponibles sur le web.
+   3. [ ] 
+   4. [ ] 
+   5. [ ] 
+   6. [ ] 
+   7. [ ] 
+   8. [ ] 
+   9. [ ]
+
+** Démos reprise
+   1. [ ] 
+   2. [ ] 
+   3. [ ] 
+   4. [ ] 
+   5. [ ] 
+   6. [ ] 
+   7. [ ] 
+   8. [ ] 
+   9. [ ]
+
+** Chercher outils libres autour de RDF
+
+** Semaine 2
+*** [2015-03-12 jeu.]
+    - Discussion suivi
+
+* Semaine 3
+** Consultation rapide des discussions
+** Le Langage de requête SPARQL
+   C'est une recommandation du W3C qui offre 3 outils pour l'échange de données :
+   - un langage de requêtes sur les graphes RDF, permet de spécifier le type de données recherchées
+   - des formats pour représenter le résultat d'une requête
+   - un protocole pour somettre une requête à un serveur (notamment à travers HTTP)
+   - RDF permet de décrire des données sur le web sous forme de graphe
+   - SPARQL permet d'interroger ces graphes
+*** Appariement de graphes RDF
+    - SPARQL = SPARQL Protocol And RDF Query Langage
+      - langage de requête  :: SPARQL 1.1 Query Langage W3C REC 21/03/2013
+      - gestion des graphes :: SPARQL 1.1 Update W3C RDC 21/03/2013
+      - format des résultats :: standardisé
+    - SELECT ...{variables résultat}... FROM ...{source}... WHERE ...{conditions}...
+    - SPARQL utilise des triplets pour représenter les requêtes avec des variables (?)
+      ?x rdf:type ex:Person <- des ressources dont le type est ex:Person
+    - SPARQL permet d'écrire des patrons de graphes (des modèles à rechercher)
+      SELECT ?subject ?property ?value WHERE { ?subject ?property ?value} :: tous les triplet d'un graphe
+    - Par défaut un patron de graphe est une conjonction (ET) de triplets :
+      SELECT ?x where {?x rdf:type ex:Person .
+                       ?x ex:name  ?name . } ici 2 condition type Person ayant un nom donné
+    - SPARQL utilise les même abréviations syntaxiques qu'en Turtle
+      SELECT ?name ?fname 
+      WHERE { ?x a ex:Person ;
+              ex:name ?name ;
+              ex:firstname ?fname ;
+              ex:author ?y . }
+      est la même requête que (factorisation ";" du sujet et  "a"=rdf:type )
+      SELECT ?name ?fname 
+      WHERE { ?x rdf:type ex:Perso .
+              ?x ex:firstname ?fname .
+              ?x ex:author ?y . }
+    - ?x ex:firstname "Fabien", "Lucien" . : recherche des x dont le prénom est "Fabien" ET "Lucien"
+    - [ex :firstname "Fabien" ] ou [] ex:firstname "Fabien" . : [] est une variable anonyme
+*** Opérateurs sur les motifs de graphes 
+    - SPARQL permet de déclarer des préfixes associés à des espaces de noms
+      PREFIX mit: <http://www.mit.edu#>  <-- définition du préfixe NS
+      SLECT ?student
+      WHERE {
+      	    ?student mit:resistredAt ?x .
+      } 
+      eqv à 
+      WHERE {?student <http://www.mit.edu#registredAt> ?x . }
+    - Il est possible de faire référence à plusieurs espaces de nommages non connexes.
+    - Il est possiblde de définir une base par défault pout toutes les URI
+    - @fr permet de rechercher un littéral dans une langue
+    - ^^xsd:integer permet de rechercher un littéral de type entier
+    - OPérateurs (dans le WHERE { ... }
+      - opérateur implicite ET
+      - OPTIONAL { .... } une partie de WHERE peut être présente ou pas (certaines réponses seront incomplétes --unbound--).
+      - UNION : OU inclusif entre deux conditions
+      - MINUS : SAUF excluant certaines conditions
+      - Valeurs spécifiques : VALUES ?name { "Peter" "Pedro" "Pierre" }, on précise ici que le nom doit être dans l'ensemble des données (soit, soit, ...)
+        Cette clause VALUES peut aussi être mise hors du WHERE
+      - Motif de chemin dans le graphe (opérateurs RegExp sur les étiquettes du graphe)
+	- / : séquence ;
+	- + : un ou plusieurs ;
+	- ? : option ; différene avec *
+	- ! : négation ;
+	- | : alternatives ;
+	- * : zéro ou plus ;
+	- ^ : reverse -- chemin parcouru à l'envers
+	Ex: WHERE {
+	           ?x foaf:name "Fabien Gandon" ;
+		      foaf:knows+ ?friends . } <--- la ppt foaf:knows peut être présente un ou plusieurs fois
+      - Il est possible de réduire l'ensemble des résultats (par factorisation)
+        SELECT DISTINCT ?name ....
+*** Filtres, Contraintes et Fonction
+    - filtres :: contraintes supplémentaires
+    - select = clause sélectionnant les valeurs à retourner
+    - where = patron de graphe à apparier (condition)
+    - FILTER :: contrainte ajoutée dans WHERE en syntaxe XPath 2.0 ou des fonctions externes
+      Ex:
+      SELECT ?person ?name
+      WHERE {	     
+      	 ?person ... .
+         FILTER (xsd:integer(?age) >= 18)
+	 }	
+    - Opérateurs classiques , opérateur REGEXP(?x, "A.*")
+    - isURI(?x), isBLANK(?x), isLiteral(?x)::
+    - possible d'accéder aux langues, types
+    - possible de convenir des données selon le schéma XML 
+    - fonctions de recherches de sous-chaines, de test de type, de concaténation, d'encoder en URI, changer casse, longueur de chaine,...
+    - fonction de gestion des dates : an, jour, mois, h, m ,s
+    - fonctions mathématiques classiques
+    - isNumeric(), ...
+    - toute une panoplie de fonctions classiques
+    - opérations booléennes
+    - prioritisation par "("
+    - fonctions externes / extensions (en java par exemple)
+    - if (test, vrai , faux) :: dans un FILTER
+    - présence d'une expression ?n in ("...", " ...", "...)
+    - NOT EXISTS , EXISTS
+*** Pré et Post Traitements
+    - FROM : permet de préciser les sources d'information (FROM <http://www.mit.edu/data.rdf>)
+    - FROM NAMED : plusieurs sources 
+    FROM NAMED: <http://www..../data1.rdf>
+    FROM NAMED: <http://......./data2.rdf>
+    WHERE {
+    	  GRAPH ?g {
+	  	?student mit:registeredAt ?x .
+          }
+	  }
+    - Il est possible de trier ORDER BY ?name 
+      - limiter LIMIT 20
+      - OFFSET 20 : à partir du 20 ime résults
+    - Agrégation :
+      - GROUP BY ?student
+        HAVING(AVG(?score)>=10) <--- filtre sur les valeurs regroupées
+    - Possible de faire des requêtes imbriquées WHERE { ... {SELECT .... WHERE { } } }
+    - Il est possible de retourner dans les SELECT des expressions évaluées à partir des valeurs retournées.
+*** Différentes de requêtes
+    - SELECT ... WHERE ...
+    - 3 autres formes
+      - ASK {?person foaf:age 111 .} :: retourne VRAI ou FAUX
+        ASK { condition }
+      - CONTRUCT { ?student a corsp:FuturExecutive . } : construit un nouveau graphe RDF et le retourne
+      	Permet d'extraire un sous-ensemble pour faire d'autres opérations
+      - DESCRIBE <http://URI> : le graphe RDF retourné est choisi par l'implémentation 
+      - DESCRIBE ?x WHERE { ?x foaf:name "Fabien" } : description d'une extraction 
+
+* Semaine 4
+  Le standard RDFS : permet de publier le schéma des données. Un schéma est un document formel, expliquand le sens, les catégories, les relations, les contraintes des données et e leur structure.
+  On ajoute au dessus de RDF une pile de langage de description schématique (appelés ontologies).  Cette pile est de complexité croissante (tant en expressivité des détails qu'en temps de calcul pour l'application de raisonnements).
+
+  Au niveau le plus bas : RDFS (RDF Schéma) permet de déclarer et décrire les types de ressources manipulées (en créant des classes -- comme en POO) possédant des propriétés.
+  RDFS permet donc de définir des vocabulaires utilisés dans les graphes RDF et d'en nommer les primitives avec des URI.
+** Vidéo 1
+   - Documenter et publier les schémas de données
+     - Ontologies
+     - Schémas par et pour RDF
+     - Hiérarchie des classes
+     - Hiérarchie des ppts
+     - Signatures de pptés : types d'objets
+     - Documenter schéma
+     - Utilisation des schémas
+   - vision documentaire : web passage de page en page.
+   - vision T. Berners-Lee : permettre à la machine de comprendre le sens des données par l'utilisateur du web
+   - Donnée Carte + Données stat sur carte => Utiliser la carte + données
+   - ontologie :: vision du monde, catégorisation.
+   - L'homme possède une vision basée sur une ontologie partagée.
+   - Cette ontologie est raisonnable, au sens où on peut raisonner dessus.
+   - Elle est partagée car elle permet aux humains de se comprendre.
+   - Souvent hierarchique :
+   - ROMAN ;  NOUVELLE } -> LIVRE -> DOCUMENT
+   - Termes et concepts :
+     - concept : notion indépendante des mots utilisés => Ontologie formelle
+     - terme : mot utilisé (dépends de la langue)
+   - Formalisation des ontologies
+     - subsomption : tout objet X est aussi de type Y
+     - logiques de description : disjonction de concepts, si X est de classe A il ne peut être de classe B.
+     - graphes conceptuels : un objet de classe A à une propriée B. 
+** RDFS et schémas RDF
+   - RDFS permet d'enrichir RDF en permettant de documenter le vocabulaire utilisé pour décrire les ressources
+   - RDFSchema
+   - Permet d'écrire des ontologies légères
+   - RDFS s'écrit en RDFS et s'interroge en SPARQL
+   - SPARQL permet donc d'interrorer les données et le schéma qui structure ces données
+   - Première étape :
+     - Associer à des représentation RDF le vocabulaire utilisé
+     - Pour cela, on associe un espace de nommage à un vocabulaire utilisé dans les données 
+     - *xml:base=URI.rdfs* : Base du vocabulaire -- ici est rangé le vocabulaire 
+     - *xmlns:rdfs=URI (schéma RDF)* : espace de nom
+     - en turtle : @base <URI.rdfs> et @prefix rdfs: URI
+   - RDFS : méta-ontologies / méta-vocabulaire
+     - le vocabulaire RDFS est utilisé pour décrire un autre vocabulaire
+     - ce vocabulaire décrire des classes de ressources et leurs pptés
+     - c'est donc un schéma pour décrire des schémas
+     - Coeur du vocabulaire RDFS organisé autour des classes
+       - Classes principales :
+       	 - RDFS:Literal valeurs libres
+	   - différents types de litéraux textes ou valeurs
+	 - RDFS:Class 
+	   Classe de toutes les classes.  Toute classe RDFS est une instance de RDFS:Class
+	   - se subdivise en sous classes : listes, séquences, alternatives, (conteneurs)
+	 - RDFS:Resource : première classe, tout objet de type URI est une ressource
+	   - rdf:Property 
+	     - rdfs:domain (signature=type de ressource)
+	     - rdfs:range (signature=type de ressource)
+	     - rdfs:subPropertyOf (hiérarchie des propriétés)
+	     - rdf:type est un cas particulier
+	     Documentation
+	     - rdfs:isDefinedBy
+	     - rdfs:label
+	     - rdfs:seeAlso
+	     - rdfs:comment
+     - Règles sémantiques utilisées
+       - si (x p y) alors x rdf:type rdfs:Resource
+       - si (x p y) alors y rdf:type rdfs:Resource
+       si tout sujet ou objet est forcément une ressource.
+*** Vidéo 3
+    Déclaration des classes et de leurs hiérarchie
+    - multi-instanciation : une ressource peut appartenir à plusieurs classes
+    - multi-héritage : une classe peut hériter de plusieurs classes
+    - hiérarchique : ex La classe des rapport est un sous-classe de la classe document
+    - Exemple d'instance rdfs:Class
+      - La calsse des classes est dans l'espace de nommage de RDFS
+      #+begin_example 
+      <rdf:RDF xml:base="http://iniria.fr/2005/humans.rdfs"
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"> --- le prefixe rdfs: ...
+      <rdfs:Class rdf:ID="Man"> L'instance Man est une instance de classe 
+      <rdfs:subClassOf rdf:resource="#Person"/> Man est aussi Person et Male
+      <rdfs:subClassOf rdf:resource="#Male"/>
+      </rdfs:Class>
+      </rdf:RDF>       
+
+      @prefix rdfs <http://www.w3.org/2000/01/rdf-schema#> .
+      @base <http://iniria.fr/2005/humans.rdfs> .
+      <Man> a rdfs:Class ;
+      rdfs:subClassOf <Person>, <Male> .
+      #+end_example
+      - Inférences possibles : 
+      	1. toute classe est sous-classe de rdfs:Resource
+
+	2. Propagation des types
+
+	3. Réflexivité de la subsumption
+
+	4. Transitivité de la subsumption
+
+* Semaine 5 :  Le standard OWL (Ontology Web Language).
+  OWL est constitué de 3 composants d'expressivité croissante :
+  - OWL Lite
+  - OWL DL
+  - OWL Full
+  Repose sur des langages des logiques de description permettant des déductions supplémentaires sur les objets :
+  - Vérification de cohérence du schéma
+  - classification automatique des types (générations de hiérarchies)
+  - identification automatique du type d'une ressource à partir de ces pptés
+  OWL permet de définir des classes par leur contenu ou des opérations ensemblistes (union, intersaction, complément, et disjonction).
+  OWL permet de restreindre les valeurs des pptés et de leur associer des caractéristiques algébriques (symétrie, transitive, fonctionnelle)
+  
+  OWL se place au dessus de RDFS dans la pile protocolaire.
+  OWL est une recommandantion W3C.
+  
+  Espace de nommage des primitives OWL : *http://www.w3.org/2002/07/owl#". Le préfixe classique est *owl:*
+** Relations de classes en OWL
+*** Classes énumérées
+    On peut définir une classe en énumérant tous ces membres
+    #+begin_src xml
+      <owl:Class rdf:id="EyeColor">
+        <owl:oneOf rdf:parseType="Collection">
+          <owl:Thing rdf:ID="Bleu"/>
+          <owl:Thing rdf:ID="Green"/>
+          <owl:Thing rdf:ID="Brown"/>
+          <owl:Thing rdf:ID="Black"/>
+        </owl:oneOf>
+      </owl:Class>
+    #+end_src
+
+    #+begin_src turtle
+    <eyeColor> rdf:type owl:Class ;
+     owl:oneOf
+      ( <Blue>,<Green>,<Brown>,<Black> ) .
+    #+end_src
+*** Classe définie par union, intersection, négation de classes
+    - toute ressource faisant partie d'une classe réunie
+      
+*** Disjonction de classe
+    - owl:disjointWith
+    - owl:AllDisjointClasses
+** Caractérisation des prop
+** Equivalences de classes
+   - déclare que deux classes ont exactement les mêmes instances (symétrique)
+     - ex:human owl:equivalentClass foaf:Person
+   - déclare que deux propriétés expriment exactement la même relation (symétrique)
+     - ex:name owl:equivalentProperty my:label 
+   - par défaut, owl ne permet pas de différentier a priori différentes ressources.  Cette discrimination peut être faite par
+     - deux URI identifient la même ressource (permet de tenir compte de la diversité du web)
+       - ex:Bill owl:sameAs ex:William
+       - cette notion est transitive
+     - deux URI identifient des ressources différentes
+       - ex:Good owl:differentFrom ex:Evil
+** Restriction de propriétés
+   - permet de définir une classes par une contrainte sur les instances (valeurs possibles d'une ppté).
+   - exemple :herbivores
+   #+begin_src xml
+     <owl:Class rdf:ID="Herbivore">
+       <rdfs:subClassOf rdf:resource="#Animal"/>
+       <rdfs:subClassOf> 
+         <owl:Restriction> <--- classe anonyme 
+           <owl:onProperty rdf:resource="#eats"/>
+           <owl:allValuesFrom rdf:resource="#Plants"/>
+         </owl:Restriction>
+       </rdfs:subClassOf>
+     </owl:Class>
+   #+end_src
+   - Restriction sur l'existance d'une condition owl:someValuesFrom
+   - Restriction sur une condition exacte owl:hasValue
+   - Restriction sur une relation avec soi-même : owl:hasSelf
+   - Contrainte de cardinalité : owl:maxCardinality, owl:minCardinality, owl:Cardinality
+   - Contrainte sur type de valeurs : owl:qualifiedCardinality
+   

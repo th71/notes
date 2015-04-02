@@ -1,0 +1,11 @@
+* Gestion des URL
+  - module /urllib2/
+    #+begin_src python
+    import urllib2
+    url="http://example.com"
+    website=urllib2.urlopen(url)
+    print website.read()
+    #+end_src
+    On récupère ici une page web comme une instance *website*.  La méthode read() retourne les données, info() retourne le message HTTML du serveur, geturl() permet de retrouver l'URL de la page.
+* Firefox et évènements 
+  - extension : firebug

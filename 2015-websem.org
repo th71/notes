@@ -1,0 +1,299 @@
+* Semaine 2 : RDF
+  - C'est le premier élément de la pile protocolaire du web sémantique.
+  - C'est un modèle qui se décline en plusieurs syntaxes dont une XML.
+  - Le but de ce modèle est de publier des données sur le web (la définition de donnée étant vague (tout et n'importe
+  - quoi)).  Exemple : auteur, date de création, titre, droit de
+  - diffusion ''RDF est au web de données ce que HTML était au web
+  - documentaire dans sa métaphore initiale : le langage dans lequel
+  - on décrit, représente et relie des ressources à échanger sur le
+  - web. Entrons ensemble dans ce "Resource Description Framework"...''
+  - Donc pas question de mise en forme, simplement de contenu.
+
+** Le modèle de donnée RDF (Décrire les ressources sur le web)
+   - Standard du WS pour la description de ressource
+   - Décrire les ressources
+     - 1989 :: Proposition de T. B. Lee pour représenter des connaissances sur le web sous forme de graphe relatives à des documents et ses composants.
+       - Graphe de connaissance; type d'objet nommés (sommet du graphe de connaissance) : documents, concepts abstraits, notions/sujets , personnes, ...
+       - Arc étiquetés (liaisons)
+     - implementation RDF pour identifier et décrire ces ressources, accès par HTTP.
+       Pile protocolaire
+       - RDF-S/Own : permet de représenter les vocabulaires de description et permet de raisonner sur celles-ci //
+       - Sparql sert à l'interrogation les données RDF
+       - RDF permet de décrire les ressources
+       - RDF repose sur les URI/IRI pour l'identification des ressources
+     - Exemple (tablette de chocolat) : 
+       - rdf:about :: identifie la ressource décrite (n° de fabrication de la tablette)
+       - rdf:type :: type de ressource (code barre)
+       - rdf:label :: description en langage naturel du type de ressource (texte sur le paquet)
+       - autre informations enrichissant la description :: XXX:XXX (composition, marque, ...) non standardisé (dc:creator ; ex:ingredient ; ex:weight)
+** Modèle de triplet et de graphe
+   - RDF = "Resource Description Framework"
+     - Ressource : tout ce qui peut être identifié sur le web par un URI/IRI
+     - Description : attributs et caractéristiques d'une ressources et ses relations avec d'autres ressources
+     - Framework : désigne un modèle, langage et syntaxe utilisée pour ces descriptions
+   - Principe : 
+     - modèle de triplet = toute ressource est décrite par une série de triplets (sujet, prédicat, objet). Un triplet est un atome de connaissance.
+     - exemple : document "doc.html" écrit par Fabien, Catherine et Olivier sur le thème du WS :: (sujet, prédicat, objet)
+       - (doc.html, a pour auteur, Fabien)
+       - (doc.html, a pour auteur, Catherine)
+       - (doc.html, a pour auteur, Olivier)
+       - (doc.html, a pour thème, WS)
+     - modèle de graphe : un triplet RDF peut être vu comme arc entre 2 sommets d'un arc. Deux triplets ayant le même sujet ou objet sont connectés par des arcs orientés.
+       - ex : (doc.html, auteur, Catherine)
+       	 Catherine <--- auteur --- doc.html 
+       - ex : (doc.html, auteur, Catherine) et (doc.html, thème, WS)
+       	 Catherine <--- auteur --- doc.html ---- thème ---> WS
+     - C'est un modèle de multi-graphe orienté et étiqueté
+       - multi-graphe : il peut y avoir plusieurs arcs en 2 même objets (sujet, thème)
+       - orienté : sommet de départ / sommet d'arrivé par le lien de prédicat
+       - étiqueté : les sommets et les arc sont nommés par un étiquette (catherine, autheur, thème, WS)
+       - les étiquettes des sommets et les arcs sont des URI/IRI ou des litéraux
+       	 - ex : doc.html = http://inria.fr/rr/doc.html (URI/IRI)
+	 - ex : caterine = http://ns.inria.fr/catherine.faron#me (URI/IRI)
+	 - ex : WS       = Web sémantique (litéral)
+	 - ex : auteur   = http://inria.fr/schema#author (URI/IRI)
+	 - ex : thème    = http://inria.fr/schema#theme (URI/IRI)
+       - par convention les sommets correspondant à des (URI/IRI) sont représentés par des ellipses et les sommets correspondant à des litéraux sont représentés par des rectangles.
+     - l'utilisation des URI/IRI pour les sommets et les arcs permet de lier entre eux les graphes et de constuire un web de donneés liées.
+     - le modèle est ouvert, le vocabulaire est extensible basé sur des URI permettant à quiquonque de faire des déclaration sur toute ressources avec des descripteurs de son choix.
+     - un triplet RDF peut-être stoqué dans une base de données. Les différentes bases sont liées entre elle par l'objet auquel elle réfèrent.
+     - le graphe mondial (GGG) permis par l'ouverture et liaison des données.
+     - une fois un graphe constuit, il est possible d'utiliser celui-ci selon plusieurs points de vue, et donc de le traiter ou de raisonner sur ses connaissances.
+       - considéré comme un graphe et traité comme tel
+       - considéré comme un ensemble de prédicats binaire et d'utiliser des op logiques
+       - considéré comme un BDD et traité par des op d'algèbre relationnelle.
+
+**  Syntaxe concrètes et sérialisation
+    - Recommandation W3C : 7 syntaxes
+      - historique : RDF/XML
+      - N-Triples : simple ligne à ligne
+      - Turle : étend N-Triples et écriture consise
+      - TriG : étend Turtle
+      - N-Quads : étends N-Triples
+      - RDF-A dans un document HTML
+      - JSON-LD représentation sérialisée JSON
+    - Syntaxe RDF/XML
+    #+name: sommet d'un graphe RDF    
+    #+begin_example 
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:inria="http://inria.rf/schema#> (espaces de nom + RACINE de l'arbre XML)
+    <rdf:Description rdf:about="http://inria.fr/rr/doc.html" > attribut = point d'entrée dans le graphe (sujet)>
+        <inria:author rdf:resource="http://ns.inria.fr/catherine.faron#me"/> <prédicat ... URI/IRI ressource>
+	<inria:theme>Web Semantique</inria:theme> <prédicat>litéral</prédicat>
+    #+end_example
+    - il existe des variations syntaxiques mais sont toutes équivalentes et permettent par exemple de répartir les infos sur plusieurs BDD.
+    - par exemple
+    #+begin_example 
+    <inria:author>
+	<rdf:Description rdf:about="...">
+    </inria:author>  
+    #+end_example
+    Cela permet de sérialiser dans un sous arbre d'autres éléments.
+    - RACINE :: rdf:RDF
+    - Graphe RDF :: rdf:Desecription, attibut rdf:about="sujet d'un ou plusieurs entrées)
+    - Propriété :: élément fils 
+    - Syntaxe : N-Triples
+      - minimaliste et en texte brut
+      - ex:
+      #+begin_example 
+      <http://inria.fr/rr/doc.html>
+      <http://inria.fr/schema#author>
+      <http://ns.inria.fr/catherine.faron#me> .
+
+      <http://inria.fr/rr/doc.html>
+      <http://inria.fr/schema#theme> "Web Semantique" .
+      #+end_example
+      Les différents atomes sont séparés par points et les URI entre <...>, litérau entre "..."
+    - Syntaxe Turtle (plus lisible que N-Triple pour être humain).
+      #+begin_example 
+      @prefix rdf: <http://www.w3.org/...> . 
+      @prefix inria: <http://inria.fr/schema#> .
+
+      <http://inria.fr/rr/doc/html>
+       inria:author <http://ns.inria.fr/catherine.faron#me> ;
+       inria:theme  "Web Semantique" .
+      #+end_example 
+      @prefix déclare des abréviations utilisés dans les espaces de nom.
+      La déclaration se termine par des . et la séparation des pptés est faite par ";" , on peut déclarer plusieurs valeurs pour une même ppt en séparant par des ",".
+   - Toute ces syntaxes étant équivalentes, il existe des outils permettant la conversion (eg RDF Translator)
+    
+**  Valeurs, type et langues
+    - le sujet est toujours une ressource et non un litéral
+    - le prédicat (propriété binaire -- assocatiation) est d'un type identifié par un URI
+    - l'objet (la valeur) est une ressource ou un litéral
+    - il existe des ressources anonymes (non identifiées par un URI) (blank nodes)
+      elles correspondent aux quantificateurs existentiels en logique (il existe, qqst,...) : il existe une ressource telle que : 
+      - RDF/XML :: <rdf:Description>...</rdf:Description> (par d'attribut rdf:about)
+      - Turle :: [...]
+    - Valeurs litérales :: typées par un type défini dans XML schema datatype. Par défaut, elle est du type xsd:string, il est possible de spécifier un type par "..."^^xsd:date
+    - les noms de type sont des URI dans l'espace de nom XML Schema (xsd).
+    - en RDF/XML :: le type d'une valeur litérale de ppté est représenté par rdf:datatype="http://www.w3.org/2001/XMLSchema#..."
+      #+begin_example 
+      <inria:date rdf:datatype="http://www.w3.org/2001/XMLSchema#...">1995-09-18</inria:date>
+      #+end_example
+    - en turtle le type est suffixé par ^^"type"
+    - il existe toute une hierarchie de type définis par le schéma http://www.w3c.org/TR/xmlschema-2/
+    - Il est possible de préciser la langue, @<code langue> syntaxe abstraite
+    - RDF/XML :: attribut xml:lang="code langue"
+    - Tutle : comme syntaxe abstraite
+    - Les ressources peuvent être typées rdf:type
+    - Ces types peuvent être utilisés pour des raisonnements
+    - RDF/XMLppté <rdf:type rdf:resource="http://www.inria.fr/schema#Type>
+    - Tutle : a inria:man, inria:Researcher
+** Groupes
+   Spécificité du modèle RDF pour représenter des groupes.  Un groupe est compris comme un ensemble d'objet.
+*** Le type rdf:Bag
+    Défini pour représenter des groupes non ordonnés.
+    - doc ---> inria:author --> _:a ---> rdf:type = rdf:Bag
+			    	    ---> rdf:_1 = "Fabien"
+				    ---> rdf:_2 = "Catherine"
+				    ---> rdf:_3 = "Olivier"
+   - expression en syntaxe RDF/XML :
+     #+begin_example
+    <rdf:RDF (...)> 
+     <rdf:Description rdf:about="http://inria.fr/rr/doc.html">
+      <inria:author> <- Ressource anonyme
+       <rdf:Bag> <- Type de ressource (fils de inria:author)
+        <rdf:li>Fabien</rdf:li>    <- Propriétée fils de rdf:Bag interprété comme rdf:_1
+	<rdf:li>Catherine</rdf:li> <- ...
+      	<rdf:li>Olivier</rdf:li>   <- ...
+       </rdf:Bag>
+      </inria:author>
+     <rdf:Description>
+    </rdf:RDF>
+     #+end_example
+   - expression en syntaxe Turtle :
+   #+begin_example 
+    @prefix (...)
+  
+    <http://inria.fr/rr/doc.html> inria:author [ a rdf:Bag ; rdf:li "Fabien" ; rdf:li "Catherine" ; rdf:li "Olivier" . ] .
+   #+end_example
+   Rappel : les "[" indiquent une ressource anonyme, "a" indique le type.
+   - type rdf:Seq groupe de ressources ordonnées, même syntaxe XML/RDF et Turtle que rdf:Bag
+   - rdf:Alt :: plusieurs version d'une même valeur (par exemple pour traduction)
+   #+begin_example 
+   <inria:theme>
+    <rdf:Alt>
+     <rdf:li xml:lang='en'>Semantic Web</rdf:li>
+     <rdf:li xml:lang='fr'>Web Sémantique</rdf:li>
+    </rdf:Alt>
+   </inria:theme> 
+   #+end_example
+     - Même syntaxe à rdf:Bag et rdf:Seq
+   - une collection représente des listes exhaustives et ordonnées.
+     - cette liste est fermée (exhaustives), différent des séquences -- "on ne peut pas" : comment fermer?
+     - représenté par une liste chaînée
+       doc ---> inria:author ---> _:a ---> rdf:type =rdf---> 
+     - XML/RDF :: <inria:author rdf:parseType="Collection">
+                   <rdf:Description rdf:about="#Fabien"/> <<--- !!! PAS PAREIL !!! (Usage du parseType
+                   ...
+		   <rdf:Descriptioon rdf:about="#Olivier"/>
+		  </inria:author>
+     - Turle : inria:author ( <#Fabien> <#Catherine> <#Olivier> ) . 
+** Nommer les graphes
+   - Comment nommer des graphes et pourquoi?
+   - il est parfois souhaitable de nommer un sous-graphe particulier d'un graphe donné, pour exprimer le contexte d'un triplet donné.
+   - le GGR est découpé en sous-graphes, interconnectés entre eux par leur liens (références multuelles -- IRI)
+   - un graphe nommé permet de grouper des triplets.
+   - La notion de graphe nommé permet de grouper des triplets qui devient réifié c'est à dire identifié par une URI/IRI et qui peut lui-même être décrit.
+   - TRIG et N-Graphe permettent d'exprimer ce nommage
+     - TRIG (extension de Turtle) :
+     #+begin_example 
+     @prefix rdf: <...>
+     @prefix inria: <...>
+
+     GRAPH <http://inria.fr/people>
+     { <http://inria.fr/rr/doc.html>
+       inria:author
+	<http://ns.inria.fr/catherine.faron#me>
+     }
+     GRAPH <http://inria.fr/topics>
+     { <http://inria.fr/rr/doc/html>
+       inria:theme "Web sémantique"
+     }
+     #+end_example
+
+     - N-Quads (extension de N-Triples), les triplets deviennent des quadruplets
+     #+begin_example 
+     <http://inria.fr/rr/doc.html> 
+      <http://inria.fr/schema#author>
+       <http://ns.inria.fr/catherine.faron#me>
+        <http://inria.fr/people> (GRAPHE auquel appartient le triplet)
+
+     <http://inria.fr/rr/doc.html>
+      <http://inria.fr/schema#theme> "Web sémantique"
+       <http://inria.fr/topics> (GRAPHE auquel appartient le triplet)
+     #+end_example
+QUESTION : UTF-8 ou ascii dans les descripteurs XML
+
+** Ressources
+   RDF 1.1 Primer
+RDF 1.1 Concepts and Abstract Syntax
+
+    La proposition de Tim Berners-Lee
+    Semantic Web Stack
+
+RDF 1.1 Turtle
+RDF 1.1 XML Syntax
+RDF 1.1 N-Triples
+W3C RDF Validation Service
+RDF Translator
+
+RDF 1.1 TriG
+RDF 1.1 N-Quads
+Generalized RDF Triples, Graphs, and Datasets
+** Vidéos
+   1. [X] 
+   2. [X] 
+   3. [X] 
+   4. [X] 
+   5. [X] 
+   6. [ ] 
+   7. [ ]
+
+** Documents
+   Relire diapos semaine
+   1. [ ]
+   2. [ ]
+   3. [ ]
+   4. [ ] 
+   5. [ ]
+   6. [ ] 
+   7. [ ] 
+   8. [ ]
+
+** Démos
+   Première exploitation
+   1. [X] 
+   2. [ ]
+      - Le W3C offre un [[http://www.w3.org/RDF/Validator][service de validation d'une ressource RDF]] exprimée en RDF/XML.
+      - [[http://rdf-translator.appspot.com][RDF translator]] est un outil validant une ressource RDF (qqsoit sa syntaxe) et permet de traduire la ressource dans une autre syntaxe.
+      - [[http://graves.cl/visualRDF/?url=http://graves.cl/visualRDF/][Visual RDF]] est un service accessible par un navigateur ou une API javascript permettant de visualiser un graphe de données RDF et de les manipuler
+      - Sur DBpedia (base de ressource RDF de WikiPedia) une ressource est accessible :
+      	- sous forme HTML via l'URI http://fr.dbpedia/page/<Nom Ressource>
+	- sous forme XML via  l'URI http://fr.dbpedia/resource/<Nom Ressource>
+      - L'accès HTML à une ressource offre en bas de page l'accès au ressource en diverses syntaxes RDF
+      - Une bonne ressource RDF utilise au mieux les ressources déjà disponibles sur le web.
+   3. [ ] 
+   4. [ ] 
+   5. [ ] 
+   6. [ ] 
+   7. [ ] 
+   8. [ ] 
+   9. [ ]
+
+** Démos reprise
+   1. [ ] 
+   2. [ ] 
+   3. [ ] 
+   4. [ ] 
+   5. [ ] 
+   6. [ ] 
+   7. [ ] 
+   8. [ ] 
+   9. [ ]
+
+** Chercher outils libres autour de RDF
+
+** Semaine 2
+*** [2015-03-12 jeu.]
+    - Discussion suivi
