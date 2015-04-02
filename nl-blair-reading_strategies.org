@@ -1,0 +1,23 @@
+#+TITLE: Reading Strategies for Coping with Information Overload
+#+PROPERTY: Auteur  Ann Blair
+#+PROPERTY: Date 2003
+
+   =NP= cet article est probablement connexe à la démarche de ''too much to know'' du même auteur.
+
+   Idée de base : en réaction à la surabondance de livres (au XVIième) se sont développées non seulement des aides de lectures (''ouvrages de références'') mais aussi de nouvelles techniques (prendre des notes, résumer).
+
+   La surabondance de livres autour du XVIième s'accompagnait d'une crainte (''fall into a state as barbarous'', A. Baillet).  Pour rappel, l'imprimerie de Gutenberg date de 1450, et le nombre de livres possédés croit (estimation 60 au XV à 3000 (Montesquieu) au XVIII).  Se développe alors de outils d'aide à la lecture (compilations, encyclopédies bibliographiques, sélection de textes de référence, sélection de passages de référence, florilèges, dictionnaires et autres index).  De plus, la consultation de plusieurs livre en parallèle semble apparaître progressivement à partir de 1200.   
+
+   Le modèle idéalisé semble être celui de la mémorisation, mais la perception des limites de ce modèle nécessite le développement de ces aides.  De plus, la multiplication des ouvrages augmente le temps nécessaire à leur lecture.  L'idéal humaniste attache grande importance à ce travail constant et en prodonfeur.  Les ouvrages de compilations peuvent être perçus comme porteur d'un déclin de l'étude (1600).
+
+
+  Certaines de ces techniques apparaissent déjà avant et son encore utilisées (sélectionner; trier; stoquer).  Les techniques de lecture sélective, abréviations, notes marginales, usage de notes prises par autrui sont présente depuis longtemps, mais ces opérations et techniques peuvent varier cependant par leurs objectifs et les moyens (technologiques) employés.  Ces variations, ou continuités se situent dans l'espace et le temps.  La lecture peut être différente selon le sujet et l'ouvrage (avec approfondissements divers).
+
+  En parallèle, une autre approche conseille de restreindre les lectures (des ''jeunes lecteurs'') aux ouvrages canoniques (les ''meilleurs ouvrages'').  Ces ouvrages devraient être lus et relus, les autres écratés.  Ces derniers sont des ouvrages récents.  ''it is better in the beginning to learn a few things well, than to taste many things'' (Sacchini).
+  
+  Le développement d'index influe sur le techniques de lectures, qui peuvent devenir partielles (uniquement les parties d'intérêt).  De plus certains ouvrages sont destinés par leur auteurs à être consultés de temps en temps en non lus en entier.  La qualité des index est cependant variable et parfois erronée.  Remarquons que ce travail implique coopération entre les lecteurs et les imprimeurs.  
+
+  La prise de note est aussi comprise comme souhaitable, pour faciliter la mémorisation (elle est même indispensable pour cela).  =NP= notons encore une fois le caractère primordial de la mémorisation.  Ces notes peuvent être de simple recopie de passages importants ou des reformulations d'idées.  Ces notes, recopiées une ou plusieurs fois peuvent être archivées et cataloguées dans divers livres (selon sujet ou label).  Ces prises de notes prennent cependant du temps, l'auteur peut alors s'appuyer sur des secrétaires (cette pratique est parfois condamnée, le travail de mémorisation n'étant pas alors complet).  Peuvent aussi appraraître des groupes de lecteurs (étudiants, sociétés de lettrés) assurant la division du travail de lecture et de prise de notes, le travail étant alors mis en commun.  
+
+  La technique du copier/coller dans le livre même apparaît (le prix du livre ayant décru, certains savans conseillent d'acheter 2 exemplaires de chaque livre!).  Cette technique peut être utiliser pour faire des références ou alors pour travailler à la rédaction d'un nouvel ouvrage, permettant de modifier l'ordre de rédaction. (réorganisation interne)
+

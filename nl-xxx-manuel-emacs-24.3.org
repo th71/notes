@@ -1,0 +1,1296 @@
+#+TITLE: Notes sur Emacs Manual 24.3
+* Anciennes organisation
+** Progression
+   - [X] Etape 1 : Tutoriel intégré *C-h t*
+   - [X] Etape 2 : Parcourir rapidement §1 et §2
+   - [X] Etape 3 : Lire §3 et §4 (notions de base)
+   - [ ] Étude chapitre 14
+   - [ ] Étude chapitre 21
+   - [ ] Étude chapitre 22
+     - La notion de ''remplissage'' (''filling'') correspond à la réorganisation des lignes pour permettre d'équilibrer leur longueur.
+     - Auto-fill :: les lignes sont automatiquement tronquées si elles deviennent trop longues
+     - Tables du module ''table''.
+       Table créée à la main
+       #+begin_example 
+       	+-+--------+
+       	|A| Valeur |     
+       	+-+--------+
+       #+end_example
+
+       Table créée avec ''table-insert''
+       #+begin_example
+       	+----------+----------+----------+
+       	|          |          |          |
+       	|          |          |          |
+       	|          |          |          |
+       	+----------+----------+          |
+       	|          |          |          |
+       	|          |          |          |
+       	|          |          |          |
+       	+----------+----------+----------+
+       	|                     |          |
+       	|                     |          |
+       	|                     |          |
+       	+---------------------+----------+
+       #+end_example
+       - une /abbrev/ est un mot défini qui se /développe automatiquement/ à l'entrée d'un motif suivi d'un signe de ponctuation ou d'un espace.
+     - liste des /abbrev/ pré-définies
+       #+begin_src elisp :results org
+       (list-abbrevs)
+       #+end_src
+
+       #+RESULTS:
+       #+BEGIN_SRC org
+     #<window 39 on *Abbrevs*>
+     #+END_SRC
+     - création d'un /abbrev/ pour *Remarque*:  rem: *Remarque*: Remarque*: Remarque*:*
+     - insertion des /abbrevs/ du documents pour usage ultérieur
+   - [ ] Étude chapitre 26
+   - [ ] Voir ''Features for automatic typing''
+[[http://www.gnu.org/software/emacs/manual/html_mono/autotype.html][Features for Automatic Typing (WEB)]] =
+   - [ ] Étude chapitre 27
+   - [ ] Étude chapitre 29
+     | Entité     | Action                     | Commande  |                                               |
+     |------------+----------------------------+-----------+-----------------------------------------------|
+     | Mot        | Avancer                    | *M-f*     | Un mot est terminé selon la table de syntaxe. |
+     | Mot        | Reculer                    | *M-b*     |                                               |
+     | Mot        | Effacer fin                | *M-d*     |                                               |
+     | Mot        | Effacer début              | *M-DEL*   |                                               |
+     | Mot        | Marquer fin                | *M-@*     |                                               |
+     | Mot        | Transposer avec le suivant | *M-t*     |                                               |
+     |------------+----------------------------+-----------+-----------------------------------------------|
+     | Phrase     | Avancer                    | *M-e*     | Une phrase est terminée par ./?/!<SP><SP>     |
+     | Phrase     | Reculer                    | *M-a*     |                                               |
+     | Phrase     | Effacer fin                | *M-k*     |                                               |
+     | Phrase     | Effacer début              | *C-x DEL* |                                               |
+     |------------+----------------------------+-----------+-----------------------------------------------|
+     | Paragraphe | Avancer                    | *M-}*     | Séparation par 1+ lignes vides.               |
+     | Paragraphe | Reculer                    | *M-{*     |                                               |
+     | Paragraphe | Sélectionner               | *M-h*     |                                               |
+     |------------+----------------------------+-----------+-----------------------------------------------|
+     | Page       | Avancer                    | *C-x ]*   | Terminé par ^L ()                           |
+     | Page       | Reculer                    | *C-x [*   |                                               |
+     | Page       | Sélectionner               | *C-x C-p* |                                               |
+     |------------+----------------------------+-----------+-----------------------------------------------|
+     
+     En vue d'une utilisation purement sur écran, on peut se demander si la notion de page ne devrait pas être utilisée.  Cependant, que faire si la taille de l'écran change?  De plus, la page exportée ne correspond par à la page écrite.  Il y a ici une difficulté       liée à ma recherche d'un WYSIWYG minimal,avec un logiciel qui ne le prévoit pas.
+     - La notion de ''remplissage'' (''filling'') correspond à la réorganisation des lignes pour permettre d'équilibrer leur longueur.
+     - Auto-fill :: les lignes sont automatiquement tronquées si elles deviennent trop longues      
+   - [ ] Étude chapitre 30
+   - [ ] Étude chapitre 31
+   - [ ] Notions avancées : §16--§18
+     :END:      
+- C-x 0 :: supprime la fenêtre courante
+- C-x 1 :: supprime toute fenêtre à l'exception de la courante
+- C-x 2 :: découpe la fenêtre en 2 horizontalement
+- C-x 3 :: découpe la fenêtre en 2 verticalement 
+- C-x b :: en plus de sélectionner un buffer permet d'en /créer un nouveau/.
+- C-x 4 0 :: supprime la fenêtre courante ET détruit le tampon associé.
+- C-x 4 b :: identique au précédent mais ouvre un nouvelle fenêtre en // à celle actuellement sélectionnée.
+- <variable locale> buffer-read-only :: permet de forcer l'ouverture en mode lecture seule.
+- <variable locale> view-read-only :: le passage en mode lecture seule active le mode lecture.
+- list-buffers/buffer-menu :: cet affichage proche de l'esprit de Dired peut être utilisé pour effectué des opérations sur les buffers actuellements ouverts.
+-----> §18.9 (P165)
+    - [ ] Etape 6 : Lire les chapitres d'intérêt à partir de §20
+      
+   - W3M-EL
+[[http://thierry-pelle.eu]]
+   - Numérotation automatique des lignes
+linum-mode
+   - Trouver une méthode de correction orthographique pour emacs
+Le point principal est que pour éviter toute distraction, cette
+correction ne devra pas être intrusive. Par exemple, elle n'indiquera
+pas en temps réel les erreurs à corriger. Au mieux, on planifiera avec
+la machine une période de relecture/correction. La machine averitera
+que cette période est arrivée et si possible bloquera toute autre
+action (brutal non!).  Org-mode semble a même de pouvoir aider à
+résoudre ce problème. Il convient cependant de voir l'intégration avec
+le correcteur orthographique. (aspell/ispell)
+   - Consultation du web en emacs
+Référence: [[http://emacs-w3m.namazu.org/][Text browser works on Emacs]] 
+ Noté le [2014-05-05 lun.]
+- Lille 1 TV (à consulter)
+ 
+ http://lille1tv.univ-lille1.fr/
+   - Usage par S Chua
+Tiré de [[http://sachachua.com/blog/2012/06/things-that-ive-used-emacs-for/][Things that I’ve used Emacs for - sacha chua :: living an awesome life]]
+ • Taking notes
+      □ Storing reference information
+      □ Publishing blog posts
+  • Programming / coding
+      □ Rails
+      □ PHP / Drupal
+      □ Java
+      □ Javascript
+      □ HTML / HAML / ERB
+      □ CSS / Sass
+      □ Emacs Lisp
+      □ Ruby
+      □ Perl
+      □ SQL
+      □ Bash scripts
+  • Managing my to-do list
+  • Timing tasks
+  • Managing my finances
+  • Studying
+      □ Dictionary (Japanese)
+      □ Flashcards
+          ☆ With random fortunes displayed for correct answers
+          ☆ With random images displayed for correct answers (cute kittens!)
+      □ Example sentences lookup (Japanese)
+      □ Random example sentence added to blog posts (Japanese)
+  • Brainstorming, outlining, and mindmapping
+  • Handling my mail
+      □ Doing mail merges or file merges
+      □ Tracking correspondence
+      □ Personalizing greetings and signatures
+  • Managing contacts
+  • Writing research papers
+  • Managing my bibliography
+  • Making presentations
+      □ Planning presentations
+      □ Delivering dynamic presentations (with executable code!)
+      □ Using speech synthesis to remind myself about what’s coming in the next “slide”
+  • Reading documentation
+  • Analyzing my blog and my writing
+  • Running a shell
+  • Searching files
+  • Cleaning up, filtering, or transforming text
+      □ String and regexp replacement
+      □ Keyboard macros
+      □ Custom Emacs Lisp functions
+  • Editing files on a remote server
+  • Editing files inside an archive
+  • Reviowing and making text notes about images and other files
+  • Chatting on IRC
+  • Chatting on instant messengers
+  • Checking the calendar
+  • Playing Nethack
+  • Playing dunnet and snake
+  • Browsing the Web
+  • Posting to Twitter and other status update sites
+      □ Rigging up my to-do list to automatically publish task data to an internal status update site
+  • Calculating expressions
+  • Using a spreadsheet
+  • Exploring directories
+  • Renaming, deleting, or moving files
+  • Drawing ASCII art
+  • Reading news
+  • Comparing files or revisions
+  • Typing in Japanese or Latin
+  • Reviewing similar files
+  • Synthesizing speech – “reading” books, technical manual, mail, etc.
+  • Learning more about Emacs
+      □ Random symbols and commands
+      □ Documentation
+      □ Source code
+  • ROT13 and Morse code encryption/decryption
+  • Editing GPG-encrypted files
+  • Practising typing
+  • Opening spreadsheets and other files downloaded from the Web
+  • Taking screenshots (mostly of Nethack games)
+  • Analyzing web logs and other files
+  • Calculating days between two dates
+  • Sending text messages
+  • Analyzing source code
+  • Interacting with APIs
+  • Doing weekly, monthly, and yearly reviews
+  • Versioning my files
+  • Expanding text snippets
+  • Drafting a book
+      □ Tracking my progress
+  • Editing files as root
+  • Compiling and running programs
+  • Editing text from the browser
+
+   - FAIRE Étudier le mode font-lock
+    :PROPERTIES:
+    :ID:       82ec060b-15d2-4f72-83d4-5a1560b3d288
+    :END:
+   - FAIRE Étudier le mode transcient
+   :PROPERTIES:
+   :ID:       9c28144a-bbca-4f25-a089-356b6f73ac8e
+   :END:
+Le «Transient Mark mode» est le mode classique de séléction.  La
+région sélectionnée (et mise en surbrillance) n'est active que
+temporairement, le temps d'appliquer une commande dessus.
+
+Méthode:
+- placer la «mark» en début de région
+- déplacer le «point» (curseur) pour sélectionner la région
+- appliquer commande
+   - FAIRE Étudier la méthode classique de couper/coller/sélection d'Emacs
+    :PROPERTIES:
+    :ID:       1bd6903c-72c6-4d5c-8d36-de147d7f9b0f
+    :END:
+
+   - FAIRE Voir notion de tampon indirect 
+    :PROPERTIES:
+    :ID:       284296f3-8bc6-4510-bcba-1b345b887f4e
+    :END:
+   - Talle 80x24
+0        1         2         3         4         5         6         7         8
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+
+
+
+===============================================================================================================
+Fortnight-agenda (W50-W51):
+Monday      8 December 2014 W50
+  Médiathèques:Scheduled:  LIRE [#B] La télévision est morte... vive ma télévision [2014-11-18 mar.] :bib::livre:
+Tuesday     9 December 2014
+               8:00...... ----------------
+               9:43...... now - - - - - - - - - - - - - - - - - - - - - - - - -
+              10:00...... ----------------
+              12:00...... ----------------
+              14:00...... ----------------
+              16:00...... ----------------
+              18:00...... ----------------
+  journal:    18:30-20:30 Scheduled:  FAIRE Conférence, le Secret Lille 1
+              20:00...... ----------------
+  journal:    Scheduled:  FAIRE [#A] Réorganisation des fichiers ([2014-12-02 mar.]) :activités::
+  journal:    Scheduled:  FAIRE [#A] Contrat prestation informatique
+  projet:     Scheduled:  FAIRE [#A] Étude chapitre 33             :emacs::
+  projet:     Scheduled:  [#A] Programmation fonctionnelle        :python::
+  projet:     Scheduled:  [#A] Références complémentaires             :PL::
+  projets:    (1/7):  FAIRE [#A] Tri Documents projets       :projets::
+  Médiathèques:Sched. 2x:  LIRE [#B] La télévision est morte... vive ma télévision [2014-11-18 mar.] :bib::livre:
+  moocs:      Scheduled:  FAIRE Semaine 1                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE [#B] Semaine 2               :hebdo:crime::
+  journal:    Scheduled:  FAIRE Réorganiser journée sans matériels informatiques
+  journal:    Scheduled:  FAIRE Rechercher ''Yes we cook'' BMLille
+  Médiathèques:Deadline:   RETOURNER [#C] Symphonie n°1 (Bruckner) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:Deadline:   RETOURNER [#C] Symphonie n°3 (Bruckner) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:Deadline:   RETOURNER [#C] Symphonie n°5 (Chostakovitch) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:Deadline:   RETOURNER [#C] Les Vélins Carminae [2014-11-18 mar.] :bib::livre:
+  Médiathèques:Deadline:   RETOURNER [#C] Buffy (Saison 4) [2014-11-18 mar.] :bib::dvd:
+  Médiathèques:Deadline:   RETOURNER [#C] After extra time (Nyman) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:[#C] Médiathèque Fives         :bib:lille::fives:
+  perso:      FAIRE [#B] D:SOIR                :quotidien:sdb::
+  perso:      FAIRE [#A] D:MATIN               :quotidien:sdb::
+  perso:      FAIRE [#B] Rasage                :quotidien:sdb::
+  perso:      FAIRE [#B] Bain                  :quotidien:sdb::
+Wednesday  10 December 2014
+  journal:    Scheduled:  FAIRE [#A] Étude coût petit déjeuner     :hebdo::
+  projet:     Scheduled:  FAIRE [#A] Tri pour lecture / pertinence :PL:trier::
+  projets:    (2/7):  FAIRE [#A] Tri Documents projets       :projets::
+  perso:      Scheduled:  FAIRE Nouvelle campagne de mesure Plaque :appart::
+  projet:     Scheduled:  FAIRE Imprimer et/ou relire de façon plus approfondie :PL:lectures:ATTACH::
+  projet:     Scheduled:  FAIRE [#B] Notes sur ''A case for comtemporary Literate Programming'' :PL:lectures::ATTACH:
+  projet:     Scheduled:  FAIRE [#B] Notes sur ''Requirements for an Elucidative Programming Environment'' :PL:lectures::ATTACH:
+  projet:     Scheduled:  FAIRE Remarques personnelles                :PL::
+  prestation: Scheduled:  FAIRE Contacter F. Paturot pour migration STIC :e19:téléphone:délégué::suivi:
+  Médiathèques:Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+Thursday   11 December 2014
+  Médiathèques: 9:00-18:30 Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+  projets:    (3/7):  FAIRE [#A] Tri Documents projets       :projets::
+Friday     12 December 2014
+  perso:      14:00...... Scheduled:  FAIRE Consommation moyenne EDF globale (compteur) :appart::
+  perso:      14:00...... Scheduled:  FAIRE Consommation moyenne annuelle EDF globale (compteur) :appart::
+  projets:    (4/7):  FAIRE [#A] Tri Documents projets       :projets::
+  moocs:      Scheduled:  FAIRE Semaine 2                    :hebdo:ecoue::
+  moocs:      Scheduled:  FAIRE Semaine 7                    :hebdo:média::
+  moocs:      Scheduled:  FAIRE Reprise S1,S2,S3             :hebdo:média::
+  projet:     Scheduled:  FAIRE [[info:eintr#append-to-buffer][Manuel 4.4]] ---- Reprendre ici (fonction complexe) ---- :emacs:elisp::
+  projets:    Scheduled:  FAIRE Sciences Humaines (n° Oct 2014)  :projets::
+Saturday   13 December 2014
+  moocs:      Scheduled:  FAIRE [#A] Semaine 3               :hebdo:crime::
+  projets:    (5/7):  FAIRE [#A] Tri Documents projets       :projets::
+  journal:    Scheduled:  FAIRE Traiter courriers         :hebdo::courrier:
+  moocs:      Scheduled:  FAIRE Semaine 6                    :hebdo:média::
+  moocs:      Scheduled:  FAIRE Semaine 2                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 4                    :hebdo:crime::
+  moocs:      Scheduled:  FAIRE Semaine 5                    :hebdo:crime::
+  journal:    Scheduled:  Podcasts                             :activités::
+  journal:    Scheduled:  podcasts organisation                :activités::
+  journal:    Scheduled:  FAIRE Prévision compta 2015              :compta:
+  journal:    Scheduled:  FAIRE Choix des documents publics/privés
+  journal:    Scheduled:  FAIRE Organisation documents publics sur domaine
+  journal:    Scheduled:  FAIRE Étude répartition dépenses 2014
+  journal:    Scheduled:  FAIRE Mode batch ou temps réél impacts/philosophie/usage
+  journal:    Scheduled:  FAIRE Répartir dépenses EDF abonnement/consommation
+  journal:    Scheduled:  FAIRE Chercher ArduinoEsplora
+  journal:    Scheduled:  FAIRE Utilitaire de mesure consommation ADSL
+  journal:    Scheduled:  FAIRE Test PP sur Org
+  journal:    Scheduled:  FAIRE Langage Icon ?????
+  journal:    Scheduled:  FAIRE Voir ''programmation impérative''
+  journal:    Scheduled:  FAIRE Voir ressources framasoft
+  projet:     Scheduled:  FAIRE WORG : Analyse structure du document Worg :orgmode::exemples:
+  projet:     Scheduled:  FAIRE Reprendre notes manuscriptes      :calcul::
+  Médiathèques:Médiathèque Villeneuve-Asq    :bib:bm:autre::Asq:
+Sunday     14 December 2014
+  projets:    (6/7):  FAIRE [#A] Tri Documents projets       :projets::
+  moocs:      Scheduled:  Semaine 6                          :hebdo:ecoue::
+  loisirs:    Scheduled:  FAIRE F3: Murdock              :hebdo:tv::replay:
+  Médiathèques:Scheduled:  LIRE [#B] Le Cid [2014-11-18 mar.]      :bib::cd:
+Monday     15 December 2014 W51
+  projets:    (7/7):  FAIRE [#A] Tri Documents projets       :projets::
+  moocs:      Scheduled:  FAIRE Semaine 3             :hebdo:ecoue::ATTACH:
+  moocs:      Scheduled:  FAIRE Semaine 3                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 5                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 7                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 6                    :hebdo:crime::
+  moocs:      Scheduled:  FAIRE Semaine 7                    :hebdo:crime::
+  journal:    Scheduled:  FAIRE Fabriquer müesli
+  journal:    Scheduled:  FAIRE Partager certaines ressources
+  projet:     Scheduled:  FAIRE Étude chapitre 30                  :emacs::
+  projet:     Scheduled:  31.4 : Emacs server                      :emacs::
+  projet:     Scheduled:  FAIRE Reprise chaptres 14+               :emacs::
+  projet:     Deadline:   FAIRE Étude chapitre 30                  :emacs::
+Tuesday    16 December 2014
+  moocs:      Scheduled:  FAIRE Semaine 5                    :hebdo:ecoue::
+  moocs:      Scheduled:  FAIRE Reprise S4,S4,S5             :hebdo:média::
+  moocs:      Scheduled:  FAIRE Semaine 6                   :hebdo:python::
+  projet:     Scheduled:  FAIRE 31.9 : Recursive edition ; 31.11 : Hyperlinks :emacs::
+  Médiathèques:[#C] Médiathèque Fives         :bib:lille::fives:
+Wednesday  17 December 2014
+  projet:     Scheduled:  FAIRE [#B] Sur ''Note taking as an Art of Transmission'' :notes:lectures::blair:2004:
+  projet:     Scheduled:  FAIRE [#B] Sur ''Opening the Early Modern Toolbox'' :notes:lectures::Schofield:weber:
+  journal:    Deadline:   FAIRE Étude durée de vie confiture       :hebdo::
+  Médiathèques:Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+Thursday   18 December 2014
+  Médiathèques: 9:00-18:30 Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+Friday     19 December 2014
+  Médiathèques:14:00-18:00 Médiathèque Marq en Baroeul :bib:bm:autre:Lomme::Marq:
+  moocs:      Scheduled:  FAIRE Reprise S6,S7                :hebdo:média::
+  projet:     Scheduled:  FAIRE [#C] Sur ''lire et rédiger a la fac'' {BMMq 374.11 BOEG} edition 2005 :notes::
+  projet:     Scheduled:  [#C] Techniques de lecture rapide (Exercices) :notes:chevalier::
+  projet:     Scheduled:  FAIRE [#C] Voir méthodes de prises de notes proposées :notes:chevalier::
+Saturday   20 December 2014
+  journal:    Scheduled:  FAIRE Traiter courriers         :hebdo::courrier:
+  journal:    Scheduled:  FAIRE Imprimer manuel Ledger 3
+  Médiathèques:Médiathèque Villeneuve-Asq    :bib:bm:autre::Asq:
+  Médiathèques:Médiathèque Roubaix       :bib:bm:autre::Roubaix:
+Sunday     21 December 2014
+  journal:    Scheduled:  FAIRE Tri mél                        :hebdo::mél:
+  moocs:      Scheduled:  FAIRE [#B] Semaine 4               :hebdo:ecoue::
+  loisirs:    Scheduled:  FAIRE F3: Murdock              :hebdo:tv::replay:
+  journal:    Scheduled:  FAIRE [#B] Choix d'une solution de sauvegarde.
+  journal:    Scheduled:  FAIRE [#B] Choix d'un support de sauvegarde.
+  journal:    Scheduled:  FAIRE Imprimer les exports de documents ORG comme archives.
+  journal:    Scheduled:  FAIRE Trouver une méthode pour cataloguer les archives
+  perso:      [#C] Lessive                            :appart::
+
+===============================================================================================================
+Global list of TODO items of type: ALL
+  perso:      FAIRE [#A] D:MATIN               :quotidien:sdb::
+  moocs:      FAIRE [#A] Semaine 3               :hebdo:crime::
+  journal:    FAIRE [#A] Étude coût petit déjeuner     :hebdo::
+  journal:    FAIRE [#A] Réorganisation des fichiers ([2014-12-02 mar.]) :activités::
+  journal:    FAIRE [#A] Tri docs EVON             :activités::
+  journal:    FAIRE [#A] Contrat prestation informatique
+  perso:      FAIRE [#A] Consommation journalière moyenne EAU :appart::
+  perso:      FAIRE [#A] Consommation journalière moyenne annuelle EAU :appart::
+  projet:     FAIRE [#A] Étude chapitre 33             :emacs::
+  projet:     FAIRE [#A] Tri pour lecture / pertinence :PL:trier::
+  projets:    FAIRE [#A] Tri Documents projets       :projets::
+  projet:     FAIRE [#A] Le DOM.                   :doc_actif::
+  projet:     FAIRE [#A] Questions:                :doc_actif::
+  projet:     FAIRE [#A] Est-il possible de réaliser un outil canevas réalisant cette opération? :doc_actif::
+  perso:      FAIRE MAJ Compta              :quotidien::compta:
+  perso:      FAIRE [#B] Rasage                :quotidien:sdb::
+  perso:      FAIRE Douche                     :quotidien:sdb::
+  perso:      FAIRE [#B] Bain                  :quotidien:sdb::
+  perso:      FAIRE [#B] D:SOIR                :quotidien:sdb::
+  journal:    FAIRE Traiter courriers         :hebdo::courrier:
+  journal:    FAIRE Tri mél                        :hebdo::mél:
+  moocs:      FAIRE Semaine 2                    :hebdo:ecoue::
+  moocs:      FAIRE Semaine 3             :hebdo:ecoue::ATTACH:
+  moocs:      FAIRE [#B] Semaine 4               :hebdo:ecoue::
+  moocs:      FAIRE Semaine 5                    :hebdo:ecoue::
+  moocs:      FAIRE Semaine 6                    :hebdo:média::
+  moocs:      FAIRE Semaine 7                    :hebdo:média::
+  moocs:      FAIRE Reprise S1,S2,S3             :hebdo:média::
+  moocs:      FAIRE Reprise S4,S4,S5             :hebdo:média::
+  moocs:      FAIRE Reprise S6,S7                :hebdo:média::
+  moocs:      FAIRE Initiation Python           :hebdo::python:
+  moocs:      FAIRE Semaine 1                   :hebdo:python::
+  moocs:      FAIRE Semaine 2                   :hebdo:python::
+  moocs:      FAIRE Semaine 3                   :hebdo:python::
+  moocs:      FAIRE Semain  4                   :hebdo:python::
+  moocs:      FAIRE Semaine 5                   :hebdo:python::
+  moocs:      FAIRE Semaine 6                   :hebdo:python::
+  moocs:      FAIRE Semaine 7                   :hebdo:python::
+  moocs:      FAIRE Semaine 8                   :hebdo:python::
+  moocs:      FAIRE [#B] Semaine 2               :hebdo:crime::
+  moocs:      FAIRE Semaine 4                    :hebdo:crime::
+  moocs:      FAIRE Semaine 5                    :hebdo:crime::
+  moocs:      FAIRE Semaine 6                    :hebdo:crime::
+  moocs:      FAIRE Semaine 7                    :hebdo:crime::
+  loisirs:    FAIRE F3: Murdock              :hebdo:tv::replay:
+  journal:    FAIRE Étude durée de vie confiture       :hebdo::
+  journal:    FAIRE Sauvegarde sur DVD                 :hebdo::
+  journal:    FAIRE Sauvegarde EVON        :hebdo::équipements:
+  journal:    FAIRE Tri de EVON/Projets/Documentation :activités::
+  journal:    FAIRE Tri docs CQ 62          :activités::URGENT:
+  journal:    FAIRE Prévision compta 2015              :compta:
+  journal:    FAIRE Politique de sauvegarde
+  journal:    FAIRE [#B] Choix d'une solution de sauvegarde.
+  journal:    FAIRE [#B] Choix d'un support de sauvegarde.
+  journal:    FAIRE Choix des documents publics/privés
+  journal:    FAIRE Imprimer les exports de documents ORG comme archives.
+  journal:    FAIRE Trouver une méthode pour cataloguer les archives
+  journal:    FAIRE Organisation documents public
+  journal:    FAIRE Organisation documents publics sur domaine
+  journal:    FAIRE Refaire CV
+  journal:    FAIRE Réorganiser journée sans matériels informatiques
+  journal:    FAIRE Étude répartition dépenses 2014
+  journal:    FAIRE Attestation Assurance LMH
+  journal:    FAIRE Déterminer coût moyen horaire France 2015
+  journal:    FAIRE Tri docs soliavos
+  journal:    FAIRE Mode batch ou temps réél impacts/philosophie/usage
+  journal:    FAIRE Comment envoyer un doc de CQ62 à EVON.
+  journal:    FAIRE Séparer les comptes EVON Pro et Perso
+  journal:    FAIRE Resto traditionnel = 1 par trimestre
+  journal:    FAIRE Resto rapide = 1 par semaine
+  journal:    FAIRE 2015: préparer repas 4 heures par jour
+  journal:    FAIRE 2015 : Abonnement Med Tg 51€
+  journal:    FAIRE Visiter exposition maison natale Ch. de Gaulle
+  journal:    FAIRE Rechercher ''La prise de notes au collège''
+  journal:    FAIRE Clavier BT sous Linux.
+  journal:    FAIRE Emacs/Org sous Androïd (root Androïd)
+  journal:    FAIRE Imprimer ou scanner P48-56 (''texte, hypertexte, hypermédia'')
+  journal:    FAIRE Enclyclopédié Universalis (Article ''Internet''
+  journal:    FAIRE Fabriquer müesli
+  journal:    FAIRE Répartir dépenses EDF abonnement/consommation
+  journal:    FAIRE Passer LMH pour Attestation assurance
+  journal:    FAIRE Imprimer manuel Ledger 3
+  journal:    FAIRE Chercher ArduinoEsplora
+  journal:    FAIRE Utilitaire de mesure consommation ADSL
+  journal:    FAIRE Test PrettyPrint
+  journal:    FAIRE Test PP sur Org
+  journal:    FAIRE Langage Icon ?????
+  journal:    FAIRE Voir ''programmation impérative''
+  journal:    FAIRE Voir Auctex
+  journal:    FAIRE Prévoir CFE 2016
+  journal:    FAIRE Rechercher ''Yes we cook'' BMLille
+  journal:    FAIRE Voir ressources framasoft
+  journal:    FAIRE Conférence, le Secret Lille 1
+  journal:    FAIRE Partager certaines ressources
+  journal:    FAIRE Voir possibilité de modifier la gestion des hyperliens firefox
+  journal:    FAIRE Voir possibilité de déprogrammer (SCHEDULE) lors du passage à ''FAIT''
+  Médiathèques:LIRE [#B] La télévision est morte... vive ma télévision [2014-11-18 mar.] :bib::livre:
+  Médiathèques:LIRE [#B] Le Cid [2014-11-18 mar.]      :bib::cd:
+  journal:    FAIRE Voir l' ''affaire des 14" (R. Darnton) :bib::
+  journal:    FAIRE Rechercher ''Is Google Making Us Stupid?'' (The Atlantic Juillet 2008) :bib::
+  perso:      FAIRE Nouvelle campagne de mesure Plaque :appart::
+  perso:      FAIRE Consommation moyenne EDF globale (compteur) :appart::
+  perso:      FAIRE Consommation moyenne annuelle EDF globale (compteur) :appart::
+  perso:      FAIRE [#B] Jeter recyclables            :appart::
+  perso:      FAIRE Jeter non recyclable              :appart::
+  projet:     FAIRE Étude chapitre 30                  :emacs::
+  projet:     FAIRE Étude chapitre 31                  :emacs::
+  projet:     FAIRE 31.9 : Recursive edition ; 31.11 : Hyperlinks :emacs::
+  projet:     FAIRE Reprise chaptres 14+               :emacs::
+  projet:     COURANT Notions avancées : §16--§18      :emacs::
+  projet:     FAIRE Trier Documentation Web            :emacs::
+  projet:     FAIRE Sur ''COMMON LISP''           :emacs::lisp:
+  projet:     FAIRE [[info:eintr#append-to-buffer][Manuel 4.4]] ---- Reprendre ici (fonction complexe) ---- :emacs:elisp::
+  projet:     FAIRE Étudier le mode font-lock          :emacs::
+  projet:     FAIRE Étudier le mode transcient         :emacs::
+  projet:     FAIRE Étudier la méthode classique de couper/coller/sélection d'Emacs :emacs::
+  projet:     FAIRE Voir notion de tampon indirect     :emacs::
+  projet:     FAIRE Étudier les techniques de programmation lettrée :orgmode::
+  projet:     COURANT Org-Mode                :orgmode::ATTACH:
+  projet:     FAIRE [#B] (Trier/exploiter) Outils Connexes :orgmode::
+  projet:     FAIRE WORG : Analyse structure du document Worg :orgmode::exemples:
+  projet:     FAIRE [#B] Étude récupération données depuis FUN :autoweb::fun:
+  projet:     FAIRE Sur ''Too much to know'' :notes:lectures::blair:2010:
+  projet:     FAIRE [#B] Sur ''Note taking as an Art of Transmission'' :notes:lectures::blair:2004:
+  projet:     FAIRE [#B] Sur ''Opening the Early Modern Toolbox'' :notes:lectures::Schofield:weber:
+  projet:     FAIRE [#B] Outils nécessaires à un environnement de prise de notes :notes::relire:
+  projet:     FAIRE [#B] Idées diverses         :notes:relire::
+  projet:     FAIRE Voir *zotero*               :notes:relire::
+  projet:     FAIRE [#B] Outils pratiques et leur interconnexion :notes:relire::
+  projet:     FAIRE [#B] Utiliser la fonction d'export ''locale'' lors des relectures :notes:relire::
+  projet:     FAIRE Usage du Zotero + mise en pratique :notes::
+  projet:     FAIRE Sur ''Lecture et prise de notes'' :notes::chevalier:
+  projet:     FAIRE Ressources web     :hypertexte:html:html5::
+  projet:     FAIRE Sur Partie 1   :hypertexte:lectures:h2ptm::
+  projet:     FAIRE Sur ''Texte, hypertexte, hypermédia'' :hypertexte:lectures::qsj:2629:
+  projet:     FAIRE [#B] ----> Chapitre IV :hypertexte:lectures:qsj:2629::
+  projet:     FAIRE Sur ''Du papyrus à l'hypertexte'' :hypertexte:lectures::papyrus:ATTACH:
+  projet:     FAIRE Rechercher              :hypertexte:idées::
+  projet:     FAIRE Voir ''Hypertexte et processus cognitif'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Saut technologiques et ruptures dans les modes de représentation'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Techniques avancées pour hypertexte'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Histoire et informatique'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Nouvelles technologie de l'information : ... étude centrée sur l'hypertexte'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Hypermédia et apprentissage'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Texte et ordinateur: les mutations du lire-écrire'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Hypermedia et literacy studies'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Hypertexte et information documentaire'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Créer à l'ère numérique'' {BML3} :hypertexte:références::
+  projet:     FAIRE Rechercher ''Métaconnaissance'' (J. Pitrat) (1990) :hypertexte:références::
+  projet:     FAIRE Codage de la partie gestion des liens de org :hypertexte::code:
+  projet:     ATTENTE Publier code (en particulier faire savoir à Bastien) :hypertexte:code::
+  projet:     FAIRE Imprimer et/ou relire de façon plus approfondie :PL:lectures:ATTACH::
+  projet:     FAIRE [#B] Notes sur ''A case for comtemporary Literate Programming'' :PL:lectures::ATTACH:
+  projet:     FAIRE [#B] Notes sur ''Requirements for an Elucidative Programming Environment'' :PL:lectures::ATTACH:
+  projet:     FAIRE Exemples programmes            :PL::ATTACH:
+  projet:     FAIRE Nuweb                          :PL::ATTACH:
+  projet:     FAIRE Sweave : outil d'implémentation RR avec R et des idées de LP :PL::ATTACH:
+  projet:     FAIRE NoWeb                          :PL::ATTACH:
+  projet:     FAIRE Remarques personnelles                :PL::
+  projets:    FAIRE Sciences Humaines (n° Oct 2014)  :projets::
+  projet:     FAIRE Document électronique dynamique {BUL3 005.72 DOC} :doc_actif::
+  projet:     FAIRE Recherche Laboratoire GERIICO  :doc_actif::
+  prestation: FAIRE Contacter F. Paturot pour migration STIC :e19:téléphone:délégué::suivi:
+  projet:     FAIRE Sur ''Initiation à la logique mathématique'' :logique:
+  projet:     FAIRE Voir preuve de Cantor-Bernstein  :logique::
+  projet:     FAIRE Sur ''les métamorphoses du calcul'' (G.Dowek, 2007) {BMVasq 511 HIS} :calcul:
+  projet:     FAIRE Reprendre notes manuscriptes      :calcul::
+  projet:     FAIRE Sur ''Le langage des machines'' {BUL1 511.3 FLO} :langage:
+  projet:     FAIRE [#C] Sur ''lire et rédiger a la fac'' {BMMq 374.11 BOEG} edition 2005 :notes::
+  projet:     FAIRE [#C] Voir méthodes de prises de notes proposées :notes:chevalier::
+
+===============================================================================================================
+Fortnight-agenda (W50-W51):
+Monday      8 December 2014 W50
+  Médiathèques:Scheduled:  LIRE [#B] La télévision est morte... vive ma télévision [2014-11-18 mar.] :bib::livre:
+Tuesday     9 December 2014
+               8:00...... ----------------
+               9:43...... now - - - - - - - - - - - - - - - - - - - - - - - - -
+              10:00...... ----------------
+              12:00...... ----------------
+              14:00...... ----------------
+              16:00...... ----------------
+              18:00...... ----------------
+  journal:    18:30-20:30 Scheduled:  FAIRE Conférence, le Secret Lille 1
+              20:00...... ----------------
+  journal:    Scheduled:  FAIRE [#A] Réorganisation des fichiers ([2014-12-02 mar.]) :activités::
+  journal:    Scheduled:  FAIRE [#A] Contrat prestation informatique
+  projet:     Scheduled:  FAIRE [#A] Étude chapitre 33             :emacs::
+  projet:     Scheduled:  [#A] Programmation fonctionnelle        :python::
+  projet:     Scheduled:  [#A] Références complémentaires             :PL::
+  projets:    (1/7):  FAIRE [#A] Tri Documents projets       :projets::
+  Médiathèques:Sched. 2x:  LIRE [#B] La télévision est morte... vive ma télévision [2014-11-18 mar.] :bib::livre:
+  moocs:      Scheduled:  FAIRE Semaine 1                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE [#B] Semaine 2               :hebdo:crime::
+  journal:    Scheduled:  FAIRE Réorganiser journée sans matériels informatiques
+  journal:    Scheduled:  FAIRE Rechercher ''Yes we cook'' BMLille
+  Médiathèques:Deadline:   RETOURNER [#C] Symphonie n°1 (Bruckner) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:Deadline:   RETOURNER [#C] Symphonie n°3 (Bruckner) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:Deadline:   RETOURNER [#C] Symphonie n°5 (Chostakovitch) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:Deadline:   RETOURNER [#C] Les Vélins Carminae [2014-11-18 mar.] :bib::livre:
+  Médiathèques:Deadline:   RETOURNER [#C] Buffy (Saison 4) [2014-11-18 mar.] :bib::dvd:
+  Médiathèques:Deadline:   RETOURNER [#C] After extra time (Nyman) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:[#C] Médiathèque Fives         :bib:lille::fives:
+  perso:      FAIRE [#B] D:SOIR                :quotidien:sdb::
+  perso:      FAIRE [#A] D:MATIN               :quotidien:sdb::
+  perso:      FAIRE [#B] Rasage                :quotidien:sdb::
+  perso:      FAIRE [#B] Bain                  :quotidien:sdb::
+Wednesday  10 December 2014
+  journal:    Scheduled:  FAIRE [#A] Étude coût petit déjeuner     :hebdo::
+  projet:     Scheduled:  FAIRE [#A] Tri pour lecture / pertinence :PL:trier::
+  projets:    (2/7):  FAIRE [#A] Tri Documents projets       :projets::
+  perso:      Scheduled:  FAIRE Nouvelle campagne de mesure Plaque :appart::
+  projet:     Scheduled:  FAIRE Imprimer et/ou relire de façon plus approfondie :PL:lectures:ATTACH::
+  projet:     Scheduled:  FAIRE [#B] Notes sur ''A case for comtemporary Literate Programming'' :PL:lectures::ATTACH:
+  projet:     Scheduled:  FAIRE [#B] Notes sur ''Requirements for an Elucidative Programming Environment'' :PL:lectures::ATTACH:
+  projet:     Scheduled:  FAIRE Remarques personnelles                :PL::
+  prestation: Scheduled:  FAIRE Contacter F. Paturot pour migration STIC :e19:téléphone:délégué::suivi:
+  Médiathèques:Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+Thursday   11 December 2014
+  Médiathèques: 9:00-18:30 Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+  projets:    (3/7):  FAIRE [#A] Tri Documents projets       :projets::
+Friday     12 December 2014
+  perso:      14:00...... Scheduled:  FAIRE Consommation moyenne EDF globale (compteur) :appart::
+  perso:      14:00...... Scheduled:  FAIRE Consommation moyenne annuelle EDF globale (compteur) :appart::
+  projets:    (4/7):  FAIRE [#A] Tri Documents projets       :projets::
+  moocs:      Scheduled:  FAIRE Semaine 2                    :hebdo:ecoue::
+  moocs:      Scheduled:  FAIRE Semaine 7                    :hebdo:média::
+  moocs:      Scheduled:  FAIRE Reprise S1,S2,S3             :hebdo:média::
+  projet:     Scheduled:  FAIRE [[info:eintr#append-to-buffer][Manuel 4.4]] ---- Reprendre ici (fonction complexe) ---- :emacs:elisp::
+  projets:    Scheduled:  FAIRE Sciences Humaines (n° Oct 2014)  :projets::
+Saturday   13 December 2014
+  moocs:      Scheduled:  FAIRE [#A] Semaine 3               :hebdo:crime::
+  projets:    (5/7):  FAIRE [#A] Tri Documents projets       :projets::
+  journal:    Scheduled:  FAIRE Traiter courriers         :hebdo::courrier:
+  moocs:      Scheduled:  FAIRE Semaine 6                    :hebdo:média::
+  moocs:      Scheduled:  FAIRE Semaine 2                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 4                    :hebdo:crime::
+  moocs:      Scheduled:  FAIRE Semaine 5                    :hebdo:crime::
+  journal:    Scheduled:  Podcasts                             :activités::
+  journal:    Scheduled:  podcasts organisation                :activités::
+  journal:    Scheduled:  FAIRE Prévision compta 2015              :compta:
+  journal:    Scheduled:  FAIRE Choix des documents publics/privés
+  journal:    Scheduled:  FAIRE Organisation documents publics sur domaine
+  journal:    Scheduled:  FAIRE Étude répartition dépenses 2014
+  journal:    Scheduled:  FAIRE Mode batch ou temps réél impacts/philosophie/usage
+  journal:    Scheduled:  FAIRE Répartir dépenses EDF abonnement/consommation
+  journal:    Scheduled:  FAIRE Chercher ArduinoEsplora
+  journal:    Scheduled:  FAIRE Utilitaire de mesure consommation ADSL
+  journal:    Scheduled:  FAIRE Test PP sur Org
+  journal:    Scheduled:  FAIRE Langage Icon ?????
+  journal:    Scheduled:  FAIRE Voir ''programmation impérative''
+  journal:    Scheduled:  FAIRE Voir ressources framasoft
+  projet:     Scheduled:  FAIRE WORG : Analyse structure du document Worg :orgmode::exemples:
+  projet:     Scheduled:  FAIRE Reprendre notes manuscriptes      :calcul::
+  Médiathèques:Médiathèque Villeneuve-Asq    :bib:bm:autre::Asq:
+Sunday     14 December 2014
+  projets:    (6/7):  FAIRE [#A] Tri Documents projets       :projets::
+  moocs:      Scheduled:  Semaine 6                          :hebdo:ecoue::
+  loisirs:    Scheduled:  FAIRE F3: Murdock              :hebdo:tv::replay:
+  Médiathèques:Scheduled:  LIRE [#B] Le Cid [2014-11-18 mar.]      :bib::cd:
+Monday     15 December 2014 W51
+  projets:    (7/7):  FAIRE [#A] Tri Documents projets       :projets::
+  moocs:      Scheduled:  FAIRE Semaine 3             :hebdo:ecoue::ATTACH:
+  moocs:      Scheduled:  FAIRE Semaine 3                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 5                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 7                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 6                    :hebdo:crime::
+  moocs:      Scheduled:  FAIRE Semaine 7                    :hebdo:crime::
+  journal:    Scheduled:  FAIRE Fabriquer müesli
+  journal:    Scheduled:  FAIRE Partager certaines ressources
+  projet:     Scheduled:  FAIRE Étude chapitre 30                  :emacs::
+  projet:     Scheduled:  31.4 : Emacs server                      :emacs::
+  projet:     Scheduled:  FAIRE Reprise chaptres 14+               :emacs::
+  projet:     Deadline:   FAIRE Étude chapitre 30                  :emacs::
+Tuesday    16 December 2014
+  moocs:      Scheduled:  FAIRE Semaine 5                    :hebdo:ecoue::
+  moocs:      Scheduled:  FAIRE Reprise S4,S4,S5             :hebdo:média::
+  moocs:      Scheduled:  FAIRE Semaine 6                   :hebdo:python::
+  projet:     Scheduled:  FAIRE 31.9 : Recursive edition ; 31.11 : Hyperlinks :emacs::
+  Médiathèques:[#C] Médiathèque Fives         :bib:lille::fives:
+Wednesday  17 December 2014
+  projet:     Scheduled:  FAIRE [#B] Sur ''Note taking as an Art of Transmission'' :notes:lectures::blair:2004:
+  projet:     Scheduled:  FAIRE [#B] Sur ''Opening the Early Modern Toolbox'' :notes:lectures::Schofield:weber:
+  journal:    Deadline:   FAIRE Étude durée de vie confiture       :hebdo::
+  Médiathèques:Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+Thursday   18 December 2014
+  Médiathèques: 9:00-18:30 Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+Friday     19 December 2014
+  Médiathèques:14:00-18:00 Médiathèque Marq en Baroeul :bib:bm:autre:Lomme::Marq:
+  moocs:      Scheduled:  FAIRE Reprise S6,S7                :hebdo:média::
+  projet:     Scheduled:  FAIRE [#C] Sur ''lire et rédiger a la fac'' {BMMq 374.11 BOEG} edition 2005 :notes::
+  projet:     Scheduled:  [#C] Techniques de lecture rapide (Exercices) :notes:chevalier::
+  projet:     Scheduled:  FAIRE [#C] Voir méthodes de prises de notes proposées :notes:chevalier::
+Saturday   20 December 2014
+  journal:    Scheduled:  FAIRE Traiter courriers         :hebdo::courrier:
+  journal:    Scheduled:  FAIRE Imprimer manuel Ledger 3
+  Médiathèques:Médiathèque Villeneuve-Asq    :bib:bm:autre::Asq:
+  Médiathèques:Médiathèque Roubaix       :bib:bm:autre::Roubaix:
+Sunday     21 December 2014
+  journal:    Scheduled:  FAIRE Tri mél                        :hebdo::mél:
+  moocs:      Scheduled:  FAIRE [#B] Semaine 4               :hebdo:ecoue::
+  loisirs:    Scheduled:  FAIRE F3: Murdock              :hebdo:tv::replay:
+  journal:    Scheduled:  FAIRE [#B] Choix d'une solution de sauvegarde.
+  journal:    Scheduled:  FAIRE [#B] Choix d'un support de sauvegarde.
+  journal:    Scheduled:  FAIRE Imprimer les exports de documents ORG comme archives.
+  journal:    Scheduled:  FAIRE Trouver une méthode pour cataloguer les archives
+  perso:      [#C] Lessive                            :appart::
+
+===============================================================================================================
+Global list of TODO items of type: ALL
+  perso:      FAIRE [#A] D:MATIN               :quotidien:sdb::
+  moocs:      FAIRE [#A] Semaine 3               :hebdo:crime::
+  journal:    FAIRE [#A] Étude coût petit déjeuner     :hebdo::
+  journal:    FAIRE [#A] Réorganisation des fichiers ([2014-12-02 mar.]) :activités::
+  journal:    FAIRE [#A] Tri docs EVON             :activités::
+  journal:    FAIRE [#A] Contrat prestation informatique
+  perso:      FAIRE [#A] Consommation journalière moyenne EAU :appart::
+  perso:      FAIRE [#A] Consommation journalière moyenne annuelle EAU :appart::
+  projet:     FAIRE [#A] Étude chapitre 33             :emacs::
+  projet:     FAIRE [#A] Tri pour lecture / pertinence :PL:trier::
+  projets:    FAIRE [#A] Tri Documents projets       :projets::
+  projet:     FAIRE [#A] Le DOM.                   :doc_actif::
+  projet:     FAIRE [#A] Questions:                :doc_actif::
+  projet:     FAIRE [#A] Est-il possible de réaliser un outil canevas réalisant cette opération? :doc_actif::
+  perso:      FAIRE MAJ Compta              :quotidien::compta:
+  perso:      FAIRE [#B] Rasage                :quotidien:sdb::
+  perso:      FAIRE Douche                     :quotidien:sdb::
+  perso:      FAIRE [#B] Bain                  :quotidien:sdb::
+  perso:      FAIRE [#B] D:SOIR                :quotidien:sdb::
+  journal:    FAIRE Traiter courriers         :hebdo::courrier:
+  journal:    FAIRE Tri mél                        :hebdo::mél:
+  moocs:      FAIRE Semaine 2                    :hebdo:ecoue::
+  moocs:      FAIRE Semaine 3             :hebdo:ecoue::ATTACH:
+  moocs:      FAIRE [#B] Semaine 4               :hebdo:ecoue::
+  moocs:      FAIRE Semaine 5                    :hebdo:ecoue::
+  moocs:      FAIRE Semaine 6                    :hebdo:média::
+  moocs:      FAIRE Semaine 7                    :hebdo:média::
+  moocs:      FAIRE Reprise S1,S2,S3             :hebdo:média::
+  moocs:      FAIRE Reprise S4,S4,S5             :hebdo:média::
+  moocs:      FAIRE Reprise S6,S7                :hebdo:média::
+  moocs:      FAIRE Initiation Python           :hebdo::python:
+  moocs:      FAIRE Semaine 1                   :hebdo:python::
+  moocs:      FAIRE Semaine 2                   :hebdo:python::
+  moocs:      FAIRE Semaine 3                   :hebdo:python::
+  moocs:      FAIRE Semain  4                   :hebdo:python::
+  moocs:      FAIRE Semaine 5                   :hebdo:python::
+  moocs:      FAIRE Semaine 6                   :hebdo:python::
+  moocs:      FAIRE Semaine 7                   :hebdo:python::
+  moocs:      FAIRE Semaine 8                   :hebdo:python::
+  moocs:      FAIRE [#B] Semaine 2               :hebdo:crime::
+  moocs:      FAIRE Semaine 4                    :hebdo:crime::
+  moocs:      FAIRE Semaine 5                    :hebdo:crime::
+  moocs:      FAIRE Semaine 6                    :hebdo:crime::
+  moocs:      FAIRE Semaine 7                    :hebdo:crime::
+  loisirs:    FAIRE F3: Murdock              :hebdo:tv::replay:
+  journal:    FAIRE Étude durée de vie confiture       :hebdo::
+  journal:    FAIRE Sauvegarde sur DVD                 :hebdo::
+  journal:    FAIRE Sauvegarde EVON        :hebdo::équipements:
+  journal:    FAIRE Tri de EVON/Projets/Documentation :activités::
+  journal:    FAIRE Tri docs CQ 62          :activités::URGENT:
+  journal:    FAIRE Prévision compta 2015              :compta:
+  journal:    FAIRE Politique de sauvegarde
+  journal:    FAIRE [#B] Choix d'une solution de sauvegarde.
+  journal:    FAIRE [#B] Choix d'un support de sauvegarde.
+  journal:    FAIRE Choix des documents publics/privés
+  journal:    FAIRE Imprimer les exports de documents ORG comme archives.
+  journal:    FAIRE Trouver une méthode pour cataloguer les archives
+  journal:    FAIRE Organisation documents public
+  journal:    FAIRE Organisation documents publics sur domaine
+  journal:    FAIRE Refaire CV
+  journal:    FAIRE Réorganiser journée sans matériels informatiques
+  journal:    FAIRE Étude répartition dépenses 2014
+  journal:    FAIRE Attestation Assurance LMH
+  journal:    FAIRE Déterminer coût moyen horaire France 2015
+  journal:    FAIRE Tri docs soliavos
+  journal:    FAIRE Mode batch ou temps réél impacts/philosophie/usage
+  journal:    FAIRE Comment envoyer un doc de CQ62 à EVON.
+  journal:    FAIRE Séparer les comptes EVON Pro et Perso
+  journal:    FAIRE Resto traditionnel = 1 par trimestre
+  journal:    FAIRE Resto rapide = 1 par semaine
+  journal:    FAIRE 2015: préparer repas 4 heures par jour
+  journal:    FAIRE 2015 : Abonnement Med Tg 51€
+  journal:    FAIRE Visiter exposition maison natale Ch. de Gaulle
+  journal:    FAIRE Rechercher ''La prise de notes au collège''
+  journal:    FAIRE Clavier BT sous Linux.
+  journal:    FAIRE Emacs/Org sous Androïd (root Androïd)
+  journal:    FAIRE Imprimer ou scanner P48-56 (''texte, hypertexte, hypermédia'')
+  journal:    FAIRE Enclyclopédié Universalis (Article ''Internet''
+  journal:    FAIRE Fabriquer müesli
+  journal:    FAIRE Répartir dépenses EDF abonnement/consommation
+  journal:    FAIRE Passer LMH pour Attestation assurance
+  journal:    FAIRE Imprimer manuel Ledger 3
+  journal:    FAIRE Chercher ArduinoEsplora
+  journal:    FAIRE Utilitaire de mesure consommation ADSL
+  journal:    FAIRE Test PrettyPrint
+  journal:    FAIRE Test PP sur Org
+  journal:    FAIRE Langage Icon ?????
+  journal:    FAIRE Voir ''programmation impérative''
+  journal:    FAIRE Voir Auctex
+  journal:    FAIRE Prévoir CFE 2016
+  journal:    FAIRE Rechercher ''Yes we cook'' BMLille
+  journal:    FAIRE Voir ressources framasoft
+  journal:    FAIRE Conférence, le Secret Lille 1
+  journal:    FAIRE Partager certaines ressources
+  journal:    FAIRE Voir possibilité de modifier la gestion des hyperliens firefox
+  journal:    FAIRE Voir possibilité de déprogrammer (SCHEDULE) lors du passage à ''FAIT''
+  Médiathèques:LIRE [#B] La télévision est morte... vive ma télévision [2014-11-18 mar.] :bib::livre:
+  Médiathèques:LIRE [#B] Le Cid [2014-11-18 mar.]      :bib::cd:
+  journal:    FAIRE Voir l' ''affaire des 14" (R. Darnton) :bib::
+  journal:    FAIRE Rechercher ''Is Google Making Us Stupid?'' (The Atlantic Juillet 2008) :bib::
+  perso:      FAIRE Nouvelle campagne de mesure Plaque :appart::
+  perso:      FAIRE Consommation moyenne EDF globale (compteur) :appart::
+  perso:      FAIRE Consommation moyenne annuelle EDF globale (compteur) :appart::
+  perso:      FAIRE [#B] Jeter recyclables            :appart::
+  perso:      FAIRE Jeter non recyclable              :appart::
+  projet:     FAIRE Étude chapitre 30                  :emacs::
+  projet:     FAIRE Étude chapitre 31                  :emacs::
+  projet:     FAIRE 31.9 : Recursive edition ; 31.11 : Hyperlinks :emacs::
+  projet:     FAIRE Reprise chaptres 14+               :emacs::
+  projet:     COURANT Notions avancées : §16--§18      :emacs::
+  projet:     FAIRE Trier Documentation Web            :emacs::
+  projet:     FAIRE Sur ''COMMON LISP''           :emacs::lisp:
+  projet:     FAIRE [[info:eintr#append-to-buffer][Manuel 4.4]] ---- Reprendre ici (fonction complexe) ---- :emacs:elisp::
+  projet:     FAIRE Étudier le mode font-lock          :emacs::
+  projet:     FAIRE Étudier le mode transcient         :emacs::
+  projet:     FAIRE Étudier la méthode classique de couper/coller/sélection d'Emacs :emacs::
+  projet:     FAIRE Voir notion de tampon indirect     :emacs::
+  projet:     FAIRE Étudier les techniques de programmation lettrée :orgmode::
+  projet:     COURANT Org-Mode                :orgmode::ATTACH:
+  projet:     FAIRE [#B] (Trier/exploiter) Outils Connexes :orgmode::
+  projet:     FAIRE WORG : Analyse structure du document Worg :orgmode::exemples:
+  projet:     FAIRE [#B] Étude récupération données depuis FUN :autoweb::fun:
+  projet:     FAIRE Sur ''Too much to know'' :notes:lectures::blair:2010:
+  projet:     FAIRE [#B] Sur ''Note taking as an Art of Transmission'' :notes:lectures::blair:2004:
+  projet:     FAIRE [#B] Sur ''Opening the Early Modern Toolbox'' :notes:lectures::Schofield:weber:
+  projet:     FAIRE [#B] Outils nécessaires à un environnement de prise de notes :notes::relire:
+  projet:     FAIRE [#B] Idées diverses         :notes:relire::
+  projet:     FAIRE Voir *zotero*               :notes:relire::
+  projet:     FAIRE [#B] Outils pratiques et leur interconnexion :notes:relire::
+  projet:     FAIRE [#B] Utiliser la fonction d'export ''locale'' lors des relectures :notes:relire::
+  projet:     FAIRE Usage du Zotero + mise en pratique :notes::
+  projet:     FAIRE Sur ''Lecture et prise de notes'' :notes::chevalier:
+  projet:     FAIRE Ressources web     :hypertexte:html:html5::
+  projet:     FAIRE Sur Partie 1   :hypertexte:lectures:h2ptm::
+  projet:     FAIRE Sur ''Texte, hypertexte, hypermédia'' :hypertexte:lectures::qsj:2629:
+  projet:     FAIRE [#B] ----> Chapitre IV :hypertexte:lectures:qsj:2629::
+  projet:     FAIRE Sur ''Du papyrus à l'hypertexte'' :hypertexte:lectures::papyrus:ATTACH:
+  projet:     FAIRE Rechercher              :hypertexte:idées::
+  projet:     FAIRE Voir ''Hypertexte et processus cognitif'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Saut technologiques et ruptures dans les modes de représentation'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Techniques avancées pour hypertexte'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Histoire et informatique'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Nouvelles technologie de l'information : ... étude centrée sur l'hypertexte'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Hypermédia et apprentissage'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Texte et ordinateur: les mutations du lire-écrire'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Hypermedia et literacy studies'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Hypertexte et information documentaire'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Créer à l'ère numérique'' {BML3} :hypertexte:références::
+  projet:     FAIRE Rechercher ''Métaconnaissance'' (J. Pitrat) (1990) :hypertexte:références::
+  projet:     FAIRE Codage de la partie gestion des liens de org :hypertexte::code:
+  projet:     ATTENTE Publier code (en particulier faire savoir à Bastien) :hypertexte:code::
+  projet:     FAIRE Imprimer et/ou relire de façon plus approfondie :PL:lectures:ATTACH::
+  projet:     FAIRE [#B] Notes sur ''A case for comtemporary Literate Programming'' :PL:lectures::ATTACH:
+  projet:     FAIRE [#B] Notes sur ''Requirements for an Elucidative Programming Environment'' :PL:lectures::ATTACH:
+  projet:     FAIRE Exemples programmes            :PL::ATTACH:
+  projet:     FAIRE Nuweb                          :PL::ATTACH:
+  projet:     FAIRE Sweave : outil d'implémentation RR avec R et des idées de LP :PL::ATTACH:
+  projet:     FAIRE NoWeb                          :PL::ATTACH:
+  projet:     FAIRE Remarques personnelles                :PL::
+  projets:    FAIRE Sciences Humaines (n° Oct 2014)  :projets::
+  projet:     FAIRE Document électronique dynamique {BUL3 005.72 DOC} :doc_actif::
+  projet:     FAIRE Recherche Laboratoire GERIICO  :doc_actif::
+  prestation: FAIRE Contacter F. Paturot pour migration STIC :e19:téléphone:délégué::suivi:
+  projet:     FAIRE Sur ''Initiation à la logique mathématique'' :logique:
+  projet:     FAIRE Voir preuve de Cantor-Bernstein  :logique::
+  projet:     FAIRE Sur ''les métamorphoses du calcul'' (G.Dowek, 2007) {BMVasq 511 HIS} :calcul:
+  projet:     FAIRE Reprendre notes manuscriptes      :calcul::
+  projet:     FAIRE Sur ''Le langage des machines'' {BUL1 511.3 FLO} :langage:
+  projet:     FAIRE [#C] Sur ''lire et rédiger a la fac'' {BMMq 374.11 BOEG} edition 2005 :notes::
+  projet:     FAIRE [#C] Voir méthodes de prises de notes proposées :notes:chevalier::
+
+===============================================================================================================
+Fortnight-agenda (W50-W51):
+Monday      8 December 2014 W50
+  Médiathèques:Scheduled:  LIRE [#B] La télévision est morte... vive ma télévision [2014-11-18 mar.] :bib::livre:
+Tuesday     9 December 2014
+               8:00...... ----------------
+               9:43...... now - - - - - - - - - - - - - - - - - - - - - - - - -
+              10:00...... ----------------
+              12:00...... ----------------
+              14:00...... ----------------
+              16:00...... ----------------
+              18:00...... ----------------
+  journal:    18:30-20:30 Scheduled:  FAIRE Conférence, le Secret Lille 1
+              20:00...... ----------------
+  journal:    Scheduled:  FAIRE [#A] Réorganisation des fichiers ([2014-12-02 mar.]) :activités::
+  journal:    Scheduled:  FAIRE [#A] Contrat prestation informatique
+  projet:     Scheduled:  FAIRE [#A] Étude chapitre 33             :emacs::
+  projet:     Scheduled:  [#A] Programmation fonctionnelle        :python::
+  projet:     Scheduled:  [#A] Références complémentaires             :PL::
+  projets:    (1/7):  FAIRE [#A] Tri Documents projets       :projets::
+  Médiathèques:Sched. 2x:  LIRE [#B] La télévision est morte... vive ma télévision [2014-11-18 mar.] :bib::livre:
+  moocs:      Scheduled:  FAIRE Semaine 1                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE [#B] Semaine 2               :hebdo:crime::
+  journal:    Scheduled:  FAIRE Réorganiser journée sans matériels informatiques
+  journal:    Scheduled:  FAIRE Rechercher ''Yes we cook'' BMLille
+  Médiathèques:Deadline:   RETOURNER [#C] Symphonie n°1 (Bruckner) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:Deadline:   RETOURNER [#C] Symphonie n°3 (Bruckner) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:Deadline:   RETOURNER [#C] Symphonie n°5 (Chostakovitch) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:Deadline:   RETOURNER [#C] Les Vélins Carminae [2014-11-18 mar.] :bib::livre:
+  Médiathèques:Deadline:   RETOURNER [#C] Buffy (Saison 4) [2014-11-18 mar.] :bib::dvd:
+  Médiathèques:Deadline:   RETOURNER [#C] After extra time (Nyman) [2014-11-18 mar.] :bib::cd:
+  Médiathèques:[#C] Médiathèque Fives         :bib:lille::fives:
+  perso:      FAIRE [#B] D:SOIR                :quotidien:sdb::
+  perso:      FAIRE [#A] D:MATIN               :quotidien:sdb::
+  perso:      FAIRE [#B] Rasage                :quotidien:sdb::
+  perso:      FAIRE [#B] Bain                  :quotidien:sdb::
+Wednesday  10 December 2014
+  journal:    Scheduled:  FAIRE [#A] Étude coût petit déjeuner     :hebdo::
+  projet:     Scheduled:  FAIRE [#A] Tri pour lecture / pertinence :PL:trier::
+  projets:    (2/7):  FAIRE [#A] Tri Documents projets       :projets::
+  perso:      Scheduled:  FAIRE Nouvelle campagne de mesure Plaque :appart::
+  projet:     Scheduled:  FAIRE Imprimer et/ou relire de façon plus approfondie :PL:lectures:ATTACH::
+  projet:     Scheduled:  FAIRE [#B] Notes sur ''A case for comtemporary Literate Programming'' :PL:lectures::ATTACH:
+  projet:     Scheduled:  FAIRE [#B] Notes sur ''Requirements for an Elucidative Programming Environment'' :PL:lectures::ATTACH:
+  projet:     Scheduled:  FAIRE Remarques personnelles                :PL::
+  prestation: Scheduled:  FAIRE Contacter F. Paturot pour migration STIC :e19:téléphone:délégué::suivi:
+  Médiathèques:Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+Thursday   11 December 2014
+  Médiathèques: 9:00-18:30 Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+  projets:    (3/7):  FAIRE [#A] Tri Documents projets       :projets::
+Friday     12 December 2014
+  perso:      14:00...... Scheduled:  FAIRE Consommation moyenne EDF globale (compteur) :appart::
+  perso:      14:00...... Scheduled:  FAIRE Consommation moyenne annuelle EDF globale (compteur) :appart::
+  projets:    (4/7):  FAIRE [#A] Tri Documents projets       :projets::
+  moocs:      Scheduled:  FAIRE Semaine 2                    :hebdo:ecoue::
+  moocs:      Scheduled:  FAIRE Semaine 7                    :hebdo:média::
+  moocs:      Scheduled:  FAIRE Reprise S1,S2,S3             :hebdo:média::
+  projet:     Scheduled:  FAIRE [[info:eintr#append-to-buffer][Manuel 4.4]] ---- Reprendre ici (fonction complexe) ---- :emacs:elisp::
+  projets:    Scheduled:  FAIRE Sciences Humaines (n° Oct 2014)  :projets::
+Saturday   13 December 2014
+  moocs:      Scheduled:  FAIRE [#A] Semaine 3               :hebdo:crime::
+  projets:    (5/7):  FAIRE [#A] Tri Documents projets       :projets::
+  journal:    Scheduled:  FAIRE Traiter courriers         :hebdo::courrier:
+  moocs:      Scheduled:  FAIRE Semaine 6                    :hebdo:média::
+  moocs:      Scheduled:  FAIRE Semaine 2                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 4                    :hebdo:crime::
+  moocs:      Scheduled:  FAIRE Semaine 5                    :hebdo:crime::
+  journal:    Scheduled:  Podcasts                             :activités::
+  journal:    Scheduled:  podcasts organisation                :activités::
+  journal:    Scheduled:  FAIRE Prévision compta 2015              :compta:
+  journal:    Scheduled:  FAIRE Choix des documents publics/privés
+  journal:    Scheduled:  FAIRE Organisation documents publics sur domaine
+  journal:    Scheduled:  FAIRE Étude répartition dépenses 2014
+  journal:    Scheduled:  FAIRE Mode batch ou temps réél impacts/philosophie/usage
+  journal:    Scheduled:  FAIRE Répartir dépenses EDF abonnement/consommation
+  journal:    Scheduled:  FAIRE Chercher ArduinoEsplora
+  journal:    Scheduled:  FAIRE Utilitaire de mesure consommation ADSL
+  journal:    Scheduled:  FAIRE Test PP sur Org
+  journal:    Scheduled:  FAIRE Langage Icon ?????
+  journal:    Scheduled:  FAIRE Voir ''programmation impérative''
+  journal:    Scheduled:  FAIRE Voir ressources framasoft
+  projet:     Scheduled:  FAIRE WORG : Analyse structure du document Worg :orgmode::exemples:
+  projet:     Scheduled:  FAIRE Reprendre notes manuscriptes      :calcul::
+  Médiathèques:Médiathèque Villeneuve-Asq    :bib:bm:autre::Asq:
+Sunday     14 December 2014
+  projets:    (6/7):  FAIRE [#A] Tri Documents projets       :projets::
+  moocs:      Scheduled:  Semaine 6                          :hebdo:ecoue::
+  loisirs:    Scheduled:  FAIRE F3: Murdock              :hebdo:tv::replay:
+  Médiathèques:Scheduled:  LIRE [#B] Le Cid [2014-11-18 mar.]      :bib::cd:
+Monday     15 December 2014 W51
+  projets:    (7/7):  FAIRE [#A] Tri Documents projets       :projets::
+  moocs:      Scheduled:  FAIRE Semaine 3             :hebdo:ecoue::ATTACH:
+  moocs:      Scheduled:  FAIRE Semaine 3                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 5                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 7                   :hebdo:python::
+  moocs:      Scheduled:  FAIRE Semaine 6                    :hebdo:crime::
+  moocs:      Scheduled:  FAIRE Semaine 7                    :hebdo:crime::
+  journal:    Scheduled:  FAIRE Fabriquer müesli
+  journal:    Scheduled:  FAIRE Partager certaines ressources
+  projet:     Scheduled:  FAIRE Étude chapitre 30                  :emacs::
+  projet:     Scheduled:  31.4 : Emacs server                      :emacs::
+  projet:     Scheduled:  FAIRE Reprise chaptres 14+               :emacs::
+  projet:     Deadline:   FAIRE Étude chapitre 30                  :emacs::
+Tuesday    16 December 2014
+  moocs:      Scheduled:  FAIRE Semaine 5                    :hebdo:ecoue::
+  moocs:      Scheduled:  FAIRE Reprise S4,S4,S5             :hebdo:média::
+  moocs:      Scheduled:  FAIRE Semaine 6                   :hebdo:python::
+  projet:     Scheduled:  FAIRE 31.9 : Recursive edition ; 31.11 : Hyperlinks :emacs::
+  Médiathèques:[#C] Médiathèque Fives         :bib:lille::fives:
+Wednesday  17 December 2014
+  projet:     Scheduled:  FAIRE [#B] Sur ''Note taking as an Art of Transmission'' :notes:lectures::blair:2004:
+  projet:     Scheduled:  FAIRE [#B] Sur ''Opening the Early Modern Toolbox'' :notes:lectures::Schofield:weber:
+  journal:    Deadline:   FAIRE Étude durée de vie confiture       :hebdo::
+  Médiathèques:Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+Thursday   18 December 2014
+  Médiathèques: 9:00-18:30 Médiathèque Tourcoing   :bib:bm:autre::Tourcoing:
+Friday     19 December 2014
+  Médiathèques:14:00-18:00 Médiathèque Marq en Baroeul :bib:bm:autre:Lomme::Marq:
+  moocs:      Scheduled:  FAIRE Reprise S6,S7                :hebdo:média::
+  projet:     Scheduled:  FAIRE [#C] Sur ''lire et rédiger a la fac'' {BMMq 374.11 BOEG} edition 2005 :notes::
+  projet:     Scheduled:  [#C] Techniques de lecture rapide (Exercices) :notes:chevalier::
+  projet:     Scheduled:  FAIRE [#C] Voir méthodes de prises de notes proposées :notes:chevalier::
+Saturday   20 December 2014
+  journal:    Scheduled:  FAIRE Traiter courriers         :hebdo::courrier:
+  journal:    Scheduled:  FAIRE Imprimer manuel Ledger 3
+  Médiathèques:Médiathèque Villeneuve-Asq    :bib:bm:autre::Asq:
+  Médiathèques:Médiathèque Roubaix       :bib:bm:autre::Roubaix:
+Sunday     21 December 2014
+  journal:    Scheduled:  FAIRE Tri mél                        :hebdo::mél:
+  moocs:      Scheduled:  FAIRE [#B] Semaine 4               :hebdo:ecoue::
+  loisirs:    Scheduled:  FAIRE F3: Murdock              :hebdo:tv::replay:
+  journal:    Scheduled:  FAIRE [#B] Choix d'une solution de sauvegarde.
+  journal:    Scheduled:  FAIRE [#B] Choix d'un support de sauvegarde.
+  journal:    Scheduled:  FAIRE Imprimer les exports de documents ORG comme archives.
+  journal:    Scheduled:  FAIRE Trouver une méthode pour cataloguer les archives
+  perso:      [#C] Lessive                            :appart::
+
+===============================================================================================================
+Global list of TODO items of type: ALL
+  perso:      FAIRE [#A] D:MATIN               :quotidien:sdb::
+  moocs:      FAIRE [#A] Semaine 3               :hebdo:crime::
+  journal:    FAIRE [#A] Étude coût petit déjeuner     :hebdo::
+  journal:    FAIRE [#A] Réorganisation des fichiers ([2014-12-02 mar.]) :activités::
+  journal:    FAIRE [#A] Tri docs EVON             :activités::
+  journal:    FAIRE [#A] Contrat prestation informatique
+  perso:      FAIRE [#A] Consommation journalière moyenne EAU :appart::
+  perso:      FAIRE [#A] Consommation journalière moyenne annuelle EAU :appart::
+  projet:     FAIRE [#A] Étude chapitre 33             :emacs::
+  projet:     FAIRE [#A] Tri pour lecture / pertinence :PL:trier::
+  projets:    FAIRE [#A] Tri Documents projets       :projets::
+  projet:     FAIRE [#A] Le DOM.                   :doc_actif::
+  projet:     FAIRE [#A] Questions:                :doc_actif::
+  projet:     FAIRE [#A] Est-il possible de réaliser un outil canevas réalisant cette opération? :doc_actif::
+  perso:      FAIRE MAJ Compta              :quotidien::compta:
+  perso:      FAIRE [#B] Rasage                :quotidien:sdb::
+  perso:      FAIRE Douche                     :quotidien:sdb::
+  perso:      FAIRE [#B] Bain                  :quotidien:sdb::
+  perso:      FAIRE [#B] D:SOIR                :quotidien:sdb::
+  journal:    FAIRE Traiter courriers         :hebdo::courrier:
+  journal:    FAIRE Tri mél                        :hebdo::mél:
+  moocs:      FAIRE Semaine 2                    :hebdo:ecoue::
+  moocs:      FAIRE Semaine 3             :hebdo:ecoue::ATTACH:
+  moocs:      FAIRE [#B] Semaine 4               :hebdo:ecoue::
+  moocs:      FAIRE Semaine 5                    :hebdo:ecoue::
+  moocs:      FAIRE Semaine 6                    :hebdo:média::
+  moocs:      FAIRE Semaine 7                    :hebdo:média::
+  moocs:      FAIRE Reprise S1,S2,S3             :hebdo:média::
+  moocs:      FAIRE Reprise S4,S4,S5             :hebdo:média::
+  moocs:      FAIRE Reprise S6,S7                :hebdo:média::
+  moocs:      FAIRE Initiation Python           :hebdo::python:
+  moocs:      FAIRE Semaine 1                   :hebdo:python::
+  moocs:      FAIRE Semaine 2                   :hebdo:python::
+  moocs:      FAIRE Semaine 3                   :hebdo:python::
+  moocs:      FAIRE Semain  4                   :hebdo:python::
+  moocs:      FAIRE Semaine 5                   :hebdo:python::
+  moocs:      FAIRE Semaine 6                   :hebdo:python::
+  moocs:      FAIRE Semaine 7                   :hebdo:python::
+  moocs:      FAIRE Semaine 8                   :hebdo:python::
+  moocs:      FAIRE [#B] Semaine 2               :hebdo:crime::
+  moocs:      FAIRE Semaine 4                    :hebdo:crime::
+  moocs:      FAIRE Semaine 5                    :hebdo:crime::
+  moocs:      FAIRE Semaine 6                    :hebdo:crime::
+  moocs:      FAIRE Semaine 7                    :hebdo:crime::
+  loisirs:    FAIRE F3: Murdock              :hebdo:tv::replay:
+  journal:    FAIRE Étude durée de vie confiture       :hebdo::
+  journal:    FAIRE Sauvegarde sur DVD                 :hebdo::
+  journal:    FAIRE Sauvegarde EVON        :hebdo::équipements:
+  journal:    FAIRE Tri de EVON/Projets/Documentation :activités::
+  journal:    FAIRE Tri docs CQ 62          :activités::URGENT:
+  journal:    FAIRE Prévision compta 2015              :compta:
+  journal:    FAIRE Politique de sauvegarde
+  journal:    FAIRE [#B] Choix d'une solution de sauvegarde.
+  journal:    FAIRE [#B] Choix d'un support de sauvegarde.
+  journal:    FAIRE Choix des documents publics/privés
+  journal:    FAIRE Imprimer les exports de documents ORG comme archives.
+  journal:    FAIRE Trouver une méthode pour cataloguer les archives
+  journal:    FAIRE Organisation documents public
+  journal:    FAIRE Organisation documents publics sur domaine
+  journal:    FAIRE Refaire CV
+  journal:    FAIRE Réorganiser journée sans matériels informatiques
+  journal:    FAIRE Étude répartition dépenses 2014
+  journal:    FAIRE Attestation Assurance LMH
+  journal:    FAIRE Déterminer coût moyen horaire France 2015
+  journal:    FAIRE Tri docs soliavos
+  journal:    FAIRE Mode batch ou temps réél impacts/philosophie/usage
+  journal:    FAIRE Comment envoyer un doc de CQ62 à EVON.
+  journal:    FAIRE Séparer les comptes EVON Pro et Perso
+  journal:    FAIRE Resto traditionnel = 1 par trimestre
+  journal:    FAIRE Resto rapide = 1 par semaine
+  journal:    FAIRE 2015: préparer repas 4 heures par jour
+  journal:    FAIRE 2015 : Abonnement Med Tg 51€
+  journal:    FAIRE Visiter exposition maison natale Ch. de Gaulle
+  journal:    FAIRE Rechercher ''La prise de notes au collège''
+  journal:    FAIRE Clavier BT sous Linux.
+  journal:    FAIRE Emacs/Org sous Androïd (root Androïd)
+  journal:    FAIRE Imprimer ou scanner P48-56 (''texte, hypertexte, hypermédia'')
+  journal:    FAIRE Enclyclopédié Universalis (Article ''Internet''
+  journal:    FAIRE Fabriquer müesli
+  journal:    FAIRE Répartir dépenses EDF abonnement/consommation
+  journal:    FAIRE Passer LMH pour Attestation assurance
+  journal:    FAIRE Imprimer manuel Ledger 3
+  journal:    FAIRE Chercher ArduinoEsplora
+  journal:    FAIRE Utilitaire de mesure consommation ADSL
+  journal:    FAIRE Test PrettyPrint
+  journal:    FAIRE Test PP sur Org
+  journal:    FAIRE Langage Icon ?????
+  journal:    FAIRE Voir ''programmation impérative''
+  journal:    FAIRE Voir Auctex
+  journal:    FAIRE Prévoir CFE 2016
+  journal:    FAIRE Rechercher ''Yes we cook'' BMLille
+  journal:    FAIRE Voir ressources framasoft
+  journal:    FAIRE Conférence, le Secret Lille 1
+  journal:    FAIRE Partager certaines ressources
+  journal:    FAIRE Voir possibilité de modifier la gestion des hyperliens firefox
+  journal:    FAIRE Voir possibilité de déprogrammer (SCHEDULE) lors du passage à ''FAIT''
+  Médiathèques:LIRE [#B] La télévision est morte... vive ma télévision [2014-11-18 mar.] :bib::livre:
+  Médiathèques:LIRE [#B] Le Cid [2014-11-18 mar.]      :bib::cd:
+  journal:    FAIRE Voir l' ''affaire des 14" (R. Darnton) :bib::
+  journal:    FAIRE Rechercher ''Is Google Making Us Stupid?'' (The Atlantic Juillet 2008) :bib::
+  perso:      FAIRE Nouvelle campagne de mesure Plaque :appart::
+  perso:      FAIRE Consommation moyenne EDF globale (compteur) :appart::
+  perso:      FAIRE Consommation moyenne annuelle EDF globale (compteur) :appart::
+  perso:      FAIRE [#B] Jeter recyclables            :appart::
+  perso:      FAIRE Jeter non recyclable              :appart::
+  projet:     FAIRE Étude chapitre 30                  :emacs::
+  projet:     FAIRE Étude chapitre 31                  :emacs::
+  projet:     FAIRE 31.9 : Recursive edition ; 31.11 : Hyperlinks :emacs::
+  projet:     FAIRE Reprise chaptres 14+               :emacs::
+  projet:     COURANT Notions avancées : §16--§18      :emacs::
+  projet:     FAIRE Trier Documentation Web            :emacs::
+  projet:     FAIRE Sur ''COMMON LISP''           :emacs::lisp:
+  projet:     FAIRE [[info:eintr#append-to-buffer][Manuel 4.4]] ---- Reprendre ici (fonction complexe) ---- :emacs:elisp::
+  projet:     FAIRE Étudier le mode font-lock          :emacs::
+  projet:     FAIRE Étudier le mode transcient         :emacs::
+  projet:     FAIRE Étudier la méthode classique de couper/coller/sélection d'Emacs :emacs::
+  projet:     FAIRE Voir notion de tampon indirect     :emacs::
+  projet:     FAIRE Étudier les techniques de programmation lettrée :orgmode::
+  projet:     COURANT Org-Mode                :orgmode::ATTACH:
+  projet:     FAIRE [#B] (Trier/exploiter) Outils Connexes :orgmode::
+  projet:     FAIRE WORG : Analyse structure du document Worg :orgmode::exemples:
+  projet:     FAIRE [#B] Étude récupération données depuis FUN :autoweb::fun:
+  projet:     FAIRE Sur ''Too much to know'' :notes:lectures::blair:2010:
+  projet:     FAIRE [#B] Sur ''Note taking as an Art of Transmission'' :notes:lectures::blair:2004:
+  projet:     FAIRE [#B] Sur ''Opening the Early Modern Toolbox'' :notes:lectures::Schofield:weber:
+  projet:     FAIRE [#B] Outils nécessaires à un environnement de prise de notes :notes::relire:
+  projet:     FAIRE [#B] Idées diverses         :notes:relire::
+  projet:     FAIRE Voir *zotero*               :notes:relire::
+  projet:     FAIRE [#B] Outils pratiques et leur interconnexion :notes:relire::
+  projet:     FAIRE [#B] Utiliser la fonction d'export ''locale'' lors des relectures :notes:relire::
+  projet:     FAIRE Usage du Zotero + mise en pratique :notes::
+  projet:     FAIRE Sur ''Lecture et prise de notes'' :notes::chevalier:
+  projet:     FAIRE Ressources web     :hypertexte:html:html5::
+  projet:     FAIRE Sur Partie 1   :hypertexte:lectures:h2ptm::
+  projet:     FAIRE Sur ''Texte, hypertexte, hypermédia'' :hypertexte:lectures::qsj:2629:
+  projet:     FAIRE [#B] ----> Chapitre IV :hypertexte:lectures:qsj:2629::
+  projet:     FAIRE Sur ''Du papyrus à l'hypertexte'' :hypertexte:lectures::papyrus:ATTACH:
+  projet:     FAIRE Rechercher              :hypertexte:idées::
+  projet:     FAIRE Voir ''Hypertexte et processus cognitif'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Saut technologiques et ruptures dans les modes de représentation'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Techniques avancées pour hypertexte'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Histoire et informatique'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Nouvelles technologie de l'information : ... étude centrée sur l'hypertexte'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Hypermédia et apprentissage'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Texte et ordinateur: les mutations du lire-écrire'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Hypermedia et literacy studies'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Hypertexte et information documentaire'' {BML3} :hypertexte:références::
+  projet:     FAIRE Voir ''Créer à l'ère numérique'' {BML3} :hypertexte:références::
+  projet:     FAIRE Rechercher ''Métaconnaissance'' (J. Pitrat) (1990) :hypertexte:références::
+  projet:     FAIRE Codage de la partie gestion des liens de org :hypertexte::code:
+  projet:     ATTENTE Publier code (en particulier faire savoir à Bastien) :hypertexte:code::
+  projet:     FAIRE Imprimer et/ou relire de façon plus approfondie :PL:lectures:ATTACH::
+  projet:     FAIRE [#B] Notes sur ''A case for comtemporary Literate Programming'' :PL:lectures::ATTACH:
+  projet:     FAIRE [#B] Notes sur ''Requirements for an Elucidative Programming Environment'' :PL:lectures::ATTACH:
+  projet:     FAIRE Exemples programmes            :PL::ATTACH:
+  projet:     FAIRE Nuweb                          :PL::ATTACH:
+  projet:     FAIRE Sweave : outil d'implémentation RR avec R et des idées de LP :PL::ATTACH:
+  projet:     FAIRE NoWeb                          :PL::ATTACH:
+  projet:     FAIRE Remarques personnelles                :PL::
+  projets:    FAIRE Sciences Humaines (n° Oct 2014)  :projets::
+  projet:     FAIRE Document électronique dynamique {BUL3 005.72 DOC} :doc_actif::
+  projet:     FAIRE Recherche Laboratoire GERIICO  :doc_actif::
+  prestation: FAIRE Contacter F. Paturot pour migration STIC :e19:téléphone:délégué::suivi:
+  projet:     FAIRE Sur ''Initiation à la logique mathématique'' :logique:
+  projet:     FAIRE Voir preuve de Cantor-Bernstein  :logique::
+  projet:     FAIRE Sur ''les métamorphoses du calcul'' (G.Dowek, 2007) {BMVasq 511 HIS} :calcul:
+  projet:     FAIRE Reprendre notes manuscriptes      :calcul::
+  projet:     FAIRE Sur ''Le langage des machines'' {BUL1 511.3 FLO} :langage:
+  projet:     FAIRE [#C] Sur ''lire et rédiger a la fac'' {BMMq 374.11 BOEG} edition 2005 :notes::
+  projet:     FAIRE [#C] Voir méthodes de prises de notes proposées :notes:chevalier::
+   - Lancement
+   - Syntaxe
+Classique :
+- emacs :: lance le logiciel
+- emacs & :: lance le logiciel en arrière plan
+- emacs toto :: ouvre le fichier toto
+- emacs toto & :: ouvre le fichier toto en arrière plan
+   - Remarques
+- Il est en général inutile de relancer à chaque fois Emacs.
+- Il est conseillé de le lancer en arrière plan.
+  La commande *emacsclient* permet alors d'ouvrir plusieurs sessions
+  simultanées.
+   - Paramétrage
+- inhibit-startup-screen :: si /non-nil/ n'affiche pas l'écran de démarrage
+- initial-buffer-choice :: buffer à ouvrir au démarrage
+- confirm-kill-emacs :: /nil/ quitter emacs
+   - TODO Approfondissements
+- programmation elisp
+- comment définir un prédicat
+- voir _nom_ des caractères Unicode
+- apprendre à utiliser les déplacements sans les flèches
+- apprendre à utiliser les déplacements par mots/phrases/paragraphes
+   - Modes utiles
+- linum-mode :: numérote automatiquement les lignes
+
+   - Test BoxQuote
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-01-14 mer. 16:47
+  :ARCHIVE_FILE: ~/org/projets/autoformation/prj-autoformation.org
+  :ARCHIVE_OLPATH: == Emacs ==
+  :ARCHIVE_CATEGORY: emacs
+  :END:
+--8<---------------cut here---------------start------------->8---
+,----[ essai ]
+| ceci est un essai
+`----
+,----
+| ,----[ essai ]
+| | ceci est un essai
+| `----
+`----
+,----
+| ,---- |       |                            |
+|       | ,---- |                            |
+|       |       | Ceci est du texte boxquoté |
+|       | `---- |                            |
+| `---- |       |                            |
+`----
+#+begin_example
+ ,----
+ ,|  test |
+`----
+#+end_example
+--8<---------------cut here---------------end--------------->8---
+
+Capturée le [2014-11-18 mar. 18:16]
+  
+  [[file:~/org/carnets/journal-de-bord.org::*MAJ%20Compta][MAJ Compta]]
+
+   - [#B] Exercice Expression Régulière
+   :PROPERTIES:
+   :ID:       c6636109-a961-4ab9-8313-d27c32a34402
+   :END:
+   - Une chaîne de 4 à 6 caractères constituées de Lettres ou de Chiffres, mais comportant au moins une consonne ET au moins une voyelle.
+   - On peut utiliser le "positive/negative lookahead" (voir en python)
+   - ?= ; ?! ; ?.... :: quels usages?
+
+   - [#B] Implémenter usage emacs-webserver
+   :PROPERTIES:
+   :ID:       f2be7c8b-5531-4bae-ba4c-63a203be187b
+   :ARCHIVE_TIME: 2015-01-14 mer. 16:47
+   :ARCHIVE_FILE: ~/org/projets/autoformation/prj-autoformation.org
+   :ARCHIVE_OLPATH: == Emacs ==
+   :ARCHIVE_CATEGORY: emacs
+   :ARCHIVE_TODO: FAIRE
+   :END:
+
+* Idées
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-01-14 mer. 16:58
+  :ARCHIVE_FILE: ~/org/projets/autoformation/prj-autoformation.org
+  :ARCHIVE_OLPATH: == Org ==
+  :ARCHIVE_CATEGORY: orgmode
+  :END:
+*Memento* raccourcis Emacs 
+
+- Bascule entre buffers :: C-c b
+- Bascule en mode agenda :: C-c a a
+- Bascule en mode capture :: C-c c OU C-c r
+- Archivage :: C-c C-x C-a
+- Mobile push_ => Emacs->Dépôt mobile (org-directory->...) :: C-c C-x RET p 
+- Mobile pull_ => Depot mobile (capturé->Emacs)           :: C-c C-x RET g 
+- Enregistre un lien :: C-c l
+
+
+(global-set-key (kbd "<f5>") 'delete-other-windows)
+(global-set-key (kbd "<f6>") 'split-window-vertically)
+(global-set-key (kbd "<f7>") 'split-window-horizontally)
+(global-set-key (kbd "C-M-r") 'remember)     ;; passe en mode note (mode remember)
+
+* Macros
+  - F3 ... séquence ... :: Définir macro
+  - F4 :: Répéter macro
+  - C-x C-k n :: Nommer macro.
+    Avant de sauvegarder une macro, il faut la nommer.
+  - insert-kbd-macro :: Sauvegarder la macro en se plançant dans le fichier devant la contenir.
+    Avec un argument *C-u*, enregistre aussi l'affectation de touche.
+  - Remarque :: mon fichier de sauvegarde des macro est _.emacs.d/perso-macro.el_, il est chargé au démarrage par _.emacs.d/init.el_.

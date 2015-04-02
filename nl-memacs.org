@@ -1,0 +1,15 @@
+** FAIT Memacs							  :org:emacs:
+    SCHEDULED: <2014-08-08 ven.>
+:LOGBOOK:
+- State "CLASSER"    from "LIRE"       [2014-07-21 lun. 22:39] \\
+:END:
+    :PROPERTIES:
+    :ID:       33c97900-2348-43a9-87ca-c1b0c90ef51d
+    :END:
+- Article simple mais assez évasif
+- Le projet Memacs en encore actif (jusqu'en 2013 tout au moins)
+- Idée unificatrice intéressante, permettrais de récupérer ses données
+- À relire en dehors de ce projet
+- Peut être associé à l'étude de org
+- De plus peut servir de bon exercice pour utiliser GitHub
+- Il est fait référence à l'article initial de V. Bush (1945).

@@ -1,0 +1,281 @@
+#+TITLE: Active documents with org-mode
+   :PROPERTIES:
+   :ID:       720b4401-438c-46d0-97a1-d2dcda562951
+   :Attachments: Article-Active-Documents.pdf
+   :END:
+   - Remarquons que la mise en page du document s'écarte (significativement) de la mise en page classique du document exporté : le processus de publication permet donc d'introduire une mise en page adaptée à un gabaris standard (celui du journal où l'aricle est publié).  Les indications sémantiques (le bloc ''comment'', le titre, les auteurs, le résumé (''abstract'') par exemple) servent probablement de guide.  Le travail de remise en page est probablement complexe, et demande des connaissances spécifiques.
+   - L'article est centré sur la notion de recherche reproductible, mais le lien avec les documents actifs est fort (la découverte de la notion de RR est même à la base de celle de mon idée initiale sur les documents actifs).
+   - Le document utilise la version 7.5 de /ORG/, certaines commandes utilisées sont obsolètes (par exemple =#+source:= à la place =/#+name:=).
+
+*** Éléments utiles issus de \LaTeX
+    - \begin{abstract}...\end{abstract} :: permet de renseigner le résumé du document.
+    - \cite{...} :: permet de faire référence à des élements bibliographiques.  Cependant les éléments correspondant aux références ne se trouve pas directement dans le fichier ORG.  Les notices bibliographiques font l'objet de commandes \LaTeX spécifiques :
+  #+begin_example 
+  #+begin_LaTeX
+  \bibliographystyle{plain}
+  \bibliography{babel}
+  #+end_LaTeX
+  #+end_example
+    - \ref{...} :: permet de faire référence à des blocs étiquetés (*#+name: ...* --- transformé, tout comme *#+label:*, en un *\label* lors de l'export en \LaTeX ---). Cependant ce référencement n'est actuellement pas probant en \LaTeX (manque le titrage).  Cette méthode de référencement n'est pas adaptée à l'export HTML (le ''\ref'' est retranscrit verbatim...)
+*** Liens hypertextes vers sites
+    - les mots *Emacs* et *Org-mode* sont parfois utilisés comme hypertexte pointant vers les sites web des deux logiciels.  Il pourrait être intéressant de définir un mécanisme d'alias permettant ceci (pour les mots en question).  Ce mécanisme d'alias devrait pouvoir être alimenté de l'intérieur du document lui-même.
+*** Insertion de pdf dans le document final
+    Il semble être possible d'insérer un document PDF dans le document final (comme par exemple une figure), en utilisant :
+    #+begin_example 
+    #+label: fig:chained-evaluation
+    #+Caption: Active Org-mode Document
+    #+attr_latex: width=\textwidth
+    [[file:chained-evaluation.pdf]]
+    #+end_example
+*** Bloc de paramétrage (section commentée)
+    Remarquons que le paramétrage spécifique au document est présent dans un bloc executable:
+    #+begin_example 
+    #+source: configuration
+  #+begin_src emacs-lisp :results silent
+    ;; first it is necessary to ensure that Org-mode loads support for the
+    ;; languages used by code blocks in this article
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((sh . t)
+       (org . t)
+       (emacs-lisp . t)
+       (python . t)
+       (R . t)
+       (gnuplot . t)))
+    ;; then we'll remove the need to confirm evaluation of each code
+    ;; block, NOTE: if you are concerned about execution of malicious code
+    ;; through code blocks, then comment out the following line
+    (setq org-confirm-babel-evaluate nil)
+    ;; finally we'll customize the default behavior of Org-mode code blocks
+    ;; so that they can be used to display examples of Org-mode syntax
+    (setf org-babel-default-header-args:org '((:exports . "code")))
+  #+end_src
+
+    #+end_example
+
+
+    À noter : les commentaires dans le style /elisp/.  On pourrait aussi imaginer des commentaires en style programmation lettrée (syntaxe /NoWeb/) ou encore une partie utilisant une session.
+
+
+    De plus, le bloc de configuration devrait si possible être exécuté automatiquement à l'ouverture du document.  *Cette approche peut poser des problèmes de sécurité en cas de code malicieux.*
+*** Exemples simples de blocs de données et de code
+Il est possible de définir des bloc de plusieurs type :
+- Ici un bloc de donnée contenant du texte :
+  #+begin_example 
+  raw textual data
+  #+end_example
+- Ici un bloc de code (shell)
+  #+begin_src sh 
+  echo "un message retourné par un script shell"
+  #+end_src
+
+  #+RESULTS:
+  : un message retourné par un script shell
+
+Pour rendre le document actif, il faut pouvoir avoir accès aux données.  Pour cela, on nomme les blocs (de données ou de texte).
+#+caption: données utilisées dans le script suivant.
+#+name: donnee-nommee
+#+begin_example 
+donnees brutes textuelles
+#+end_example
+
+Puis on utilise l'en-tête :var NomLocal=NomBlock.
+#+name: compte-texte
+#+begin_src sh :var texte=donnee-nommee
+echo $texte | wc 
+#+end_src
+
+#+RESULTS: compte-texte
+: 1       3      26
+
+Remarquons qu'il est aussi possible, dans le cas de bloc de données courts, de raccourcir la définition du bloc :
+Soit la première valeur
+#+name: pi
+: 3.141592756
+et la seconde
+#+name: rayon
+: 10
+On calcule simplement
+#+name: calcule-circonférence
+#+begin_src python :var cst_pi=pi :var r=rayon
+return 2*cst_pi*r
+#+end_src
+
+#+RESULTS: calcule-circonférence
+: None
+
+- Les blocs de code peuvent être multilangage.
+- Les blocs de code peuvent être chaînés permettant ainsi d'écrire tout un programme en utilisant le langage adéquat au moment voulu.
+**** Commentaires perso
+- lors d'un export LaTeX (avec /:exports both/) les blocs de code et ceux de résultats ne sont pas distingués.
+- idem en HTML, cependant, il doit être possible de jouer sur les CSS pour obtenir une distinction :
+Dans les deux premiers exemples de code, non nommés, on obtient en HTML
+#+begin_example
+<pre class="example">
+raw textual data
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-sh">echo "un message retourné par un script shell"
+</pre>
+</div>
+#+end_example
+soit donc une distinction entre les deux classes.
+
+Pour l'exemple final (calcul de la circonférence)
+#+begin_example 
+<pre class="example">
+3.141592756
+</pre>
+
+<pre class="example">
+10
+</pre>
+
+<div class="org-src-container">
+
+<pre class="src src-python" id="calcule-circonf-rence">return 2*cst_pi*r
+</pre>
+</div>
+
+<pre class="example">
+62.83185512
+</pre>
+#+end_example
+On remarque qu'ici cependant, il y a bien disctinction de classe mais que les résultats sont de la même classe (''example''), que les données. Ce n'est pas fondamentalement gênant mais demande alors une écriture textuelle explicative.
+
+**** Reprise avec commentaires explicatifs (application)
+- Soit =cst_pi= la constante mathématique bien connue($\pi$), dont une valeur approximative est
+#+name: pi
+: 3.141592756
+- Soit =r= le rayon du cercle dont on souhaite connaître la circonférence, dans notre cas
+#+name: rayon
+: 10
+- La circonférence est donnée par la formule
+#+name: calcule-circonférence
+#+begin_src python :var cst_pi=pi :var r=rayon
+2*cst_pi*r
+#+end_src
+- Qui, appliquée à notre cas, donne
+#+call: calcule-circonférence()
+
+#+RESULTS:
+: 62.83185512
+
+*Remarques*
+- On remarque ici que l'export HTML n'est pas joli d'un point de vu mathématique.  (Il me semble qu'il faudrait relire la partie export du manuel). 
+- L'export en \LaTeX est déjà beaucoup mieux, mais il faut penser à mettre les noms de variables manipulées par les blocs de code entre = .. = (pour obtenir =variable=)
+- Cette écriture est relativement lisible; de plus, l'usage de =#+call:= permet éventuellement de regrouper la partie code à la fin du document.
+- Il semble y avoir un problème.  Test par export PDF. Le résultat correspond à celui intuitivement attendu.
+- En fait le ''problème'' (non calcul du résultat lors de la définition de la fonction du calcul de la circonférence) est résolu implicitement par la valeur par défaut de /:exports/ soit /code/ 
+-----
+
+*** Évaluation
+- L'évaluation se fait en exécutant le code référencé dans les en-têtes =:var=
+- Le traitement des valeurs retournées n'est pas indiqué dans l'article.  Il s'agit vraissemblablement de texte brut(?).
+- Remarquons la possibilité d'écrire soit même une référence au résultat de sortie
+#+name: tableau-test
+#+begin_src python
+return 10,20,30
+#+end_src
+
+#+caption: Trois valeurs crées dans le script
+#+results: tableau-test
+| 10 | 20 | 30 |
+
+Ici le ''#+results:'', qui fait référence à la sortie de la fonction nommée tableau-test a été écrit à la main.
+- Test de la même démarche sans utiliser de fonction
+#+name: valeurs-d-un-tableau
+#+begin_src org
+| Valeur   | 10 | 20 |    30 | -10 |
+|----------+----+----+-------+-----|
+| Variable |  A |  B | Essai | Z   |
+#+end_src
+
+#+caption: Quatre valeurs crées à la main  
+#+results: valeurs-d-un-tableau
+On est cependant obligé d'utiliser une bloc source org
+
+*** Application
+    :PROPERTIES:
+    :header-args: :exports none
+    :END:
+On reprends ici l'exemple donné dans l'article, avec quelques variations pour simplifier.
+
+Nous souhaitons étudier la saison :
+#+name: saison-etude
+: 2010
+
+On commence par construire le nom du fichier à télécharger.
+#+name: fichier-donnees-brut
+#+begin_src sh :var saison=saison-etude :exports results
+echo "gl$saison.zip"
+#+end_src
+
+
+À partir de cette données, on construit l'URL où l'on va récupérer les donnees
+#+name: url
+#+begin_src sh :var fichier=fichier-donnees-brut :exports results
+echo "http://www.retrosheet.org/gamelogs/$fichier"
+#+end_src
+
+#+RESULTS: url
+: http://www.retrosheet.org/gamelogs/gl2010.zip
+
+Puis on procède à la récupération effective des données
+#+name: recupère-données
+#+begin_src sh :cache yes :var url=url :file donnees.csv :exports results
+  echo $url
+  wget $url && \
+  unzip -p gl2010.
+ #+end_src
+
+#+RESULTS[abd785a84d117be2cf5e6b73c5f4933e72edeb97]: recupère-données
+[[file:donnees.csv]]
+
+#+name: stat-headers
+#+headers: :exports none
+#+begin_src python :results list list :cache yes :return fields
+  import urllib2
+  url= 'http://www.retrosheet.org/gamelogs/glfields.txt'
+  fp= urllib2.urlopen(url)
+  print fp
+  fields= []
+  for line in fp:
+      if line.find('Visiting team offensive statistics') != -1:
+         line=fp.readline()
+         while line.find('Visiting team pitching statistics') == -1:
+               if line[13] != ' ' :
+                  fields.append(line.strip().split('.')[0].split("(")[0])
+               line= fp.readline()
+
+#+end_src
+
+#+RESULTS[1b7e75375207b90aac4e9a397826b544f2317cd9]: stat-headers
+- at-bats
+- hits
+- doubles
+- triples
+- homeruns
+- RBI
+- sacrifice hits
+- sacrifice flies 
+- hit-by-pitch
+- walks
+- intentional walks
+- strikeouts
+- stolen bases
+- caught stealing
+- grounded into double plays
+- awarded first on catcher's interference
+- left on base
+
+*Remarque*
+- Les fichiers peuvent contenir des accents
+- Il serait intéressant d'avoir un procédé pour supprimer les résultats intermédiaires
+*** Explorer les sources du document ''Active documents with org-mode''
+  :PROPERTIES:
+  :ID:       38ebf2bd-c1c1-4953-a836-1619b9ecc6b7
+  :END:
+En vue d'étude approfondie des commentaires notés plus haut.
+[[https://github.com/eschulte/CiSE/raw/master/org-mode-active-doc.org][Sources]]

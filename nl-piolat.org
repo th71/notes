@@ -1,0 +1,60 @@
+#+TILE: La prise de notes
+#+PROPERTY: Auteur Anne Piloat
+#+PROPERTY: Ouvrage   "Que Sais-je? n° 3630"
+#+PROPERTY: Localisation "BMTg 001.543 PIO (Édition 2, 2006)"
+#+PROPERTY: Localisation "BMMq 374.1 PIO   (Édition 1, 2001)"
+
+*** Introduction
+    Les situations contextes et objectifs de prises de notes sont variés.  Généralement, posséder des traces écrites rassure.  Cependant, si la prise de note génère trop de papier, alors ces notes ne sont pas exploitées en général.  Une bonne prise de note doit permettre de mettre en lumière les interconnexions et inférences entre connaissances (donc de favoriser la mémorisation).  En cas d'utilisation de ressources d'Internet, il est nécessite de mettre en place des techniques de sélection, de stockage et de conservation des notes (=NP= voire du document annoté).
+    
+    Il existe des situations où la prise de note peut être mal vécue (activité perçue comme cachée par interloculeur).
+*** Approche psychologique et sociologique
+    C'est un *processus cognitif complexe de sélection / transcription*.
+
+    Une étude de la perception de la prise de notes par ses usagers fait apparaître que celle-ci constitue un outil cognitif de gestion des informations.  La plupart des usagers utilisent des techniques de sélection et de transcription de l'information (perçue comme pertinente dans la situation).   Les stratégies de prise de notes évoluent au cours du temps (apprentissage de techniques mais aussi au cours d'une même prise de note).  En fonction de l'objectif de la prise de notes, le traitement postérieur peut être différent (révisions; réécriture/réorganisation).  Les méthodes employées spontanément sont variées et conditionnées par habitudes, passé scolaire, situation et connaissance du sujet, exposant, objectifs.
+*** Comprendre en prenant des notes
+    La prise de note nécessite 3 activités en parallèle:
+    - [ ] écouter (ou lire) :: ces deux activités, très différentes du point de vue cognitif, visent à la compréhension du message.  Par compréhension, il faut entendre élaborer une interprétation cohérente du contenu en établissant un réseau de relations entre les différents éléments donnés dans le message (micro (détails) et macro (résumé) structure du message).  Cette partie compréhension est *très importante* pour produire des notes.  Les connaissances antérieures possédées sur le sujet du message jouent un rôle déterminant dans le mécanisme de contruction de la compréhension.  L'intéraction avec le message active les connaissances déjà acquises;  cette activation permet de relier ce qui a déjà été compris à ce qui est en train d'être compris.  La diversité des représentions préalable explique la diversité des notes prises sur un même message par différents noteurs.
+    - [ ] guidage de l'attention et sélection de l'information ::  les orateurs (en situation scolaire) balisent leur propos de signaux précisant l'importance de la partie en cours de présentation;  ces balisent existent aussi dans les messages écrits (listes, numérotation, hiérarchisation de structure);  l'usage de numérotation hiérarchique durant une prise de notes aide à l'assimilation de la structure.
+    - [ ] infuence de l'objectif :: si les notes visent à la conservation d'un message, il convient de se concentrer sur les guides de l'orateur ou du texte;  en revanche, pour une prise de note visant à l'apprentissage de nouvelles connaissances, il est impératif de se concentrer sur le contenu en faisant moins attention à la structuration guidée du message (l'objectif de l'apprenant est alors potentiellement décorelé de celui du message);  en effet, la réflexion sur la pertinence de ce qui est pris en note (ce qui est sélectionné) constitue une première étape de l'apprentissage.
+    - [ ] écrire (retranscription) :: importance de la mise en forme.
+    - [ ] lecture :: contrôle des notes au regard des objectifs -- feedback.
+*** Comprendre et résoudre un problème en notant
+    Les notes constituent alors un brouillon externe, elles soulagent la mémoire de travail (répartition des données -- idées -- en cours de traitement).  Ces notes permettent de stabiliser les informations des étapes principales du raisonnement et facilitent l'organisation de la pensée.
+
+    Dans une telle situation, l'écriture linéaire n'est pas forcément adaptée;  une notation tabulaire offre une première réponse.
+
+*** Écrire des notes
+    Pour écrire, le rédacteur utilise des connaissances et des processus rédactionnels.  Ces processus concoivent le contenu du texte à noter en fonction des objectifs et contraites du rédacteur.  Différentes modélisations de l'activité mentale existent.
+
+    Par exemple, le modèle de Hayes conçoit la rédaction comme une activité de communication.  Différents déterminants entre alors en jeu:  l'environnement de la tâche (environnement social du destinataire, pouvant être le rédacteur lui-même, environnement physique, influence des notes déjà écrites sur les suivantes), l'individu lui-même (la prise de note est influencée certaines caractéristiques du rédacteur : sa motivation, sa mémoire à long terme, les processus cognitifs qu'il met en jeu (interprétation de texte, réflexion, production de textes), sa mémoire de travail.
+
+    En modélisant la mémoire de travail, toute activité est conçue comme un ensemble de processus mentaux:
+      - Processsus rédactionnels (Formuler : transformer les représentations cognitives en représentations langagières, Exécuter : passage des représentations langagières en représentation graphomotrice, Contrôler : relecture correctrice).
+      - Mémoire de travail :  c'est un système de maintien temporaire et de manipulations d'information durant la réalisation d'un tâche cognitive.
+      - Ressources attentionnelles et écriture : Plus la tâche est maîtrisée, plus celle-ci est réalisée ''automatiquement'',  soulageant ainsi l'attention appliquée à cette tâche (d'un point de vue des ressources cognitives mises en jeu.  Certaines tâches (Formulation, Contrôle/correction) nécessitent plus de ressources quelles que soient la maîtrise de celle-ci.
+      - Espace et écriture :  la ''forme'' et l'emplacement des écritures sur la page interviennent dans l'interprétation de celles-ci. (mise en relief, ...).  Les outils de traitement de texte augmentent les techniques utilisables.
+*** Procédés de transcription de mots
+    L'automatisation de la transcription phonographique et orthographique prends plusieurs années pour rendre le scripteur habile.  Avec l'usage des procédés abréviatifs, le mot écrit n'est plus un mot oralisable mais un mot-symbole; ceux-ci ne sont pas unifiés et dépendent de l'auteur (ou du rédacteur).
+
+   L'apprentissage de règles d'abréviations permet de sélectionner les techniques les plus efficaces et d'utiliser les outils de génération abréviatives.  (=NP= Certaines techniques abréviative peuvent dépendent de l'approche, ou le style mental, du rédacteur.
+*** Techniques de base
+#+INDEX: techniques
+    Plusieurs techniques de prise de notes existant, il est possible que le choisir en fonction de l'objectif.
+    - Méthode linéaire :: méthode classique (notes sous dictée) ; vise l'exhaustivité => pas de sélections d'idées ; ces notes doivent être reprises pour supprimer les redondances et mettre en évidence l'organisation (le plan) de l'exposé. 
+    - Méthode planifiante (hiérarchique):: Ajoute à la méthode linéaire une hiérarchisation des idées en niveaux hiérarchiques (ces niveaux sont titrés pour favoriser l'ancrage mémoriel).
+    - Méthode planifiée (matrice/caneva) :: répondre aux questions essentielles (QQQQQ) et relever les points d'articulation (Cadre, Méthode, Résultats, Discussion des résultats).
+    - Méthode des constellation des mots-clefs :: ~ MM. 
+
+    Il est possible de modifier ces méthodes en créant des pré-planifications avant la prise de note elle-même.  De telles techniques, impossibles à utiliser durant une conférence ou un cours, elles peuvent en revanche être utilisées pour des notes de lectures (il suffit pour cela de parcourir l'ouvrage avant et d'en extraire les points susceptible d'intéresser le noteur -- question, points principaux, ... --)
+
+*** Noter pour apprendre et rédiger
+    :PROPERTIES:
+    :ID:       8978465b-2087-4fd7-b87d-77b53b2073b7
+    :END:
+    La revue ultérieure des notes permet une solidification des savoirs, de plus l'activité durant la prise de note elle-même permet une première mémorisation.  (=NP= le logiciel doit donc permettre une telle activité, en limitant le nombre d'opérations possible, pour ne pas troubler le processus de notation).  Ce travail de relecture, stimule les capacités attentionnelles, cette capacité est mobilisée plus fortement durant les phases d'écriture par rapport aux phases de lecture ou d'audition simple.  De plus, les processus de sélection imposent une mise en perspective, un recul, par rapport aux connaissances possédées et présentées.
+
+    Afin d'augmenter encore la stabilisation, le travail de relecture devrait s'accompagner d'un travail de retraitement (organisationnel, simplification/compléments, corrections).  Il est alors possible d'utiliser des transformation avec une méthode pré-planifiée.
+
+    La spatialisation des notes permet de renforcer la mémorisation des relations entre idées et concepts.  (=NP= un outil de prise de note hypertextuelle devrait donc intégrer cette dimension, cependant l'organisation d'emacs/org est par nature textuelle.  Quel outil pour assurer une telle fonction?)
+

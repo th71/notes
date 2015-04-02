@@ -1,0 +1,7 @@
+#+TITLE: Opening the Early Modern Toolbox
+#+AUTHOR: Schofield ; weber
+
+* Tâche
+  SCHEDULED: <2015-02-02 lun. 15:00-17:00>
+  - [X] Lecture rapide
+  - [ ] Relecture et notes

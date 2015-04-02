@@ -1,0 +1,17 @@
+#+TITLE: Notes de lecture manuel ledger
+#+CATEGORY: ledger
+
+Notes de lecture du manuel legder.
+
+* Bases
+  - un *journal* est la base de la comptabilité.
+  - exemple de journal : relevé de comptes
+    - enregistre les débits (retraits, ...)
+    - enregistre les crédits (dépôts, ...)
+    - à chaque opération la destination (débit) ou la source (crédit) est associé un champ ''*payee*''.
+    -> un tel journal ne gère qu'un seul compte.
+* Partie double (simplifiée)
+  - alors que dans le cas précédent toutes les opérations se référaient à un unique compte, ici on gère plusieurs comptes.
+  - un compte par ''poste''.
+  - un compte peut ou non être géré par une banque.
+

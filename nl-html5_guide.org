@@ -1,0 +1,5 @@
+#+TITLE: Notes sur ''Le guide complet HTML5/Javascript''
+
+* Référence {MTg-AC 005.133 GUI}. 
+
+* Ouverture de la console javascript de Firefox : C-S-i.

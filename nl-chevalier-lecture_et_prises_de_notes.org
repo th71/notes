@@ -1,0 +1,48 @@
+#+TITLE: Lecture et prise de notes
+#+PROPERTY: Auteur B.Chevalier
+#+PROPERTY: Date 1992
+#+PROPERTY: Localisation {BMMq 374.11 CHEV} 
+
+
+- présenté comme permettant d'améliorer les compétences en apprentissage en tenant compte de son profil mental (classique) [mode de gestion mentale préférentiel].
+- mise en condition du cerveau : savoir 
+  - où l'on va :: objectif / critère de réussite / volume à couvrir
+  - pourquoi on y va :: intérêt dans projet
+- par où on y va :: définir itinéraire / points de repère / méthodes
+- mise en condition avant début de lecture :
+  - délimiter la quantité à lire.
+  - décider combien de temps consacré à la lecture.
+  - définir un projet de lecture.
+  - mobiliser ses connaissances du sujet.
+  - réfléchir quelques instants sur le titre du livre, du chapitre, du §.
+- présente dans le premier chapitre des exercices pour lecture rapide.
+  - la survocalisation n'est pas abordé, seulement la vocalisation (silencieuse ou non).
+* Stratégies de lecture sélective
+- exploration
+  - objectif : déterminer le contenu ; repérer les passages correspondants aux objectifs
+  - étapes :
+    1) examiner le titre,
+    2) liser les pages de couverture,
+    3) vérifier la date,
+    4) parcourir l'avant-propos (introduction/avertissement) et la préface,
+    5) parcourir la conclusion,
+    6) consulter la table des matières et autres guides,
+    7) procéder de même pour certains chapitres (consulter rapidement illustrations et légendes, analyser les surlignages et gras),
+    8) lire quelques passages
+    9) analyser l'organisation de l'ouvrage.
+    10) lire de façon approfondie parties et passages significatifs.
+- écrémage
+  - objectif : détection l'idée essentielle
+  - technique adaptée aux textes courts (articles de presse)
+  - étapes :
+    1) lire l'introduction,
+    2) lire la conclusion,
+    3) lire la 1ière phrase de tous les paragraphes,
+    4) lire la dernière phrase de tous les paragraphes *si* le paragraphe est long ou *si* le paragraphe commence par un exemple ou une anecdote.
+- repérage
+  - objectif : saisir une information précise présente dans le texte ou la partie du texte préalablement délimitée par les 2 techniques ci-dessus.
+  - technique adapatée pour les index, dictionnaires, annuaires, ...
+  - étapes : balayer le texte (en fonction de la présentation du texte et de l'information recherchée)
+    1) horizontalement,
+    2) verticalement,
+    3) en diagonal, en sautant des lignes.

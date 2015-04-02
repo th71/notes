@@ -1,0 +1,251 @@
+#+TITLE: Notes sur ''Pratique de CSS et Javascript''
+
+* Référence : {MTg 005.133 JAV}. (12 chapitres / 272p)
+Traite de la version 4.
+-----
+- CSS :: permettent d' améliorer la présentation des données affichées.
+- HTML :: contient les données et des informations de présentation.
+- JavaScript :: intégrer des programme dans la page et la rendre interactive sans avoir le besoin de faire une requête au serveur.
+- API :: permet de gérer dynamiquement des pages HTML.  (c'est le DOM=Document Object Model).
+-----
+* Contenu du document (inactif).
+** Association à une page HTML
+  Une feuille de style (mise en forme) peut être appliquée à une page HTML :
+  - en insertion directe
+    #+begin_src html
+      <head>
+	<style type="text/css">
+	  ...
+	</style>
+      </head>
+    #+end_src
+    
+  - en inserant un fichier externe (le plus courant)
+    #+begin_src html
+      <head>
+	<link rel="stylesheef" type="text/css" href="fichier.css" />
+      </head>
+    #+end_src
+
+  - en ligne (à éviter)
+    #+begin_src html
+      <body>
+	<h1 style="..."> ... </h1>
+      </body>
+    #+end_src
+** Définition et syntaxe d'un fichier CSS
+   #+begin_example 
+     /* Commentaires */
+     élémentHTML
+	     {
+		     propriété : valeur ou "valeur si avec des espaces";
+		     ...
+	     }
+     ...
+
+     élémentHTML.Classe
+	     {
+		     proriété : valeur ou "valeur si avec des espaces";
+		     ...
+	     }
+     ...
+
+     .Classe
+	     {
+		     proriété : valeur ou "valeur si avec des espaces";
+		     ...
+	     }
+     ...
+
+     #Identifiant
+	     {
+		     proriété : valeur ou "valeur si avec des espaces";
+		     ...
+	     }
+     ...
+   #+end_example
+
+   Une telle CSS s'applique :
+   - à tous les *élémentsHTML* rencontrés;
+   - à tous les *<élémentHTML class="Classe">; (élément générique de classe)
+   - à tous les éléments HTML ayant la classe définie;
+   - à tous les éléments HTML ayant l'id défini; (élément spécifique)
+   
+   Il est aussi possible de préciser une hiérarchie d'éléments HTML dans la définition des propriétés, dans ce cas, le style est appliqué si l'imbrication est réalisée dans le source HTML.
+
+   Dans le cas d'une suite de CSS applicable, l'ordre d'application est :
+   - celle du navigateur.
+   - celle définie dans un fichier externe
+   - celle définie dans le <style> de la page HTML
+   - celle de l'élément HTML
+
+** Propriété des éléments HTML
+- fonds :: body / background-color, background-image ( background-attachment , background-position, background-repeat)
+- textes ::  tout élément textuel / color, letter-spacing (distance entre lettres), word-spacing (distance entre mots), text-align, text-indent (indentation de la première ligne), text-decoration (gras, souligné,...), text-transform (capitalisation, ...).
+- polices de caractères :: tout élément textuel / font-familly, font-size, font-style (italique), font-weight (grosseur), font-variant(small-caps). 
+- bordures :: tout élément / border-XXX-color, border-XXX-style, border-XXX-width (XXX=top/right/bottom/left, les 4 côtés) , border-color, border-style, border-width (tous les bords). border-top, border-right, border-left,borfer-bottom.
+- distances entre éléments :: 
+- padding :: distance entre la bordure de l'élément et son contenu.
+- position (absolue/relative au bord de la page) d'un élément :: 
+- dimension d'un élément :: 
+- comment afficher un élément :: visibility (pas de récupération de place si invisible), display (récupération de place si invisible), overflow (gestion de la partie non visible), z-index (gestion de la profondeur et des superpositions), float (accrochage aux bords de la fenêtre)
+- affichage de listes :: 
+- modification du pointeur souris selon action en cours de réalisation :: cursor
+- liens :: 
+- gestion de l'impression ::
+** Applications concrètes
+*** Formulaires 
+    #+begin_src html
+      <html>
+	<head>
+	  <style type="text/css">
+	    label
+	    {
+		float: left ;
+		text-align: right ;
+		margin-right: 20px ;
+		width: 120px ;
+		font-weight: bold ;
+	    }
+	    
+	    input
+	    {
+		width: 180px ;
+		heigth: 55px ;
+		margin-bottom: 5px;
+	    }
+
+	    .checkbox 
+	    {
+		width: 15px ;
+	    }
+
+	    #valider
+	    {
+		margin-left: 140px;
+		margin-top: 5px;
+		width: 90px;
+	    }
+	  </style>
+	</head>
+
+	<!------------------------------------------->
+
+	<body>
+	  <form>
+	    <label>Nom</label><input type="text" name="nom" value="" /><br />
+	    <label>Prénom</label><input type="text" name="prénom" value="" /><br />
+	    <label>Adresse</label><textarea name="adresse"></textarea><br />
+	    <label>Voulez-vous être recontacté?</label><input  type="checkbox" name="recontacté" class="checkbox" value=false /><br /><br />
+	    
+	    <input type="submit" name="valider" id="valider" value="Valider" />
+	  </form>
+	</body>
+      <html>
+    #+end_src 
+* JavaScript (intéractivité).
+  L'interprétation du code JS est réalisée par le navigateur.  Le code JS permet de rendre une page HTML interactive.  JS est capable d'intercepter les événements du clavier et de la souris et d'y associer des actions.  L'utilisateur peut donc inter-agir avec le document HTML.  
+  
+  Remarquons que le modèle objet/événementiel est ici appliqué.
+** Intégration du code JS
+   - Intégration directe ::
+     #+begin_src html
+	<html>
+	   <head>
+	      <script>
+		 var X=5
+	      </script>
+	   </head>
+     
+	   <body>
+	      <h1>Variable X</h1>
+	      <p> La variable <div id="variable">X</div> a pour valeur <div id="valeur"><script>document.write(X)</script></div>
+	   </body>
+	<html>
+     #+end_src html
+
+   Remarquons que le code peut aussi bien se trouver dans le corps de la page que dans l'en-tête de celui-ci.  De plus, si plusieurs blocs sont présents, ils sont exécuté selon leur ordre d'apparition.
+   - Intégration d'un fichier externe :: 
+      #+begin_src html
+       <script src="fichier.js"></script>
+      #+end_src
+   - Intégration d'une ressource web ::
+     #+begin_src html
+	<script src="javascript:URL">
+     #+end_src
+   - Javascript en ligne :: tout URL commençant par ''javascript: ...'' provoque l'exécution du code inscrit.  Le code peut alors être porté comme
+	#+begin_src html
+	  <img src="javascript: x=5 ; document.write(x)">
+	#+end_src
+     Le résultat est cependant curieux à la relecture.
+** Syntaxe
+   - JS est un langage interprété.
+   - Les commentaires sont de la forme
+     #+begin_src javascript
+     // .....
+
+     /* .....
+     ...........
+	..... */
+     #+end_src
+   - c'est un langage non typé.
+   - toute variable doit être déclarée (*var*)
+   - toute variable non déclarée en globale par défaut.
+   - boucles
+     #+begin_src javascript
+     while <CONDITION>
+     { 
+     ....
+     }
+
+     do
+     {
+     ....
+     }
+     while <CONDITION>
+
+     for (INIT,.....INIT; CONDITION CONTINUATION ; FIN, .... FIN)
+     {
+     ....
+     }
+
+     for (VAR in VAR)
+     {
+     ....
+     }
+     #+end_src
+   - tests
+     #+begin_src javascript
+       if CONDITION
+       { ... }
+       else
+       { ... }
+
+       swith(VAR)
+       {
+	   case VAL :
+	       ...
+	       break;
+	       ....
+	       default :
+	       ....
+	       break;
+       }   
+     #+end_src
+   - le langage permet de définir des fonctions (classiquement).
+   - la définition d'un objet est réalisée par *new CLASSE*.
+   - une classe est définie par le constructeur ayant pour forme une fonction *function CLASSE(...)*.
+   - il est possible de rajouter des propriétés ou méthodes à une objet déjà crée.
+   - JS possède des prototypes et une notion d'héritage.
+   - 
+* FAIRE [#A] Le DOM.
+  :PROPERTIES:
+  :ID:       bc009fab-c57d-47c1-aedc-2f528ac5f354
+  :END:
+
+* FAIRE [#A] Questions:
+    :PROPERTIES:
+    :ID:       28534a0b-6a43-4076-9e63-6a620628e0de
+    :END:
+- Quels sont les polices de caractères disponibles?
+- Quel outil pour simplifier l'écriture des pages HTML sans trop avoir d'éléments non naturels et en limitant les contraintes de mise en forme? 

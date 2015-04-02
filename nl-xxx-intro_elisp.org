@@ -1,0 +1,339 @@
+#+TITLE: Introduction to elipsp
+#+CATEGORY: elisp
+
+- Ce document donne des détails sur l'implémentation de fonctions d'usage courant.
+- Peut être utilisé pour révoir l'implémentation des hyperliens.
+- Par exemple gestion des hyperliens selon "type" (mp3/pdf).
+* Notes de lectures
+** [[info:eintr#List%20Processing][Manuel ELISP Chap 1]]
+** [[info:eintr#Names%20&%20Definitions][Manuel ELISP Chap 1.4]]
+** [[info:eintr#Practicing%20Evaluation][Manuel ELISP Chap 2.0]]
+- raccourci <-> fonction.
+- exécution d'un raccourci -> évaluation fonction.
+- frappe quelconque -> *self-inser-command*.
+- possibilité d'évaluer une fonction par *C-x C-e* (le résultat est dans la ligne d'écho).
+- *C-u C-x C-e* retourne le résultat dans le buffer.
+- *M-:* permet d'évaluer une expression (résultat sur ligne d'écho).
+- *C-u M-:* retourne le résultat dans le buffer.
+- buffer-name ; buffer-file-name :: le nom de fichier est /nil/ sur un buffer spécial ''*NOM*''
+- current-buffer :: retourne #<buffer NOM> qui représente le buffer lui-même.
+- other-buffer :: le buffer précédent (pas clair).  Avec comme argument une référence à un buffer, pointe sur le buffer précédent du buffer en argument.
+- switch-to-buffer :: avec comme argument le buffer où aller; le buffer est basculé à l'écran.
+- set-buffer :: avec comme argument le buffer où aller; le buffer n'est pas basculé à l'écran.
+- X :: une fonction.
+- (X) :: le résultat de l'évaluation de la fonction.
+- buffer-size :: taille du buffer.
+- point :: position du point ( nb caractères à partir du début).
+  - point-min ; point-max :: valeur min/max du point dans le buffer; min vaut 1 sauf si le buffer est ''réduit'' ; max vaut la taille du buffer sauf si le buffer est ''réduit''.
+** [[info:eintr#Writing%20Defuns][Manuel Chap. 3 (Écritures des Fonctions)]]
+- une fonction est un *symbole* qui est associé à un code.
+- ce code est appelé (exécuté) lors de l'interprétation du symbole associé.
+- on débute la définition d'une fonction par ''defun''.
+- *defun* n'évalue pas ses arguments comme les autres fonction, c'est une forme spéciale.
+
+#+begin_example 
+(defun FUNCTION-NAME (ARGUMENTS...)
+       "OPTIONAL-DOCUMENTATION..."
+       (interactive ARGUMENT-PASSING-INFO)
+       BODY...)
+#+end_example
+- *describe-function* est attaché à *C-h f*.
+- la chaine de documentation est vivement conseillée.  Le formatatage de cette chaîne affichée par l'aide n'est pas celui placé dans le code.
+- Les commentaires sont précédés de *;*
+- Une fonction n'est pas par défaut interactive, c'est à dire utilisable par l'intermédiaire de *M-x* ou d'un attachement à une séquence de touches.
+- Une fonction interactive ne place pas forcément son résultat dans la ligne d'écho.
+- Pour rendre une fonction interactive, il faut ajouter après la ligne de documentation, une partie dédié à cet effet.
+#+begin_example
+(defun multiply-by-seven (number) 
+; Interactive version.
+       "Multiply NUMBER by seven."
+       (interactive "p")
+       (message "The result is %d" (* 7 number)))
+#+end_example
+- *(interactive "p")* indique que le préfixe doit être transmis comme arguement. Une telle fonction est appelable par:
+  - *C-u <NOMBRE> M-x <NOM>*,
+  - *C-u <NOMBRE> <SEQUENCE ATTACHÉE>*,
+  - ou encore par tout remplaçant de *C-u <NOMBRE>*.
+- la fonction d'affichage est *message* 
+  #+begin_example 
+  (message "The result is %d" (* 7 number)))
+  #+end_example
+  lors de son évaluation, le *%d* est remplace par le nombre évalué par la liste qui suit.  Pour une chaîne, on utiliserait *%s*.
+- il existe [[info:elisp#Interactive%20Codes][plusieurs arguments d'interaction]].
+- Si la fonction nécessite plusieurs arguments, il est possible de mettre plusieurs code d'interaction, 1 par argument.  Chacuns d'eux est séparé par un "\n".
+  #+begin_example
+   (defun NAME-OF-FUNCTION (arg char)
+         "DOCUMENTATION..."
+         (interactive "p\ncZap to char: ")
+         BODY-OF-FUNCTION...)
+  #+end_example
+  Si la fonction ne demande pas d'argument, il suffit de préciser *(interactive)*.
+- Pour plus d'information, consulter [[info:elisp#Using%20Interactive][la partie consacrée à ce sujet dans le manuel elisp.]]
+- Pour rendre permanente la définition de la fonction, il est possible :
+  - de mettre celle-ci dans /.emacs/,
+  - de mettre celle-ci dans un fichier personnel et de le charger avec *load* (dans /.emacs/ par exemple),
+  - de mettre celle-ci dans /site-init.el/ pour un usage global.
+- la fonction *let* permet de définir une variable sans toucher aux variables globalement définies, en définissant celle-ci localement, à la différence de *setq* qui traite les symboles affectés globalement.
+  #+begin_example
+  (let ((VARIABLE VALUE)
+        (VARIABLE VALUE)
+        VARIABLE3
+        ...)
+        BODY...)
+  #+end_example
+  la valeur de BODY est retournée par la fonction comme résultat.
+- les variables définies atomiquement dans le *let* (comment ''VARIABLE3'') sont initialisées à /nil/.
+#+begin_example
+(let ((birch 3)
+      pine
+      fir
+      (oak 'some))
+     (message "%s variables : %s, %s, and %s values."
+        birch pine fir oak))
+#+end_example
+** [[info:eintr#if][Manuel 3.7 (IF)]] 
+- *if* est aussi une fonction spéciale
+#+begin_example 
+(if TRUE-OR-FALSE-TEST
+         ACTION-TO-CARRY-OUT-IF-THE-TEST-RETURNS-TRUE
+       ACTION-TO-CARRY-OUT-IF-THE-TEST-RETURNS-FALSE)
+#+end_example
+- le symbole *nil* correspond à faux, toute autre valeur, correspond à vrai.
+** [[info:eintr#save-excursion][Manuel 3.10 (Save Excursion)]]
+
+- pour rappel, le *point* est la position actuelle du curseur (plus exactement le point est sur le caractère juste avant le curseur).  Chaque tampon possède son propre point.
+- le point est représenté par un entier.
+- la fonction *point* retourne cet entier.
+- la *marque* est une autre position dans le tampon. La marque est fixée par *C-<SPC>*.
+- La commande *C-x C-x* échange le point et la marque.
+- La commande *C-u C-SPC* permet de parcourir les différentes marques stockées.
+- La position entre le point et la marque (dans les deux sens) est appelé *région*.
+
+- *save-excursion* est aussi une forme spéciale.
+- cette fonction est utilisé pour l'édition :
+  1) enregistre le buffer actuel et la postition du point et de la marque,
+  2) exécute le corps de la fonction,
+  3) restore le buffer, le point et la marque à la position précédemment enregistrée.
+- permet le retour à l'état avant l'exécution d'une commande si celle-ci est amenée à procéder à des changements de position. (même si le corps de la fonction présente une erreur).
+#+begin_example 
+(save-excursion
+       BODY…)
+#+end_example
+- la valeur de la dernière expression évaluée est retournée par la fonction.
+- une utilisation classque de cette fonction est
+#+begin_example 
+(let VARLIST
+       (save-excursion
+         BODY…))
+#+end_example
+** Exercices chapitre 3
+
+#+begin_src elisp :results outputs :session C3
+  ; Fonction non interactive
+    (defun double (valeur)
+      " Retourne le double de la valeur passée en argument"
+      (* 2 valeur))
+    (message "valeur %d" (double 2))
+    (message "valeur %d" (double 9))
+  ; Transformation de la même fonction en fonction interactive.
+    (defun double (valeur)
+      " Retourne le double de la valeur passée en argument"
+      (interactive "p")
+      (* 2 valeur))
+
+    (message "valeur %d" (double 2))
+    (message "valeur %d" (double 9))
+
+  ; test de la valeur de "fill-column"
+  (defun test-fc (valeur)
+    "Affiche ''FC plus grand que valeur'' si la valeur de fill-column est plus grand que la valeur passée en argument"
+    (if (> fill-column valeur)
+        (message "FC plus grand que valeur")))
+
+  (test-fc 1000)
+  (test-fc 10)
+#+end_src
+
+** [[info:eintr#Buffer%20Walk%20Through][Manuel 4.0]] 
+    - pour obtenir des informations :
+      - sur une commande utiliser *C-h f*. (permet de se rendre à la définition de la fonction).
+      - sur une variable utiliser *C-h v*.
+    - pour rechercher une fonction, dans un fichier de code, il est aussi possible d'utiliser *M-.* ou *find-tag*.  (ceci quelque soit le langage utilisé).  Cette fonction repose sur l'existance d'une table de labels (''tag table'').  Cette table doit être crée par l'utilisateur.  
+    - recherche dans les bibliothèques emacs *C-h p*
+. o O ( penser à qqchose )
+** Fonction simplifée ''début de tampon''
+   Condition :
+   1) doit être interactive
+   2) doit conserver la position actuelle du point comme marque
+   3) doit déplacer le point (le curseur) en début de buffer.
+   #+begin_example elisp
+   (defun simplified-beginning-of-buffer ()
+      "Move point to the beginning of the buffer;
+    leave mark at previous position."
+      (interactive)
+      (push-mark)
+      (goto-char (point-min)))
+   #+end_example
+   - *push-mark* place la marque à la position actuelle du point.  (de plus la position de la marque est placée dans l'anneau correspondant).
+   - *point-min* est la position minimale du point.
+   - *goto-char* déplacer le point/curseur à la position donnée.
+** Fonction ''mark-whole-buffer''
+   #+begin_src elisp
+     (defun mark-whole-buffer ()
+	    "Put point at beginning and mark at end of buffer.
+	  You probably should not use this function in Lisp programs;
+	  it is usually a mistake for a Lisp function to use any subroutine
+	  that uses or sets the mark."
+	    (interactive)
+	    (push-mark (point))
+	    (push-mark (point-max) nil t)
+	    (goto-char (point-min)))
+   #+end_src
+   - push-mark (point) :: réalise la même opération que *push-mark*
+   - l'option nil :: permet l'affichage de ''mark set''
+   - l'option t :: permet l'activation de la marque (sélection en transient mode)
+** [[info:eintr#append-to-buffer][Manuel 4.4]] ---- Reprendre ici (fonction complexe) ----
+   :PROPERTIES:
+   :ID:       dc64a998-3247-4c79-bad1-66e643318156
+   :END:
+** Fonction ''append-to-buffer''
+   #+begin_src elisp
+     (defun append-to-buffer (buffer start end)
+	    "Append to specified buffer the text of the region.
+	  It is inserted into that buffer before its point.
+
+	  When calling from a program, give three arguments:
+	  BUFFER (or buffer name), START and END.
+	  START and END specify the portion of the current buffer to be copied."
+	    (interactive
+	     (list (read-buffer "Append to buffer: " (other-buffer
+						      (current-buffer) t))
+		   (region-beginning) (region-end)))
+	    (let ((oldbuf (current-buffer)))
+	      (save-excursion
+	       	(let* ( (append-to (get-buffer-create buffer))
+		       (windows (get-buffer-window-list append-to t t))
+		       point)
+		  (set-buffer append-to)
+		  (setq point (point))
+		  (barf-if-buffer-read-only)
+		  (insert-buffer-substring oldbuf start end)
+		  (dolist (window windows)
+		    (when (= (window-point window) point)
+		      (set-window-point window (point))))))))
+
+   #+end_src
+
+   - la fonction se découpe en plusieurs canevas enchassés.  Le canevas le plus haut est
+     #+begin_example 
+	  (defun append-to-buffer (buffer start end)
+		 "DOCUMENTATION…"
+		 (interactive …)
+		 BODY…)
+     #+end_example
+   - conventions pour la documentation d'une fonction
+     - elle doit être *claire* et *complète*.
+     - les paramètres sont écrits en MAJUSCULE pour plus de lisibilité.
+     - les paramètres sont décrits dans leur ordre d'apparition.
+   - à la différence de ''let'' la fonction ''let*'' exécute les affectations dans l'ordre indiqué, il est alors possible d'utiliser une variable précédemment utilisée dans une définition suivante.
+   - la fonction est interactive, elle possède donc une expression dans la partie ''interactive''.  Cette expression est ici différente des exemples déjà vus, faisant appels à des arguements "lettre" (pour gérer *C-u*).
+     #+begin_example 
+     (interactive
+     (list (read-buffer
+	    "Append to buffer: "
+	    (other-buffer (current-buffer) t))
+	   (region-beginning)
+	   (region-end)))
+     #+end_example
+     - la fonction *read-buffer* :
+       - 1er argument :: le prompt.
+       - 2nd argument (optionnel) :: la valeur insérée par défaut.
+       - valeur de retour :: nom du buffer comme chaîne. 
+     - la fonction *other-buffer* : /utilisée comme valeur par défaut pour *read-buffer* /
+       - 1er argument (optionnel) :: buffer à exclure.
+       - 2nd argument (optionnel) :: si non nil, autorise les buffers visibles.
+       - valeur de retour :: le dernier buffer visible hormis (current-buffer), le *t* indique de laisser la possibilité de choisir un buffer affiché.
+     - la fonction *list* : crée une liste à partir des atomes suivants
+   - le corps de la fonction repose sur *let*
+     #+begin_example 
+     (let ((oldbuf (current-buffer)))
+	      (save-excursion
+	       	(let* ((append-to (get-buffer-create buffer))
+		       (windows (get-buffer-window-list append-to t t))
+		       point)
+		  (set-buffer append-to)
+		  (setq point (point))
+		  (barf-if-buffer-read-only)
+		  (insert-buffer-substring oldbuf start end)
+		  (dolist (window windows)
+		    (when (= (window-point window) point)
+		      (set-window-point window (point)))))))
+     #+end_example
+     - *let* possède 2 partie, la partie déclaration des variables et la partie corps.
+       #+begin_example 
+       (let ((VARIABLE VALUE))
+	    BODY…)
+       #+end_example
+       - dans la partie variable (noter les 2 parenthèses), on sauvegarde dans /oldbuf/ le buffer courant.
+       - le corps est enpsulé dans un *save-excursion* (pour trouver le groupe de parenthèses, utilier *C-M-b et C-M-f*).  Cette fonction conserve l'emplacement actuel, pour le restituer à la fin de l'exécution.
+       - remarquer l'incrémentation qui regroupe les niveaux équivalents.
+       - la fonction *let** affecte les variables consécutivement.  Il est donc possible d'utiliser une variable préalablement affecté pour en définir un autre.
+** Récapitulatif des fonctions utilisées
+   - describe-function :: accès à la documentation d'une fonction (*C-h f* ou *<f1> f*)
+   - describe-variable :: accès à la documentation d'une variable (*C-h v* ou *<f1> v*)
+   - find-tag :: retrouver une fonction dans son code source à partir d'un fichier de tags. (*M-.*) (*VOIR*)
+   - save-excursion :: conserve le buffer courant, la position du point et de la marque pendant l'évaluation d'une portion de code.  Récupère l'état conservé après l'évaluation.
+   - push-mark :: place une marque à l'emplacement actuel et stocke l'ancienne marque dans l'anneau correspondant.
+   - goto-char :: déplace le point à la position indiquée.
+   - insert-buffer-substring :: copie une région d'un buffer dans le buffer courant.
+   - mark-whole-buffer :: sélectionne la totalité du buffer.
+   - set-buffer :: indique à Emacs d'opérer sur le buffer indiqué, sans pour autant changer les buffers affichés.
+   - get-buffer-create :: trouve un buffer ou le crée si il n'existe pas.
+   - get-buffer :: trouve un buffer.
+
+* Tâches
+** FAIRE Relire notes de lectures
+   SCHEDULED: <2015-01-21 mer.>
+** FAIRE [[info:eintr#Buffer%20Exercises][Exercice 4.6 (fin du chapitre 4.0)]]
+   SCHEDULED: <2015-01-28 mer.>
+   :PROPERTIES:
+   :ID:       49481c3f-82f8-4f0b-8761-e5cfae535a45
+   :END:
+   #+begin_src elisp
+     (defun simplified-end-of-buffer()
+       (interactive)
+       (goto-char (point-max)))
+   #+end_src
+
+   #+RESULTS:
+   : simplified-end-of-buffer
+
+   #+begin_src elisp
+     (defun exo/test-buffer(buffer)
+       "Affiche le message 'existe' si le buffer indiqué existe et 'non existant' sinon"
+       (interactive "B")
+       (if (get-buffer buffer)
+	   (message "existe")
+	   (message "non existant")))   
+   #+end_src
+
+   Pour utiliser la fonction find-tag, on commencer par créer le fichier TAG par
+   #+begin_src sh 
+   etags /usr/share/emacs/24.4/lisp/*
+   #+end_src
+
+   #+RESULTS:
+   puis on précise le ficher de TAG à utiliser
+
+   #+begin_src elisp
+   (setq tags-file-name "~/org/projets/autoformation/TAGS")
+   #+end_src
+
+   #+RESULTS:
+   : ~/org/projets/autoformation/TAGS
+   et finalement, utilise *find-tag* (en mode interactif).
+** FAIRE [[info:eintr#More%20Complex][Manuel 5.0]] 
+   SCHEDULED: <2015-01-28 mer.>
+   :PROPERTIES:
+   :ID:       c743567a-645e-4b73-89f0-d41ec5c44fc5
+   :END:

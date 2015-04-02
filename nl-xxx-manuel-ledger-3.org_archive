@@ -1,0 +1,184 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/th/org/notes-lectures/nl-xxx-manuel-ledger-3.org
+
+
+* Syntaxe de base
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-01-14 mer. 17:07
+  :ARCHIVE_FILE: ~/org/notes-lectures/nl-xxx-manuel-ledger-3.org
+  :ARCHIVE_CATEGORY: ledger
+  :END:
+#+begin_example 
+ledger [OPTIONS] commande [ARG1] -- [ARG2]
+#+end_example
+où
+*ARG1* est une expression régulière appliquée au comptes de transaction
+*ARG2* est une expression régulière appliquée au nom de l'opération
+Ces expressions régulières sont utilisées pour restreindre la sélection des transactions à prendre en compte (pour l'affichage et non pour le calcul).
+
+
+* Commandes de base
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-01-14 mer. 17:07
+  :ARCHIVE_FILE: ~/org/notes-lectures/nl-xxx-manuel-ledger-3.org
+  :ARCHIVE_CATEGORY: ledger
+  :END:
+- bal(ance) :: résumé des solde de comptes
+	       Hormis les opérations virtuelles, le grand total est toujours nul.
+| Option       | Usage                                          |
+|--------------+------------------------------------------------|
+| --real       | Ne tient compte que des opérations réelles     |
+| --basic / -B | Convertit toutes les unités en l'unité de base |
+|              |                                                |
+- reg(ister) :: 
+
+
+* Tenir un journal d'opérations
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-01-14 mer. 17:07
+  :ARCHIVE_FILE: ~/org/notes-lectures/nl-xxx-manuel-ledger-3.org
+  :ARCHIVE_CATEGORY: ledger
+  :END:
+Il est important de prendre soin de tenir les journaux rigoureusement
+pour faciliter le traitement informatique des informations qu'il
+contient.
+
+
+** Format d'une opération (entrée d'opération simple / 2 comptes)
+#+begin_example 
+DATE[=EDATE] [*|!] [(CODE)] DESCRIPTION
+     COMPTE:SOUS-COMPTE:SOUS-SOUS-COMPTE:...    MONTANT UNITÉ [; [NOTE]
+     COMPTE:SOUS-COMPTE:SOUS-SOUS-COMPTE:... 
+#+end_example
+- EDATE :: date effective (date à laquelle l'opération est en réalité à prendre en compte si postérieure)
+- * :: indique une opération "cleared"
+- ! :: indique une opération "en cours"
+- DESCRIPTION :: correspond à la COMPAGNIE ou au NOM de l'OPÉRATION
+- NOTE :: correspond à une date (véritable , effective). Le manuel est
+          pas clair. Des essais sont nécessaires.
+
+Remarquons que toute ligne commençant par un chiffre est considérée comme une opération.
+
+** Opérations réalisées mais non encore imputées
+   Quand une opération est réalisée mais non encore imputée par la
+   banque postale, par exemple un paiement en CB ou encore un chèque,
+   il convient d'enregistrer celle-ci dans un compte «dettes:X».
+#+begin_example 
+2014/04/04 * Achat par CB
+           depenses:perso:achat               10€
+           dette:cb                          
+#+end_example
+   Une fois l'opération imputée, on supprime la dette et on la
+   transforme en une soustraction sur le compte banquaire affecté.
+#+begin_example 
+2014/04/10 * Imputation Achat par CB
+           dette:cb                           10€
+           banque:compte
+ #+end_example
+** Sélection de l'unité par défaut
+#+begin_example 
+D 1,000.00 €
+#+end_example
+Cette commande permet de spécifier les séparateurs milliers et décimaux ainsi que le symbole monaitaire.
+** Constantes
+#+begin_example
+C 1,00 HSOL = 29,09 €
+#+end_example
+Permet de convertir des unités entre-elles.
+Un premier test n'a pas été concluant. Pourrais-t-on l'utiliser pour l'intégration de la facturation.
+
+
+
+* Ammortissements [2014-11-28 ven.]				     :ATTACH:
+  :PROPERTIES:
+  :Attachments: test-ledger.org
+  :ID:       3a078c4a-5cdb-4927-885d-3b4618e2fe92
+  :ARCHIVE_TIME: 2015-01-14 mer. 17:07
+  :ARCHIVE_FILE: ~/org/notes-lectures/nl-xxx-manuel-ledger-3.org
+  :ARCHIVE_CATEGORY: ledger
+  :END:
+  - Recherche =GG= ''ledger-cli depreciation''
+  - Fonctionnalité trouvée
+    
+
+* Autour de ''by budget''
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-01-14 mer. 17:07
+  :ARCHIVE_FILE: ~/org/notes-lectures/nl-xxx-manuel-ledger-3.org
+  :ARCHIVE_CATEGORY: ledger
+  :END:
+** Format
+Il est possible d'utiliser les options de budgetisation et prevision quand il y a une entree periodique dans le fichier.
+
+#+begin_example
+~ <Frequence>
+  <Compte-destination>     <Montant>
+  <Compte-source>
+#+end_example
+
+- Les operations periodiques doivent correspondrent aux depenses previsionnelles (moyennes).
+Il est possible d'obtenir cette moyenne par 
+*ledger -p "this year" -MAs bal ^expenses*
+
+Il est alors possible de faire appel aux commandes de rapport *reg* et de balance *bal*.
+
+*** budgetisation
+Quand l'option *--budget* est utilisee, *reg* n'affiche que les transations qui correspondent aux comptes budgetes.
+
+De plus, les entrees periodiques sont integrees au fichier :
+- comme des operations nommees "Budget entry". 
+- en changeant le signe du <Montant>.
+
+L'option *--add-budget* ajoute les operations budgetees au rapport.
+L'option *--unbudgeted* ne rapporte que le operations non budgetees.
+
+*** Prevision
+L'option *--forecast <condition>* integre les entrees periodiques tant que la condition indiquee est vrai.
+
+La condition utilise les variables decrites dans la partie deux.cinq.un
+
+Exemple de condition: 
+- peut etre temporelle :: 'd<[deux mille treize]' = avant le !/!/deux mille treize (inclu)
+- peut etre non temporelle :: 'T>{<montant>}' = tant que le montant (running total) est superieur au montant.
+Les entrees sont generees dans le futur et jusqu'a ce que la condition soit fausse.`
+
+La condition ne peut etre que temporelle dans le cas d'une commande *bal*. Elle peut-etre temporelle et/ou non temporelle dans le cas d'une commande *reg*.
+
+** Entrees periodiques
+Les expressions periodiques indiquent un interval de temps et/ou un interval de rapport.
+#+begin_example
+Syntaxe: [<interval>] [from/since <debut>] [to/until <fin>]
+#+end_example
+L'interval est une expression (voir p vingt neuf) explicite
+
+)<debut>---<fin>)
+#+TITLE: Autoformation Ledger
+#+CATEGORY: Projet-Ledger
+ 
+[[~/org/projets/ledger/prj-ledger.org::*Autoformation][Autoformation]]
+
+* Autoformation
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-01-14 mer. 17:07
+  :ARCHIVE_FILE: ~/org/notes-lectures/nl-xxx-manuel-ledger-3.org
+  :ARCHIVE_CATEGORY: ledger
+  :END:
+** [[https://twitter.com/LedgerTips][LedgerTips (LedgerTips) sur Twitter]]
+** [[http://www.ledger-cli.org/][ledger, a powerful command-line accounting system]]
+** [[http://www.ledger-cli.org/docs.html][Documentation - Ledger]]
+
+* Tests								      :tests:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-01-14 mer. 17:07
+  :ARCHIVE_FILE: ~/org/notes-lectures/nl-xxx-manuel-ledger-3.org
+  :ARCHIVE_CATEGORY: ledger
+  :END:
+** Ledger commande provisions autre
+[2014-04-02 mer.]
+ledger reg provisions -- -Espace -init -dépla -fonc -frais -OVH -FREE -LMH -EDF -Interne -URSSAF -MATMUT -CRET -loyer
+*** [[http://guiloooo.mlir.info/blog/2013/introduction-a-ledger/][Introduction à Ledger]]
+** PERTE et GAINS en ledger					     :script:
+ledger equity pseudo:fonct pseudo:frais pseudo:interv pseudo:invest pseudo:prov.*:bénéfice
+*ATTENTION*: si positif perte, si négatif gain

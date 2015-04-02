@@ -1,0 +1,25 @@
+#+TITLE: Emacs for writers
+#+AUTHOR: Robert Wood
+
+* Avantages
+  - à la différence d'un TT, il n'est pas nécessaire de penser à la mise en page (mise en forme) durant la rédaction
+  - le correcteur orthographique n'est pas intrusif
+* Deux versions
+  Quelle version est la plus adaptée (à quel usage, cas pratique)?
+  - GUI :: permet de recréer l'utilisation d'une page 2D,  cependant la totalité de l'espace écran n'est pas accessible (y a t il un mode permettant un tel usage?)
+  - CLI :: Ne permet pas d'utiliser facilement les commandes META (accessibles en utilisant ESC).  Cependant, pour une prise de note simple par exemple,  l'usage de ces commandes peut être inutile.
+    
+* Outils utiles
+  - scrolling
+  - *bookmarks*
+  - *regions*
+  - *kill/copy/yank*
+  - *search/replace*
+  - insertion de caractère UTF-8
+    - avec le préfixe *C-x 8*
+      | S  | § |
+      | P  | ¶ |
+      | /e | æ |
+      | ,c | ç |
+    - voir tableau de[[http://www.unicode.org/charts][ caractères unicodes]].
+    - voir autre caractères accessibles par cette méthode.
