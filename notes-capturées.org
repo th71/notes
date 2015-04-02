@@ -1,0 +1,46 @@
+* FAIRE Rechercher Ressourcerie Lille
+   :PROPERTIES:
+   :ID:       723732cd-0c90-4da0-8698-dce634ca00de
+   :END:
+Capturée le [2015-03-17 mar. 06:46]
+* FAIRE Visite Raimes (style Russe)
+   :PROPERTIES:
+   :ID:       14f289c6-2cf0-4491-9656-d1e48d38fd14
+   :END:
+Capturée le [2015-03-17 mar. 06:49]
+* FAIRE Maison natale Charles de Gaulle
+   DEADLINE: <2015-10-04 dim.>
+   :PROPERTIES:
+   :ID:       9e010a66-268e-4f2c-951e-b43fcd922e49
+   :END:
+   Exposition
+Capturée le [2015-03-17 mar. 06:49]
+* Sur ''la question sociale'' (Jaurès 1890)
+  Deux valeurs importantes :
+  - équité
+  - bon sens
+  Ces deux valeurs ne caractérisent pas l'ordre de la société de l'époque.
+  Exemple de non équité :
+  - le travailleur produit par son travail
+  - le produit est revenu
+  - le gain de cette revente est réparti
+    - entre le travailleur (faible part)
+    - le retour sur investissement (ammortissement)
+    - le capital (forte part)
+      - pour financer les outils (transports, machines, ...) nécessaires à la production
+
+  Le capital aspire donc le produit du travail.
+  Le capital en FR 150MM -> 200MM en 20 ans
+
+  Place des femmes dans la société (analyse traditionnelle p 17)
+  p 18 : importance donnée au travail
+  p 19 : ''il faut que les hommes puissent être les acheteurs pour qu'ils puissent être des producteurs.''
+** FAIRE Réemprunt
+    :PROPERTIES:
+    :ID:       06d7e09f-fa95-4312-bc22-9c9706d9cc6d
+    :END:
+Capturée le [2015-04-02 jeu. 10:04]
+* Note de test
+Capturée le [2015-04-02 jeu. 10:16]
+* Ceci est une note nouvelle formule
+Capturée le [2015-04-02 jeu. 10:24]
